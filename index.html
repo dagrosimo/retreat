@@ -3,20 +3,57 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Сергей Григоришин · Философские экспедиции по Германии и Вене (2026/2027)</title>
-  <meta name="description" content="Камерные 4-дневные философские экспедиции по городам Германии и Вене по личному графику к.ф.н. Сергея Григоришина. Стартуем при наборе тройки (3–6 человек)." />
+  <title>Сергей Григоришин · Философские экспедиции по Германии (2027)</title>
+  <meta name="description" content="Неделимые 4-дневные философские экспедиции по Германии по графику к.ф.н. Сергея Григоришина. Единый отель, конференц-зал и группа 4–10 человек." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='21' font-family='Georgia,serif' font-size='14' font-weight='bold' fill='%23F3EFE6' text-anchor='middle'>SG</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,500;1,7..72,400&family=Old+Standard+TT:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,400;1,7..72,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="vendor/maplibre-gl.css" />
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
+  <!-- ЭКРАН ВЫБОРА ЯЗЫКА ПЕРЕД ОТКРЫТИЕМ САЙТА -->
+  <div class="lang-gate" id="lang-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
+    <div class="lang-gate__card">
+      <div class="lang-gate__top">
+        <span class="brand__mark">SG</span>
+        <span class="mono-label" id="gate-eyebrow">SERGEI GRYGORYSHYN · ARCHIVAL EXPEDITIONS · 2027</span>
+      </div>
+      <h2 class="lang-gate__title" id="gate-title">Выберите язык издания / Choose Language</h2>
+      <p class="lang-gate__subtitle" id="gate-subtitle">
+        Авторские 4-дневные философские экспедиции по городам Германии. Язык самой поездки подбирается под собранную группу.
+      </p>
+      <div class="lang-gate__grid">
+        <button type="button" class="gate-choice" data-pick-lang="ru">
+          <span class="gate-choice__code">RU</span>
+          <strong>Русский</strong>
+          <small>Философские экспедиции 2027</small>
+        </button>
+        <button type="button" class="gate-choice" data-pick-lang="ua">
+          <span class="gate-choice__code">UA</span>
+          <strong>Українська</strong>
+          <small>Філософські експедиції 2027</small>
+        </button>
+        <button type="button" class="gate-choice" data-pick-lang="de">
+          <span class="gate-choice__code">DE</span>
+          <strong>Deutsch</strong>
+          <small>Philosophische Expeditionen 2027</small>
+        </button>
+        <button type="button" class="gate-choice" data-pick-lang="en">
+          <span class="gate-choice__code">EN</span>
+          <strong>English</strong>
+          <small>Philosophical Expeditions 2027</small>
+        </button>
+      </div>
+    </div>
+  </div>
+
   <!-- Верхняя архивная лента -->
   <div class="archival-strip">
     <div class="container archival-strip__inner">
-      <span class="mono-label" id="top-strip-text">СЕРГЕЙ ГРИГОРИШИН · ФИЛОСОФСКИЕ ЭКСПЕДИЦИИ · ГЕРМАНИЯ И ВЕНА · 2026 / 2027</span>
-      <span class="mono-label archival-strip__right" id="top-strip-right">KEIN PAUSCHALREISEANGEBOT · ГРУППА 3–6 ЧЕЛ.</span>
+      <span class="mono-label" id="top-strip-text">СЕРГЕЙ ГРИГОРИШИН · ФИЛОСОФСКИЕ ЭКСПЕДИЦИИ · ГЕРМАНИЯ · 2027</span>
+      <span class="mono-label archival-strip__right" id="top-strip-right">ГРУППА 4–10 ЧЕЛ. · ЕДИНЫЙ ОТЕЛЬ · ТОЛЬКО ПРЕДЗАПИСЬ</span>
     </div>
   </div>
 
@@ -32,18 +69,20 @@
       </a>
 
       <nav class="main-nav" aria-label="Навигация по разделам">
-        <a href="#hub" data-nav="map">Карта и график</a>
-        <a href="#dossier" data-nav="dossier">Досье города</a>
+        <a href="#hub" data-nav="map">Карта и зум</a>
+        <a href="#dossier" data-nav="dossier">Программа</a>
         <a href="#compare" data-nav="compare">1840 ↔ 1843</a>
-        <a href="#principles" data-nav="how">Как устроено</a>
+        <a href="#principles" data-nav="how">Формат</a>
         <a href="#speaker" data-nav="speaker">О ведущем</a>
-        <a href="#ticket-section" data-nav="ticket" class="nav-cta">Занять место</a>
+        <a href="#ticket-section" data-nav="ticket" class="nav-cta">Предзапись</a>
       </nav>
 
       <div class="header-controls">
         <div class="lang-switch" role="group" aria-label="Язык сайта">
           <button type="button" class="lang-btn is-active" data-lang="ru">RU</button>
           <button type="button" class="lang-btn" data-lang="ua">UA</button>
+          <button type="button" class="lang-btn" data-lang="de">DE</button>
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
         </div>
         <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Меню" aria-expanded="false">
           <span></span><span></span>
@@ -53,12 +92,12 @@
 
     <!-- Мобильное меню -->
     <div class="mobile-drawer" id="mobile-drawer" hidden>
-      <a href="#hub" data-nav="map">Карта и график</a>
-      <a href="#dossier" data-nav="dossier">Досье города</a>
+      <a href="#hub" data-nav="map">Карта и зум</a>
+      <a href="#dossier" data-nav="dossier">Программа</a>
       <a href="#compare" data-nav="compare">1840 ↔ 1843</a>
-      <a href="#principles" data-nav="how">Как устроено</a>
+      <a href="#principles" data-nav="how">Формат</a>
       <a href="#speaker" data-nav="speaker">О ведущем</a>
-      <a href="#ticket-section" data-nav="ticket">Занять место</a>
+      <a href="#ticket-section" data-nav="ticket">Предзапись</a>
     </div>
   </header>
 
@@ -67,184 +106,145 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow" id="hero-eyebrow">КАТАЛОГ ЭКСПЕДИЦИЙ · ВЫПУСК №01</p>
+          <p class="eyebrow" id="hero-eyebrow">КАТАЛОГ ЭКСПЕДИЦИЙ · ВЫПУСК №01 · 2027</p>
           <blockquote class="hero-hook" id="hero-hook">
             «В 1840 году они позировали в мастерской, уверенные, что их мир вечен. Через два года город сгорел — а выживших запечатлела уже не кисть, а серебряная пластина дагеротипа».
           </blockquote>
-          <h1 class="hero-title" id="hero-title">Камерные философские экспедиции по Германии и Вене</h1>
+          <h1 class="hero-title" id="hero-title">Камерные философские экспедиции по Германии</h1>
           <p class="hero-subtitle" id="hero-subtitle">
-            4-дневные интеллектуальные погружения в музеях, архивах и городских пространствах по личному исследовательскому графику к.ф.н. Сергея Григоришина. Стартуем при наборе от 3 до 6 человек.
+            Неделимые 4-дневные интеллектуальные погружения по личному графику к.ф.н. Сергея Григоришина. Единый отель для всей группы, лекции в арендованном конференц-зале и организованные визиты в музеи (группа 4–10 человек).
           </p>
           <div class="hero-actions">
-            <a href="#hub" class="btn btn--primary" id="hero-cta-primary">Смотреть карту и график на год</a>
-            <a href="#dossier" class="btn btn--outline" id="hero-cta-secondary" data-jump-city="hamburg">Разбор маршрута №1: Гамбург</a>
+            <a href="#hub" class="btn btn--primary" id="hero-cta-primary">Карта земель и городов 2027</a>
+            <a href="#dossier" class="btn btn--outline" id="hero-cta-secondary" data-jump-city="hamburg">Открыть маршрут №1: Гамбург (28–31 янв)</a>
           </div>
         </div>
 
         <aside class="hero-showcase" aria-label="Превью ближайшей экспедиции">
           <div class="showcase-header">
-            <span class="mono-label" id="hero-badge-title">БЛИЖАЙШИЙ ВЫЕЗД · ГАМБУРГ</span>
-            <span class="mono-label stamp-pill" id="hero-badge-dates">18–21 ФЕВРАЛЯ 2027</span>
+            <span class="mono-label" id="hero-badge-title">БЛИЖАЙШИЙ СТАРТ · ГАМБУРГ</span>
+            <span class="mono-label stamp-pill" id="hero-badge-dates">28–31 ЯНВАРЯ 2027</span>
           </div>
 
           <div class="triptych">
             <figure class="triptych__item" data-lightbox-id="art-6">
               <img src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Гюнтер Генслер, Гамбургское общество художников, 1840" loading="eager" />
-              <figcaption><span>1840</span> <em id="triptych-cap-1" style="font-style:normal;">Кисть · Уют</em></figcaption>
+              <figcaption><span>1840</span> <em id="triptych-cap-1">Кисть · Уют</em></figcaption>
             </figure>
             <figure class="triptych__item triptych__item--fire" data-lightbox-id="art-10">
               <img src="фото и картины/photo_10_2026-11-18_13-34-16.jpg" alt="Великий пожар Гамбурга, май 1842" loading="eager" />
-              <figcaption><span>1842</span> <em id="triptych-cap-2" style="font-style:normal;">Огонь · Слом</em></figcaption>
+              <figcaption><span>1842</span> <em id="triptych-cap-2">Огонь · Слом</em></figcaption>
             </figure>
             <figure class="triptych__item triptych__item--silver" data-lightbox-id="art-7">
               <img src="фото и картины/photo_7_2026-11-18_13-34-16.jpg" alt="Дагеротип Карла Фердинанда Штельцнера, 6 мая 1843" loading="eager" />
-              <figcaption><span>1843</span> <em id="triptych-cap-3" style="font-style:normal;">Серебро · Документ</em></figcaption>
+              <figcaption><span>1843</span> <em id="triptych-cap-3">Серебро · Документ</em></figcaption>
             </figure>
           </div>
 
           <div class="showcase-footer">
-            <div class="trio-meter" aria-label="Прогресс набора стартовой тройки">
+            <div class="trio-meter" aria-label="Набор группы 4–10">
+              <span class="trio-dot is-filled"></span>
               <span class="trio-dot is-filled"></span>
               <span class="trio-dot is-filled"></span>
               <span class="trio-dot is-open"></span>
             </div>
             <p class="mono-label showcase-status" id="hero-badge-status">
-              2 из 3 участников в стартовой тройке · нужен ещё 1 человек (дедлайн за 7 дней)
+              Идёт предзапись в первую группу (от 4 до 10 участников · единый отель)
             </p>
           </div>
         </aside>
       </div>
     </section>
 
-    <!-- 2. ПОЛОСА «4 ПРИНЦИПА ЭКСПЕДИЦИЙ» -->
+    <!-- 2. ПОЛОСА «4 ОПОРЫ ФОРМАТА» -->
     <section class="principles-section" id="principles">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow" id="principles-eyebrow">МЕХАНИКА ПРОЕКТА · 4 ПРАВИЛА</p>
-          <h2 class="section-title" id="principles-title">Как работает формат без туроператоров и толп</h2>
+          <p class="eyebrow" id="principles-eyebrow">АРХИТЕКТУРА ЭКСПЕДИЦИИ · 4 ОПОРЫ</p>
+          <h2 class="section-title" id="principles-title">Цельный 4-дневный формат без суеты</h2>
         </div>
 
-        <div class="principles-grid" id="principles-grid">
-          <!-- Заполняется из data.js -->
-        </div>
+        <div class="principles-grid" id="principles-grid"></div>
 
-        <p class="marginalia-note" id="small-format-note">
-          * Примечание о малом формате: если за 7 дней до назначенной даты в городе собрались 1–2 человека вместо тройки, приезд Сергея не отменяется — мы предложим вам камерную 3-часовую встречу (совместный поход в ключевой музей и философский разбор за кофе).
-        </p>
+        <p class="marginalia-note" id="small-format-note"></p>
       </div>
     </section>
 
-    <!-- 3. ИНТЕРАКТИВНЫЙ ХАБ: ЛЕНТА 12 МЕСЯЦЕВ + ГРАВИРОВАННАЯ КАРТА + ТАБЛО ГОРОДОВ -->
+    <!-- 3. ИНТЕРАКТИВНЫЙ ХАБ: ЗЕМЛИ ГЕРМАНИИ + ЗУМ ЦЕНТРА ГОРОДА + ТАБЛО 2027 -->
     <section class="hub-section" id="hub">
       <div class="container">
         <div class="section-head section-head--split">
           <div>
-            <p class="eyebrow" id="hub-eyebrow">ГОДОВОЙ МАРШРУТНЫЙ ЛИСТ · 2026 / 2027</p>
-            <h2 class="section-title" id="hub-title">Карта поездок и статус набора троек</h2>
-            <p class="section-lead" id="hub-lead">Выберите месяц на временной шкале или точку на карте, чтобы открыть досье города, его сюжет и статус группы.</p>
+            <p class="eyebrow" id="hub-eyebrow">КАРТОГРАФИЯ МАРШРУТОВ · 2027</p>
+            <h2 class="section-title" id="hub-title">Земли Германии и план ключевых точек</h2>
+            <p class="section-lead" id="hub-lead"></p>
           </div>
           <div class="hub-filters" id="hub-filters" role="group" aria-label="Фильтр городов">
-            <button type="button" class="pill-btn is-active" data-hub-filter="all">Все города (6)</button>
-            <button type="button" class="pill-btn" data-hub-filter="active">Открыт набор / в сборе</button>
-            <button type="button" class="pill-btn" data-hub-filter="lab">Лаборатория маршрута</button>
+            <button type="button" class="pill-btn is-active" data-hub-filter="all">Все города (5)</button>
+            <button type="button" class="pill-btn" data-hub-filter="active">Открыт набор</button>
+            <button type="button" class="pill-btn" data-hub-filter="lab">В разработке</button>
           </div>
         </div>
 
-        <!-- Временная шкала 12 месяцев -->
-        <div class="timeline-rail" id="timeline-rail" aria-label="График на 12 месяцев">
-          <!-- Заполняется из data.js -->
-        </div>
+        <!-- Временная шкала 12 месяцев 2027 -->
+        <div class="timeline-rail" id="timeline-rail" aria-label="График на 2027 год"></div>
 
-        <!-- Две колонки: Карта + Табло городов -->
         <div class="hub-grid">
-          <!-- Левая колонка: Гравированная SVG-карта Германии + выноска Вены -->
-          <div class="map-frame">
+          <!-- Левая колонка: 3D Изометрическая Карта (MapLibre GL + Three.js 3D модели + Оверлей поверх карты) -->
+          <div class="map-frame" id="map-frame">
             <div class="map-frame__meta">
-              <span class="mono-label">КАРТА МАРШРУТОВ · DEUTSCHLAND &amp; WIEN</span>
+              <span class="mono-label" id="map-meta-label">ФЕДЕРАЛЬНЫЕ ЗЕМЛИ ГЕРМАНИИ · 3D КАРТА</span>
               <span class="mono-label" id="map-active-coords">53°33′N · 09°59′E</span>
             </div>
 
-            <svg class="atlas-svg" viewBox="0 0 640 700" role="img" aria-label="Интерактивная карта маршрутов по Германии и Вене">
-              <defs>
-                <pattern id="graticule" width="64" height="64" patternUnits="userSpaceOnUse">
-                  <path d="M 64 0 L 0 0 0 64" fill="none" stroke="rgba(20,19,17,0.06)" stroke-width="1" />
-                </pattern>
-                <filter id="paper-glow" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="4" result="blur" />
-                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
-                </filter>
-              </defs>
+            <div class="map3d-toolbar">
+              <div class="map3d-toolbar__left">
+                <button type="button" class="pill-btn" id="btn-back-country">← Вся Германия (16 земель)</button>
+                <button type="button" class="pill-btn is-active" id="btn-zoom-city">Гамбург 3D</button>
+              </div>
+              <div class="map3d-toolbar__right">
+                <button type="button" class="pill-btn is-active" id="btn-toggle-fire" title="Показать границы Великого пожара 1842 года">Пожар 1842</button>
+                <button type="button" class="pill-btn" id="btn-orbit-3d" title="Повернуть 3D-камеру">↻ Ракурс</button>
+              </div>
+            </div>
 
-              <!-- Фон-сетка -->
-              <rect width="640" height="700" fill="url(#graticule)" />
+            <!-- 3D WebGL сцена карты + всплывающее окно погружения ПОВЕРХ карты -->
+            <div class="map3d-stage" id="map3d-stage">
+              <div class="maplibre-canvas" id="maplibre-canvas" role="region" aria-label="Интерактивная 3D-карта Германии и Гамбурга"></div>
 
-              <!-- Координатные подписи по краям атласа -->
-              <g class="atlas-coords" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(20,19,17,0.38)">
-                <text x="12" y="128">54°N</text>
-                <text x="12" y="256">52°N</text>
-                <text x="12" y="384">50°N</text>
-                <text x="12" y="512">48°N</text>
-                <text x="132" y="20">8°E</text>
-                <text x="260" y="20">10°E</text>
-                <text x="388" y="20">12°E</text>
-                <text x="516" y="20">14°E</text>
-              </g>
+              <!-- Всплывающая панель глубокого погружения ПОВЕРХ карты -->
+              <aside class="map-landmark-overlay" id="map-landmark-overlay" hidden aria-live="polite">
+                <div class="map-overlay__top">
+                  <span class="mono-label" id="ov-day">02 · ДЕНЬ 2</span>
+                  <div class="map-overlay__nav">
+                    <button type="button" class="dialog-icon-btn" id="ov-prev" aria-label="Предыдущая локация">←</button>
+                    <button type="button" class="dialog-icon-btn" id="ov-next" aria-label="Следующая локация">→</button>
+                    <button type="button" class="dialog-icon-btn" id="ov-close" aria-label="Закрыть панель">✕</button>
+                  </div>
+                </div>
+                <div class="map-overlay__body" id="map-overlay-body"></div>
+              </aside>
+            </div>
 
-              <!-- Контур Германии (архивная картография) -->
-              <path class="germany-contour" d="M 225 48 L 265 44 L 285 68 L 320 82 L 372 78 L 414 96 L 442 128 L 448 164 L 468 202 L 486 246 L 474 286 L 488 318 L 456 346 L 418 372 L 402 412 L 434 452 L 464 494 L 448 538 L 432 586 L 392 612 L 348 618 L 310 626 L 268 622 L 222 616 L 178 604 L 166 566 L 176 520 L 154 472 L 128 432 L 114 388 L 106 336 L 114 282 L 130 232 L 150 184 L 162 142 L 198 124 L 222 104 L 218 72 Z" />
+            <!-- Быстрая док-панель 7 трехмерных памятников Гамбурга -->
+            <div class="landmarks-dock" id="hamburg-landmarks-dock" aria-label="Точки маршрута Гамбурга в 3D"></div>
 
-              <!-- Выноска направления на Вену (Австрия / Дунай) -->
-              <path class="austria-extension" d="M 432 586 L 494 562 L 566 558 L 598 588 L 576 636 L 484 646 L 418 622 Z" />
-              <text x="488" y="636" font-family="IBM Plex Mono, monospace" font-size="9" letter-spacing="1.2" fill="rgba(20,19,17,0.45)">ÖSTERREICH · WIEN</text>
-
-              <!-- Гравированные реки: Эльба, Рейн, Майн, Дунай -->
-              <g class="atlas-rivers" fill="none" stroke="rgba(29,78,107,0.22)" stroke-width="1.6" stroke-linecap="round">
-                <!-- Эльба (Дрезден -> Гамбург -> Северное море) -->
-                <path d="M 452 332 Q 422 292 382 260 T 308 176 T 256 122 L 198 92" />
-                <!-- Рейн (Базель -> Франкфурт -> Кёльн) -->
-                <path d="M 168 600 Q 178 510 184 432 T 192 364 Q 152 310 132 252 L 108 214" />
-                <!-- Майн -->
-                <path d="M 190 374 Q 248 366 296 384 T 346 374" />
-                <!-- Дунай (Бавария -> Вена) -->
-                <path d="M 224 556 Q 312 528 386 544 T 474 574 T 544 586 L 596 594" />
-              </g>
-
-              <!-- Железнодорожные/экспедиционные маршруты между городами -->
-              <g class="atlas-routes" fill="none" stroke="rgba(20,19,17,0.26)" stroke-width="1.2" stroke-dasharray="4 5">
-                <path d="M 256 122 L 422 204 L 432 312 L 204 374 L 356 556 L 544 586" />
-                <path d="M 256 122 L 204 374" />
-                <path d="M 432 312 L 356 556" />
-              </g>
-
-              <!-- Компас атласа -->
-              <g transform="translate(86, 98)" class="atlas-compass">
-                <circle cx="0" cy="0" r="24" fill="none" stroke="rgba(20,19,17,0.22)" stroke-width="1" />
-                <path d="M 0 -30 L 4 -6 L 0 0 L -4 -6 Z" fill="rgba(20,19,17,0.65)" />
-                <path d="M 0 30 L 4 6 L 0 0 L -4 6 Z" fill="none" stroke="rgba(20,19,17,0.4)" stroke-width="1" />
-                <path d="M -22 0 L 22 0" stroke="rgba(20,19,17,0.22)" stroke-width="1" />
-                <text x="-3.5" y="-34" font-family="IBM Plex Mono, monospace" font-size="9" fill="rgba(20,19,17,0.65)">N</text>
-              </g>
-
-              <!-- Интерактивные пины городов рендерятся JS в эту группу -->
-              <g id="svg-city-pins"></g>
-            </svg>
-
-            <div class="map-legend">
-              <span class="legend-item"><i class="dot dot--active"></i> <span id="legend-active">Открыт набор (скоро старт)</span></span>
-              <span class="legend-item"><i class="dot dot--forming"></i> <span id="legend-forming">Сбор тройки</span></span>
-              <span class="legend-item"><i class="dot dot--wait"></i> <span id="legend-wait">Лист ожидания / опрос</span></span>
+            <div class="map-zoom-bar">
+              <span class="map-legend">
+                <span class="legend-item"><i class="dot dot--active"></i> <span id="legend-active">3D-модель точки ретрита</span></span>
+                <span class="legend-item"><i class="dot dot--forming"></i> <span id="legend-forming">Маршрут по дням</span></span>
+                <span class="legend-item"><i class="dot dot--wait"></i> <span id="legend-wait">Правая кнопка / Ctrl + мышь — вращение 3D</span></span>
+              </span>
             </div>
           </div>
 
-          <!-- Правая колонка: Табло городов (Split-Flap Departure Board style) -->
+          <!-- Правая колонка: Табло городов 2027 -->
           <div class="board-column">
             <div class="board-header">
-              <span class="mono-label" id="board-title">ABFAHRTSTAFEL · ГРАФИК ПОЕЗДОК НА ГОД</span>
-              <span class="mono-label" id="board-threshold">ПОРОГ ЗАПУСКА: 3 ЧЕЛ.</span>
+              <span class="mono-label" id="board-title">ABFAHRTSTAFEL · ГРАФИК ПОЕЗДОК НА 2027</span>
+              <span class="mono-label" id="board-threshold">ГРУППА: 4–10 ЧЕЛ.</span>
             </div>
-            <div class="city-cards" id="city-cards">
-              <!-- Карточки городов рендерятся из data.js -->
-            </div>
+            <div class="city-cards" id="city-cards"></div>
           </div>
         </div>
       </div>
@@ -253,30 +253,26 @@
     <!-- 4. ДИНАМИЧЕСКОЕ ДОСЬЕ ВЫБРАННОГО ГОРОДА -->
     <section class="dossier-section" id="dossier">
       <div class="container">
-        <div class="dossier-shell" id="dossier-shell">
-          <!-- Динамически заполняется JS для Гамбурга (полный разбор) или другого города (Лаборатория маршрута) -->
-        </div>
+        <div class="dossier-shell" id="dossier-shell"></div>
       </div>
     </section>
 
-    <!-- 5. СПЕЦБЛОК: ИНТЕРАКТИВ 1840 (КИСТЬ) <-> 1843 (СЕРЕБРО) -->
+    <!-- 5. TRIAL-ВЕРСИЯ ЭКСКУРСИИ: ГЕРОИ, РАБОТЫ И КИНО-КАМЕРА (1840 <-> 1843) -->
     <section class="compare-section" id="compare">
       <div class="container">
         <div class="section-head section-head--split">
           <div>
-            <p class="eyebrow" id="compare-eyebrow">ОПТИЧЕСКИЙ ЭКСПЕРИМЕНТ · 1840 ↔ 1843</p>
-            <h2 class="section-title" id="compare-title">Кисть против серебряной пластины: одни и те же люди до и после огня</h2>
-            <p class="section-lead" id="compare-lead">
-              Сопоставьте парадное полотно Гюнтера Генслера (1840) и дагеротип Карла Фердинанда Штельцнера (6 мая 1843 года) — снятый ровно в первую годовщину Великого пожара.
-            </p>
+            <p class="eyebrow" id="compare-eyebrow">TRIAL-ВЕРСИЯ ЭКСКУРСИИ · 1808–1843</p>
+            <h2 class="section-title" id="compare-title">Герои, их полотна и живой кино-разбор: 1840 против 1843</h2>
+            <p class="section-lead" id="compare-lead"></p>
           </div>
-          <div class="compare-mode-switch" role="group" aria-label="Режим сравнения">
-            <button type="button" class="pill-btn is-active" data-compare-mode="pins" id="btn-mode-pins">Синхронное досье лиц (5 героев)</button>
-            <button type="button" class="pill-btn" data-compare-mode="slider" id="btn-mode-slider">Шторка времени (Наложение)</button>
+          <div class="compare-mode-switch" role="group" aria-label="Режим изучения">
+            <button type="button" class="pill-btn is-active" data-compare-mode="pins" id="btn-mode-pins">Интерактив: Личности и работы (6 героев)</button>
+            <button type="button" class="pill-btn" data-compare-mode="cinema" id="btn-mode-cinema">🎥 Кино-камера: Живой зум по лицам</button>
           </div>
         </div>
 
-        <!-- Режим 1: Синхронные хотспоты на обоих изображениях -->
+        <!-- Режим 1: Парные пластины с метками ниже лиц + тонкая рамка вокруг лица -->
         <div class="compare-pins-view" id="compare-pins-view">
           <div class="compare-dual-grid">
             <figure class="compare-plate" id="plate-1840-wrap">
@@ -284,9 +280,7 @@
                 <img src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Гюнтер Генслер, Гамбургское общество художников, 1840" />
                 <div class="hotspot-layer" id="hotspots-1840"></div>
               </div>
-              <figcaption class="museum-caption" id="caption-1840">
-                1840 · Масло, холст · «Члены Гамбургского общества художников» (Гюнтер Генслер, Kunsthalle)
-              </figcaption>
+              <figcaption class="museum-caption" id="caption-1840"></figcaption>
             </figure>
 
             <figure class="compare-plate" id="plate-1843-wrap">
@@ -294,52 +288,48 @@
                 <img id="compare-1843-img" src="фото и картины/photo_7_2026-11-18_13-34-16.jpg" alt="Дагеротип Штельцнера, 6 мая 1843" />
                 <div class="hotspot-layer" id="hotspots-1843"></div>
               </div>
-              <figcaption class="museum-caption" id="caption-1843">
-                6 мая 1843 · Дагеротип · «Гамбургский союз художников в саду» (Карл Фердинанд Штельцнер)
-              </figcaption>
+              <figcaption class="museum-caption" id="caption-1843"></figcaption>
             </figure>
           </div>
 
-          <!-- Переключатель пластин 1842-1843 -->
           <div class="plate-switcher">
-            <button type="button" class="plate-switch-btn is-active" data-plate="plate1843a" id="btn-plate-1843a">Дагеротип Штельцнера I (13 мастеров, 6 мая 1843)</button>
-            <button type="button" class="plate-switch-btn" data-plate="plate1843b" id="btn-plate-1843b">Дагеротип Штельцнера II (19 мастеров, 6 мая 1843)</button>
-            <button type="button" class="plate-switch-btn" data-plate="plate1842ruins" id="btn-plate-1842ruins">Дагеротип руин Биова (май 1842)</button>
+            <button type="button" class="plate-switch-btn is-active" data-plate="plate1843a" id="btn-plate-1843a"></button>
+            <button type="button" class="plate-switch-btn" data-plate="plate1843b" id="btn-plate-1843b"></button>
+            <button type="button" class="plate-switch-btn" data-plate="plate1842ruins" id="btn-plate-1842ruins"></button>
           </div>
 
-          <!-- Селектор 5 героев + карточка разбора -->
+          <!-- Селектор 6 героев (00 Рунге + 01..05 мастера) -->
           <div class="hero-selector" id="person-selector"></div>
 
-          <article class="person-dossier" id="person-dossier">
-            <!-- Обновляется JS -->
-          </article>
+          <!-- Углублённое досье героя: биография + trial-фрагмент лекции + основные работы -->
+          <article class="person-dossier" id="person-dossier"></article>
 
-          <p class="compare-disclaimer" id="compare-disclaimer">
-            Демонстрационная разметка прототипа: здесь показана механика синхронного сопоставления 5 ключевых фигур. Полная персональная идентификация всех участников полотна 1840 года и обоих дагеротипных листов 1843 года выполняется автором при подготовке финального издания.
-          </p>
+          <p class="compare-disclaimer" id="compare-disclaimer"></p>
         </div>
 
-        <!-- Режим 2: Шторка времени (Before/After Slider) -->
-        <div class="compare-slider-view" id="compare-slider-view" hidden>
-          <div class="ba-wrapper" id="ba-wrapper">
-            <img class="ba-img ba-img--base" src="фото и картины/photo_7_2026-11-18_13-34-16.jpg" alt="Дагеротип 1843" />
-            <div class="ba-overlay" id="ba-overlay">
-              <img class="ba-img ba-img--top" src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Полотно 1840" />
+        <!-- Режим 2: КИНО-КАМЕРА (чистое автоматическое видео-приближение по лицам без лишнего интерфейса) -->
+        <div class="compare-cinema-view" id="compare-cinema-view" hidden>
+          <div class="cinema-clean-frame" id="cinema-clean-frame">
+            <img id="cinema-img" class="cinema-img" src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Кино-обход портретов 1840 и 1843" />
+            <div class="cinema-vignette"></div>
+
+            <!-- Стильная плавающая плашка с именем в момент приближения к лицу -->
+            <div class="cinema-floating-plaque" id="cinema-floating-plaque">
+              <span class="mono-label cinema-plaque__era" id="cinema-plate-tag">1840 · КИСТЬ ГЕНСЛЕРА</span>
+              <strong class="cinema-plaque__name" id="cinema-person-name">Гюнтер Генслер (1803–1884)</strong>
+              <span class="cinema-plaque__role" id="cinema-person-quote">Автор полотна 1840 г., идеолог союза</span>
             </div>
-            <div class="ba-handle" id="ba-handle" aria-hidden="true">
-              <span class="ba-handle__line"></span>
-              <span class="ba-handle__knob">1840 ↔ 1843</span>
+
+            <!-- Прогресс-полоска внизу видеокадра -->
+            <div class="cinema-progress-track">
+              <div class="cinema-progress-bar" id="cinema-progress-bar"></div>
             </div>
-            <input type="range" class="ba-range" id="ba-range" min="5" max="95" value="50" aria-label="Шторка сравнения 1840 и 1843 годов" />
           </div>
-          <p class="mono-label ba-hint" id="slider-hint">
-            Потяните ползунок влево или вправо, чтобы сравнить свет мастерской 1840 года и серебро дагеротипа 1843 года.
-          </p>
         </div>
       </div>
     </section>
 
-    <!-- 6. КТО ВЕДЁТ ЭКСПЕДИЦИИ + ВИДЕО-СЛОТ + ВРЕМЕННЫЕ ФОТО С ЛЕКЦИЙ -->
+    <!-- 6. КТО ВЕДЁТ ЭКСПЕДИЦИИ -->
     <section class="speaker-section" id="speaker">
       <div class="container speaker-grid">
         <div class="speaker-portrait-col">
@@ -352,17 +342,15 @@
             <div class="video-slot__badge mono-label">VIDEO · PLACEHOLDER</div>
             <div class="video-slot__play" aria-hidden="true">▶</div>
             <p class="video-slot__title" id="video-slot-title">Видео-приглашение Сергея Григоришина</p>
-            <p class="mono-label video-slot__status" id="video-slot-status">Слот подготовлен под запись (01:15) · появится перед запуском набора</p>
+            <p class="mono-label video-slot__status" id="video-slot-status">Слот подготовлен под видео-обращение (01:15)</p>
           </div>
         </div>
 
         <div class="speaker-info-col">
           <p class="eyebrow" id="speaker-eyebrow">АВТОР И ВЕДУЩИЙ ЭКСПЕДИЦИЙ</p>
           <h2 class="section-title" id="speaker-name">Сергей Григоришин</h2>
-          <p class="speaker-role" id="speaker-role">Кандидат философских наук · историк философии · исследователь визуальной культуры</p>
-
+          <p class="speaker-role" id="speaker-role"></p>
           <div class="speaker-bio" id="speaker-bio"></div>
-
           <dl class="speaker-facts" id="speaker-facts"></dl>
 
           <a href="https://grygoryshyn.com/publications" target="_blank" rel="noopener noreferrer" class="btn btn--outline" id="speaker-pub-btn">
@@ -378,52 +366,48 @@
                 <img src="сергей/лекция2.jpg" alt="Камерный семинар Сергея Григоришина" loading="lazy" />
               </figure>
             </div>
-            <p class="mono-label lecture-chronicle__caption" id="lecture-caption">
-              Временные архивные кадры с камерных живых чтений (будут обновлены на профессиональную съёмку)
-            </p>
+            <p class="mono-label lecture-chronicle__caption" id="lecture-caption"></p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- 7. ТАРИФЫ И УМНЫЙ БИЛЕТ-ЗАЯВКА (FAHRKARTE) -->
+    <!-- 7. ЕДИНЫЙ ФОРМАТ И ПРЕДВАРИТЕЛЬНАЯ ЗАПИСЬ В TELEGRAM-БОТ -->
     <section class="ticket-section" id="ticket-section">
       <div class="container">
         <div class="section-head">
-          <p class="eyebrow" id="tariffs-eyebrow">УСЛОВИЯ УЧАСТИЯ · ПРОЗРАЧНАЯ ЭКОНОМИКА</p>
-          <h2 class="section-title" id="tariffs-title">Форматы входа и оформление заявки</h2>
+          <p class="eyebrow" id="tariffs-eyebrow">ПРЕДВАРИТЕЛЬНАЯ ЗАПИСЬ · БЕЗ ОПЛАТЫ НА САЙТЕ</p>
+          <h2 class="section-title" id="tariffs-title">Единый формат и запись через Telegram-бот</h2>
         </div>
 
-        <div class="tariffs-grid" id="tariffs-grid">
-          <!-- Карточки рендерятся из data.js -->
-        </div>
+        <div class="tariffs-grid tariffs-grid--two" id="tariffs-grid"></div>
 
         <p class="marginalia-note" id="tariffs-included-note"></p>
 
-        <!-- Интерактивный билет (Fahrkarte) -->
-        <div class="fahrkarte-wrap">
+        <!-- Интерактивный билет предзаписи (Fahrkarte) -->
+        <div class="fahrkarte-wrap" id="fahrkarte-box">
           <div class="fahrkarte-header">
             <div>
-              <h3 class="fahrkarte-title" id="ticket-title">Оформление заявки-билета (Fahrkarte)</h3>
-              <p class="fahrkarte-subtitle" id="ticket-subtitle">Заполните поля ниже — система сформирует готовый архивный билет и сообщение для прямой переписки с организатором в Telegram.</p>
+              <h3 class="fahrkarte-title" id="ticket-title">Предварительная заявка-билет (Fahrkarte)</h3>
+              <p class="fahrkarte-subtitle" id="ticket-subtitle"></p>
             </div>
-            <span class="mono-label stamp-pill" id="tp-reserve-badge">РЕЗЕРВ БЕЗ ОНЛАЙН-ОПЛАТЫ</span>
+            <span class="mono-label stamp-pill" id="tp-reserve-badge">ПРЕДЗАПИСЬ · ОПЛАТА НЕ ТРЕБУЕТСЯ</span>
           </div>
 
           <div class="fahrkarte-grid">
             <form class="fahrkarte-form" id="fahrkarte-form" novalidate>
               <div class="form-row">
-                <label for="f-city" id="lbl-city">Город из графика</label>
+                <label for="f-city" id="lbl-city">Город и даты из графика (2027)</label>
                 <select id="f-city" name="city"></select>
               </div>
 
               <div class="form-row form-row--two">
                 <div>
-                  <label for="f-format" id="lbl-format">Формат участия</label>
-                  <select id="f-format" name="format">
-                    <option value="full">4 дня (Чт–Вс) · 390 €</option>
-                    <option value="weekend">Уикенд (2 дня, Сб–Вс) · 260 €</option>
-                    <option value="waitlist">Лист ожидания · 0 €</option>
+                  <label for="f-seats" id="lbl-seats">Количество мест</label>
+                  <select id="f-seats" name="seats">
+                    <option value="1">1 место</option>
+                    <option value="2">2 места</option>
+                    <option value="3–4">3–4 места</option>
                   </select>
                 </div>
                 <div>
@@ -431,7 +415,8 @@
                   <select id="f-lang" name="groupLang">
                     <option value="RU">Русский</option>
                     <option value="UA">Українська</option>
-                    <option value="RU/UA">Оба языка (не принципиально)</option>
+                    <option value="DE">Deutsch</option>
+                    <option value="EN">English</option>
                   </select>
                 </div>
               </div>
@@ -448,22 +433,25 @@
               </div>
 
               <div class="form-row">
-                <label for="f-comment" id="lbl-comment">Комментарий (необязательно)</label>
-                <textarea id="f-comment" name="comment" rows="2" placeholder="Например: едем вдвоём, или интересуют конкретные даты"></textarea>
+                <label for="f-comment" id="lbl-comment">Комментарий (отель, пожелания, вопросы)</label>
+                <textarea id="f-comment" name="comment" rows="2"></textarea>
               </div>
 
               <div class="form-actions">
-                <a href="#" class="btn btn--primary" id="btn-send-telegram" target="_blank" rel="noopener noreferrer">
-                  Открыть заявку в Telegram
+                <button type="submit" class="btn btn--primary" id="btn-send-bot">
+                  Отправить заявку в Telegram-бот
+                </button>
+                <a href="#" class="btn btn--outline" id="btn-open-direct" target="_blank" rel="noopener noreferrer">
+                  Написать напрямую (@gryd_me)
                 </a>
                 <button type="button" class="btn btn--outline" id="btn-copy-ticket">
-                  Скопировать текст заявки
+                  Скопировать текст
                 </button>
               </div>
-              <p class="copy-feedback mono-label" id="copy-feedback" aria-live="polite"></p>
+              <p class="copy-feedback mono-label" id="bot-status" aria-live="polite"></p>
             </form>
 
-            <!-- Живой визуальный макет билета Fahrkarte -->
+            <!-- Визуальный макет билета Fahrkarte -->
             <aside class="ticket-preview" aria-label="Предпросмотр билета">
               <div class="ticket-preview__body">
                 <div class="ticket-top">
@@ -473,29 +461,29 @@
                 <div class="ticket-route">
                   <span class="mono-label" id="tp-label-route">НАПРАВЛЕНИЕ</span>
                   <strong id="tp-city">Гамбург</strong>
-                  <span class="mono-label" id="tp-dates">18–21 февраля 2027 (Чт–Вс)</span>
+                  <span class="mono-label" id="tp-dates">28–31 января 2027 (Чт–Вс)</span>
                 </div>
                 <dl class="ticket-specs">
                   <div>
                     <dt id="tp-label-format">ФОРМАТ</dt>
-                    <dd id="tp-format">4 дня (Чт–Вс)</dd>
+                    <dd id="tp-format">4 дня / 3 ночи · единый отель</dd>
                   </div>
                   <div>
-                    <dt id="tp-label-price">СТОИМОСТЬ ПРОГРАММЫ</dt>
-                    <dd id="tp-price">390 €</dd>
+                    <dt id="tp-label-status">СТАТУС ЗАЯВКИ</dt>
+                    <dd id="tp-status">ПРЕДВАРИТЕЛЬНАЯ ЗАПИСЬ</dd>
                   </div>
                   <div>
-                    <dt id="tp-label-spots">СТАТУС ТРОЙКИ</dt>
-                    <dd id="tp-spots">2 / 3 (место №3)</dd>
+                    <dt id="tp-label-group">РАЗМЕР ГРУППЫ</dt>
+                    <dd id="tp-group">4–10 участников</dd>
                   </div>
                   <div>
-                    <dt id="tp-label-person">УЧАСТНИК / ЯЗЫК</dt>
-                    <dd id="tp-person">Гость · RU</dd>
+                    <dt id="tp-label-person">УЧАСТНИК / МЕСТ / ЯЗЫК</dt>
+                    <dd id="tp-person">Гость · 1 · RU</dd>
                   </div>
                 </dl>
               </div>
               <div class="ticket-preview__stub">
-                <span class="mono-label" id="tp-label-msg">ТЕКСТ СООБЩЕНИЯ ДЛЯ TELEGRAM</span>
+                <span class="mono-label" id="tp-label-msg">ТЕКСТ ДЛЯ TELEGRAM-БОТА</span>
                 <pre class="ticket-message-box" id="tp-message"></pre>
               </div>
             </aside>
@@ -509,7 +497,7 @@
       <div class="container">
         <div class="section-head">
           <p class="eyebrow" id="faq-eyebrow">ЧАСТЫЕ ВОПРОСЫ</p>
-          <h2 class="section-title" id="faq-title">Что важно знать перед поездкой</h2>
+          <h2 class="section-title" id="faq-title">Что важно знать об обновлённом формате</h2>
         </div>
         <div class="faq-list" id="faq-list"></div>
       </div>
@@ -520,7 +508,7 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <p class="mono-label footer-brand">SERGEI GRYGORYSHYN · ARCHIVAL EXPEDITIONS · 2026/2027</p>
+        <p class="mono-label footer-brand">SERGEI GRYGORYSHYN · ARCHIVAL EXPEDITIONS · 2027</p>
         <p class="footer-legal" id="footer-legal"></p>
       </div>
       <div class="footer-meta">
@@ -552,6 +540,9 @@
     </div>
   </dialog>
 
+  <script src="vendor/maplibre-gl.js"></script>
+  <script src="vendor/bundeslaender.js"></script>
+  <script src="vendor/hamburg_map_3d.js"></script>
   <script src="data.js"></script>
   <script src="app.js"></script>
 </body>

@@ -1,5 +1,5 @@
 /**
- * APP CONTROLLER · SERGEI GRYGORYSHYN EXPEDITIONS PROTOTYPE
+ * APP CONTROLLER · V3 (3D Isometric MapLibre + Three.js + Overlay + Auto Cinema Video)
  */
 (function () {
   'use strict';
@@ -10,15 +10,21 @@
   const state = {
     lang: 'ru',
     activeCityId: 'hamburg',
+    mapView: 'city', // 'country' | 'city' (сосредоточены на 3D Гамбурге)
+    activeLandmarkId: null,
     hubFilter: 'all',
     dossierTab: 'story',
-    scheduleMode: 'all',
     archiveFilter: 'all',
-    compareMode: 'pins',
+    compareMode: 'pins', // 'pins' | 'cinema'
     activePlate: 'plate1843a',
     activePersonId: 'p1',
+    cinemaSeqIndex: 0,
+    cinemaTimer: null,
     lightboxList: [],
-    lightboxIndex: 0
+    lightboxIndex: 0,
+    mapInstance: null,
+    mapLoaded: false,
+    htmlMarkers: []
   };
 
   /* ------------------------------------------------------------------------
@@ -26,8 +32,9 @@
      ------------------------------------------------------------------------ */
   function loc(obj, baseKey) {
     if (!obj) return '';
-    const suffix = state.lang === 'ua' ? 'Ua' : 'Ru';
-    return obj[baseKey + suffix] ?? obj[baseKey + 'Ru'] ?? obj[baseKey] ?? '';
+    const map = { ru: 'Ru', ua: 'Ua', de: 'De', en: 'En' };
+    const suffix = map[state.lang] || 'Ru';
+    return obj[baseKey + suffix] ?? obj[baseKey + 'En'] ?? obj[baseKey + 'Ru'] ?? obj[baseKey] ?? '';
   }
 
   function hexToRgba(hex, alpha) {
@@ -42,8 +49,12 @@
     return DATA.cities.find((c) => c.id === state.activeCityId) || DATA.cities[0];
   }
 
+  function getHamburgCity() {
+    return DATA.cities.find((c) => c.id === 'hamburg') || DATA.cities[0];
+  }
+
   function getHamburgArtifacts() {
-    const h = DATA.cities.find((c) => c.id === 'hamburg');
+    const h = getHamburgCity();
     return h ? h.artifacts : [];
   }
 
@@ -52,8 +63,19 @@
     document.documentElement.style.setProperty('--city-accent-soft', hexToRgba(hex, 0.1));
   }
 
-  function parseInitialCityFromUrl() {
+  function parseInitialUrl() {
     const params = new URLSearchParams(window.location.search);
+    const qLang = params.get('lang');
+    if (qLang && ['ru', 'ua', 'de', 'en'].includes(qLang)) {
+      state.lang = qLang;
+      sessionStorage.setItem('sg_exp_lang', qLang);
+    } else {
+      const savedLang = sessionStorage.getItem('sg_exp_lang');
+      if (savedLang && ['ru', 'ua', 'de', 'en'].includes(savedLang)) {
+        state.lang = savedLang;
+      }
+    }
+
     const qCity = params.get('city');
     const hashMatch = window.location.hash.match(/city=([a-z]+)/i);
     const candidate = qCity || (hashMatch ? hashMatch[1] : null);
@@ -63,15 +85,62 @@
   }
 
   /* ------------------------------------------------------------------------
+     Language Gate (Pre-entry screen)
+     ------------------------------------------------------------------------ */
+  function initLanguageGate() {
+    const gate = document.getElementById('lang-gate');
+    const saved = sessionStorage.getItem('sg_exp_lang');
+    if (saved && ['ru', 'ua', 'de', 'en'].includes(saved)) {
+      gate.hidden = true;
+    } else {
+      gate.hidden = false;
+    }
+
+    document.querySelectorAll('[data-pick-lang]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const chosen = btn.getAttribute('data-pick-lang');
+        sessionStorage.setItem('sg_exp_lang', chosen);
+        applyLanguage(chosen);
+        gate.hidden = true;
+      });
+    });
+  }
+
+  function applyLanguage(lang) {
+    if (!['ru', 'ua', 'de', 'en'].includes(lang)) return;
+    state.lang = lang;
+    sessionStorage.setItem('sg_exp_lang', lang);
+    document.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('is-active', b.getAttribute('data-lang') === lang));
+
+    renderStaticI18n();
+    renderTimeline();
+    renderCityCards();
+    renderLandmarksDock();
+    refreshMapMarkers();
+    if (state.activeLandmarkId) renderLandmarkOverlay(state.activeLandmarkId);
+    renderDossier();
+    renderCompareModule();
+    renderCinemaSequenceStep();
+    populateTicketCitySelect();
+    updateTicketFormSelects();
+    updateTicketPreview();
+  }
+
+  /* ------------------------------------------------------------------------
      Global I18N Static Bindings
      ------------------------------------------------------------------------ */
   function renderStaticI18n() {
     const tr = DATA.i18n[state.lang];
-    document.documentElement.lang = state.lang === 'ua' ? 'uk' : 'ru';
+    document.documentElement.lang = state.lang === 'ua' ? 'uk' : state.lang;
+
+    document.getElementById('gate-eyebrow').textContent = tr.gate.eyebrow;
+    document.getElementById('gate-title').textContent = tr.gate.title;
+    document.getElementById('gate-subtitle').textContent = tr.gate.subtitle;
 
     document.getElementById('top-strip-text').textContent = tr.topStrip;
-    document.getElementById('brand-author').textContent = state.lang === 'ua' ? DATA.meta.authorUa : DATA.meta.authorRu;
-    document.getElementById('brand-sub').textContent = state.lang === 'ua' ? DATA.meta.brandUa : DATA.meta.brandRu;
+    document.getElementById('top-strip-right').textContent = tr.topStripRight;
+    document.getElementById('brand-author').textContent = DATA.meta.author[state.lang];
+    document.getElementById('brand-sub').textContent = DATA.meta.brand[state.lang];
 
     document.querySelectorAll('[data-nav]').forEach((el) => {
       const key = el.getAttribute('data-nav');
@@ -88,6 +157,9 @@
     document.getElementById('hero-badge-title').textContent = tr.hero.badgeTitle;
     document.getElementById('hero-badge-dates').textContent = tr.hero.badgeDates;
     document.getElementById('hero-badge-status').textContent = tr.hero.badgeStatus;
+    document.getElementById('triptych-cap-1').textContent = tr.hero.triptych[0];
+    document.getElementById('triptych-cap-2').textContent = tr.hero.triptych[1];
+    document.getElementById('triptych-cap-3').textContent = tr.hero.triptych[2];
 
     // Principles
     document.getElementById('principles-eyebrow').textContent = tr.principles.eyebrow;
@@ -104,7 +176,7 @@
       .join('');
     document.getElementById('small-format-note').textContent = tr.principles.smallFormatNote;
 
-    // Hub headings & filters
+    // Hub headings & map controls
     document.getElementById('hub-eyebrow').textContent = tr.hub.eyebrow;
     document.getElementById('hub-title').textContent = tr.hub.title;
     document.getElementById('hub-lead').textContent = tr.hub.lead;
@@ -113,23 +185,68 @@
       if (tr.hub.filters[k]) btn.textContent = tr.hub.filters[k];
     });
 
-    // Compare
+    const btnCountryLabels = {
+      ru: '← Вся Германия (16 земель)',
+      ua: '← Уся Німеччина (16 земель)',
+      de: '← Ganz Deutschland (16 Länder)',
+      en: '← All Germany (16 States)'
+    };
+    const btnCityLabels = {
+      ru: 'Гамбург 3D',
+      ua: 'Гамбург 3D',
+      de: 'Hamburg 3D',
+      en: 'Hamburg 3D'
+    };
+    const btnOrbitLabels = {
+      ru: '↻ Ракурс',
+      ua: '↻ Ракурс',
+      de: '↻ Winkel',
+      en: '↻ Orbit'
+    };
+    const btnFireLabels = {
+      ru: 'Пожар 1842',
+      ua: 'Пожежа 1842',
+      de: 'Brand 1842',
+      en: '1842 Fire'
+    };
+    const mapLegendLabels = {
+      ru: ['Точки маршрута (01–07)', 'Зона пожара 1842 и маршрут', 'ПКМ / Ctrl + мышь — вращение 3D'],
+      ua: ['Точки маршруту (01–07)', 'Зона пожежі 1842 і маршрут', 'ПКМ / Ctrl + миша — обертання 3D'],
+      de: ['Stationen (01–07)', 'Brandgebiet 1842 & Route', 'Rechtsklick / Strg — 3D drehen'],
+      en: ['Route Stops (01–07)', '1842 Fire Zone & Route', 'Right-drag / Ctrl — Orbit 3D']
+    }[state.lang];
+
+    document.getElementById('btn-back-country').textContent = btnCountryLabels[state.lang];
+    document.getElementById('btn-zoom-city').textContent = btnCityLabels[state.lang];
+    document.getElementById('btn-orbit-3d').textContent = btnOrbitLabels[state.lang];
+    const fireBtn = document.getElementById('btn-toggle-fire');
+    if (fireBtn) fireBtn.textContent = btnFireLabels[state.lang];
+
+    document.getElementById('legend-active').textContent = mapLegendLabels[0];
+    document.getElementById('legend-forming').textContent = mapLegendLabels[1];
+    document.getElementById('legend-wait').textContent = mapLegendLabels[2];
+    document.getElementById('board-title').textContent = tr.hub.boardTitle;
+    document.getElementById('board-threshold').textContent = tr.hub.boardThreshold;
+    document.getElementById('map-meta-label').textContent =
+      state.mapView === 'city' ? tr.hub.mapMetaCity : tr.hub.mapMetaCountry;
+
+    // Compare & Cinema
     document.getElementById('compare-eyebrow').textContent = tr.compare.eyebrow;
     document.getElementById('compare-title').textContent = tr.compare.title;
     document.getElementById('compare-lead').textContent = tr.compare.lead;
     document.getElementById('btn-mode-pins').textContent = tr.compare.modePins;
-    document.getElementById('btn-mode-slider').textContent = tr.compare.modeSlider;
+    document.getElementById('btn-mode-cinema').textContent = tr.compare.modeCinema;
     document.getElementById('btn-plate-1843a').textContent = tr.compare.plateButtons.plate1843a;
     document.getElementById('btn-plate-1843b').textContent = tr.compare.plateButtons.plate1843b;
     document.getElementById('btn-plate-1842ruins').textContent = tr.compare.plateButtons.plate1842ruins;
     document.getElementById('caption-1840').textContent = tr.compare.caption1840;
     document.getElementById('compare-disclaimer').textContent = tr.compare.disclaimer;
-    document.getElementById('slider-hint').textContent = tr.compare.sliderHint;
 
     // Speaker
     document.getElementById('speaker-eyebrow').textContent = tr.speaker.eyebrow;
     document.getElementById('speaker-name').textContent = tr.speaker.name;
     document.getElementById('speaker-role').textContent = tr.speaker.role;
+    document.getElementById('speaker-portrait-cap').textContent = tr.speaker.portraitCap;
     document.getElementById('speaker-bio').innerHTML = tr.speaker.bio.map((p) => `<p>${p}</p>`).join('');
     document.getElementById('speaker-facts').innerHTML = tr.speaker.facts
       .map((f) => `<div><dt>${f.label}</dt><dd>${f.val}</dd></div>`)
@@ -139,7 +256,7 @@
     document.getElementById('video-slot-status').textContent = tr.speaker.videoStatus;
     document.getElementById('lecture-caption').textContent = tr.speaker.lectureCaption;
 
-    // Tariffs & Form labels
+    // Tariffs & Pre-registration form
     document.getElementById('tariffs-eyebrow').textContent = tr.tariffs.eyebrow;
     document.getElementById('tariffs-title').textContent = tr.tariffs.title;
     document.getElementById('tariffs-grid').innerHTML = tr.tariffs.cards
@@ -155,7 +272,7 @@
             ${card.features.map((f) => `<li>${f}</li>`).join('')}
           </ul>
         </div>
-        <button type="button" class="btn ${idx === 0 ? 'btn--primary' : 'btn--outline'}" data-pick-format="${card.id}">
+        <button type="button" class="btn ${idx === 0 ? 'btn--primary' : 'btn--outline'}" data-pick-card="${card.id}">
           ${card.cta}
         </button>
       </article>`
@@ -165,8 +282,9 @@
 
     document.getElementById('ticket-title').textContent = tr.tariffs.ticketTitle;
     document.getElementById('ticket-subtitle').textContent = tr.tariffs.ticketSubtitle;
+    document.getElementById('tp-reserve-badge').textContent = tr.tariffs.badgeText;
     document.getElementById('lbl-city').textContent = tr.tariffs.form.cityLabel;
-    document.getElementById('lbl-format').textContent = tr.tariffs.form.formatLabel;
+    document.getElementById('lbl-seats').textContent = tr.tariffs.form.seatsLabel;
     document.getElementById('lbl-lang').textContent = tr.tariffs.form.langLabel;
     document.getElementById('lbl-name').textContent = tr.tariffs.form.nameLabel;
     document.getElementById('f-name').placeholder = tr.tariffs.form.namePlaceholder;
@@ -174,8 +292,19 @@
     document.getElementById('f-contact').placeholder = tr.tariffs.form.contactPlaceholder;
     document.getElementById('lbl-comment').textContent = tr.tariffs.form.commentLabel;
     document.getElementById('f-comment').placeholder = tr.tariffs.form.commentPlaceholder;
-    document.getElementById('btn-send-telegram').textContent = tr.tariffs.form.sendBtn;
+    document.getElementById('btn-send-bot').textContent = tr.tariffs.form.sendBotBtn;
+    document.getElementById('btn-open-direct').textContent = tr.tariffs.form.openDirectBtn;
     document.getElementById('btn-copy-ticket').textContent = tr.tariffs.form.copyBtn;
+
+    document.getElementById('tp-label-route').textContent = tr.tariffs.ticketLabels.route;
+    document.getElementById('tp-label-format').textContent = tr.tariffs.ticketLabels.format;
+    document.getElementById('tp-format').textContent = tr.tariffs.ticketLabels.formatValue;
+    document.getElementById('tp-label-status').textContent = tr.tariffs.ticketLabels.status;
+    document.getElementById('tp-status').textContent = tr.tariffs.ticketLabels.statusValue;
+    document.getElementById('tp-label-group').textContent = tr.tariffs.ticketLabels.group;
+    document.getElementById('tp-group').textContent = tr.tariffs.ticketLabels.groupValue;
+    document.getElementById('tp-label-person').textContent = tr.tariffs.ticketLabels.person;
+    document.getElementById('tp-label-msg').textContent = tr.tariffs.ticketLabels.msg;
 
     // FAQ
     document.getElementById('faq-eyebrow').textContent = tr.faq.eyebrow;
@@ -194,34 +323,187 @@
     document.getElementById('footer-legal').textContent = tr.footer.legalNotice;
     document.getElementById('footer-impressum').textContent = tr.footer.impressum;
     document.getElementById('footer-credit').textContent = tr.footer.archiveCredit;
-
-    // Additional static UI chrome labels
-    const isUa = state.lang === 'ua';
-    document.getElementById('top-strip-right').textContent = isUa
-      ? 'KEIN PAUSCHALREISEANGEBOT · ГРУПА 3–6 ОСІБ'
-      : 'KEIN PAUSCHALREISEANGEBOT · ГРУППА 3–6 ЧЕЛ.';
-    document.getElementById('triptych-cap-1').textContent = isUa ? 'Пензель · Затишок' : 'Кисть · Уют';
-    document.getElementById('triptych-cap-2').textContent = isUa ? 'Вогонь · Злам' : 'Огонь · Слом';
-    document.getElementById('triptych-cap-3').textContent = isUa ? 'Срібло · Документ' : 'Серебро · Документ';
-    document.getElementById('legend-active').textContent = isUa ? 'Відкрито набір (скоро старт)' : 'Открыт набор (скоро старт)';
-    document.getElementById('legend-forming').textContent = isUa ? 'Збір трійки' : 'Сбор тройки';
-    document.getElementById('legend-wait').textContent = isUa ? 'Лист очікування / опитування' : 'Лист ожидания / опрос';
-    document.getElementById('board-title').textContent = isUa ? 'ABFAHRTSTAFEL · ГРАФІК ПОЇЗДОК НА РІК' : 'ABFAHRTSTAFEL · ГРАФИК ПОЕЗДОК НА ГОД';
-    document.getElementById('board-threshold').textContent = isUa ? 'ПОРІГ ЗАПУСКУ: 3 ОС.' : 'ПОРОГ ЗАПУСКА: 3 ЧЕЛ.';
-    document.getElementById('speaker-portrait-cap').textContent = isUa ? 'СЕРГІЙ ГРИГОРИШИН · К.Ф.Н.' : 'СЕРГЕЙ ГРИГОРИШИН · К.Ф.Н.';
-    document.getElementById('tp-reserve-badge').textContent = isUa ? 'РЕЗЕРВ БЕЗ ОНЛАЙН-ОПЛАТИ' : 'РЕЗЕРВ БЕЗ ОНЛАЙН-ОПЛАТЫ';
-    document.getElementById('tp-label-route').textContent = isUa ? 'НАПРЯМОК' : 'НАПРАВЛЕНИЕ';
-    document.getElementById('tp-label-format').textContent = 'ФОРМАТ';
-    document.getElementById('tp-label-price').textContent = isUa ? 'ВАРТІСТЬ ПРОГРАМИ' : 'СТОИМОСТЬ ПРОГРАММЫ';
-    document.getElementById('tp-label-spots').textContent = isUa ? 'СТАТУС ТРІЙКИ' : 'СТАТУС ТРОЙКИ';
-    document.getElementById('tp-label-person').textContent = isUa ? 'УЧАСНИК / МОВА' : 'УЧАСТНИК / ЯЗЫК';
-    document.getElementById('tp-label-msg').textContent = isUa ? 'ТЕКСТ ПОВІДОМЛЕННЯ ДЛЯ TELEGRAM' : 'ТЕКСТ СООБЩЕНИЯ ДЛЯ TELEGRAM';
-    const langSel = document.getElementById('f-lang');
-    langSel.options[2].textContent = isUa ? 'Обидві мови (не принципово)' : 'Оба языка (не принципиально)';
   }
 
   /* ------------------------------------------------------------------------
-     Hub: 12-Month Timeline + SVG Pins + City Departure Board
+     Real 3D Vector Archival Map (MapLibre GL + OpenFreeMap + 16 Bundesländer)
+     ------------------------------------------------------------------------ */
+  function syncMapToolbarUI(mode) {
+    state.mapView = mode;
+    const isCity = mode === 'city';
+    document.getElementById('btn-back-country').classList.toggle('is-active', !isCity);
+    document.getElementById('btn-zoom-city').classList.toggle('is-active', isCity);
+    document.getElementById('map-meta-label').textContent = isCity
+      ? DATA.i18n[state.lang].hub.mapMetaCity
+      : DATA.i18n[state.lang].hub.mapMetaCountry;
+
+    const fireBtn = document.getElementById('btn-toggle-fire');
+    const orbitBtn = document.getElementById('btn-orbit-3d');
+    if (fireBtn) fireBtn.hidden = !isCity;
+    if (orbitBtn) orbitBtn.hidden = !isCity;
+  }
+
+  function init3DMap() {
+    if (!window.HamburgDioramaStage || !window.maplibregl) return;
+    const container = document.getElementById('maplibre-canvas');
+    if (!container) return;
+
+    state.dioramaStage = new window.HamburgDioramaStage({
+      container,
+      getLandmarksData: () => {
+        const hh = getHamburgCity();
+        return (hh && hh.cityMap && hh.cityMap.landmarks) || [];
+      },
+      getCitiesData: () => DATA.cities || [],
+      getLang: () => state.lang,
+      loc: (obj, key) => loc(obj, key),
+      onModeChange: (mode) => {
+        syncMapToolbarUI(mode);
+      },
+      onSelectLandmark: (landmarkId, openOverlay) => {
+        state.activeCityId = 'hamburg';
+        state.activeLandmarkId = landmarkId;
+        syncMapToolbarUI('city');
+        renderLandmarksDock();
+        if (openOverlay) {
+          renderLandmarkOverlay(landmarkId);
+        }
+      },
+      onSelectCityFromCountry: (cityId) => {
+        selectCity(cityId, { syncForm: true, flyToCity: false });
+      }
+    });
+    state.mapLoaded = true;
+    syncMapToolbarUI('city');
+  }
+
+  function refreshMapMarkers() {
+    if (!state.dioramaStage) return;
+    state.dioramaStage.buildLandmarkHTMLPins();
+    state.dioramaStage.renderLockedCountryMap();
+  }
+
+  function flyToGermanyMacro() {
+    closeLandmarkOverlay();
+    syncMapToolbarUI('country');
+    if (state.dioramaStage) {
+      state.dioramaStage.whooshToCountry();
+    }
+  }
+
+  function flyToHamburg3D() {
+    state.activeCityId = 'hamburg';
+    syncMapToolbarUI('city');
+    renderLandmarksDock();
+    if (state.dioramaStage) {
+      state.dioramaStage.whooshToCity();
+    }
+  }
+
+  function focusLandmark3D(landmarkId, openOverlay = true) {
+    const hh = getHamburgCity();
+    const landmarks = hh.cityMap.landmarks || [];
+    const lm = landmarks.find((l) => l.id === landmarkId) || landmarks[0];
+    if (!lm) return;
+
+    state.activeCityId = 'hamburg';
+    state.activeLandmarkId = lm.id;
+    syncMapToolbarUI('city');
+    renderLandmarksDock();
+
+    if (state.dioramaStage) {
+      state.dioramaStage.focusLandmark(lm.id);
+    }
+
+    if (openOverlay) {
+      renderLandmarkOverlay(lm.id);
+    }
+  }
+
+  function renderLandmarksDock() {
+    const dock = document.getElementById('hamburg-landmarks-dock');
+    if (!dock) return;
+    const hh = getHamburgCity();
+    const landmarks = hh.cityMap.landmarks || [];
+    const shortMap = window.HAMBURG_SHORT_LANDMARK_NAMES || {};
+
+    dock.innerHTML = landmarks
+      .map((lm) => {
+        const isActive = lm.id === state.activeLandmarkId;
+        const shortName =
+          (shortMap[lm.id] && shortMap[lm.id][state.lang]) ||
+          loc(lm, 'name').split('(')[0].trim();
+        return `
+        <button type="button" class="dock-chip ${isActive ? 'is-active' : ''}" data-dock-landmark="${lm.id}">
+          <span>${lm.num}</span> ${shortName}
+        </button>`;
+      })
+      .join('');
+  }
+
+  function renderLandmarkOverlay(landmarkId) {
+    const hh = getHamburgCity();
+    const landmarks = hh.cityMap.landmarks || [];
+    const lm = landmarks.find((l) => l.id === landmarkId);
+    const overlay = document.getElementById('map-landmark-overlay');
+    if (!lm || !overlay) return;
+
+    const secTitles = {
+      ru: ['Архитектура и история места', 'Философская практика на месте', 'Ключевые артефакты локации'],
+      ua: ['Архітектура та історія місця', 'Філософська практика на місці', 'Ключові артефакти локації'],
+      de: ['Architektur & Ortsgeschichte', 'Philosophische Praxis vor Ort', 'Zentrale Artefakte'],
+      en: ['Architecture & Site History', 'On-Site Philosophical Practice', 'Key Site Artifacts']
+    }[state.lang];
+
+    document.getElementById('ov-day').textContent = `${lm.num} · ${loc(lm, 'day').toUpperCase()}`;
+    document.getElementById('map-overlay-body').innerHTML = `
+      <div class="map-overlay__hero">
+        <img src="${lm.img}" alt="${loc(lm, 'name')}" data-lightbox-src="${lm.img}" />
+        <div>
+          <h4 class="map-overlay__title">${loc(lm, 'name')}</h4>
+          <span class="map-overlay__addr">${lm.address || ''}</span>
+        </div>
+      </div>
+      <div class="map-overlay__section">
+        <h5>${secTitles[0]}</h5>
+        <p>${loc(lm, 'history') || loc(lm, 'concept')}</p>
+      </div>
+      <div class="map-overlay__section">
+        <h5>${secTitles[1]}</h5>
+        <p>${loc(lm, 'practice') || loc(lm, 'concept')}</p>
+      </div>
+      <div class="map-overlay__artifacts">
+        <strong>${secTitles[2]}:</strong><br/>
+        ${loc(lm, 'artifacts') || ''}
+      </div>`;
+
+    overlay.hidden = false;
+  }
+
+  function closeLandmarkOverlay() {
+    const overlay = document.getElementById('map-landmark-overlay');
+    if (overlay) overlay.hidden = true;
+    state.activeLandmarkId = null;
+    if (state.dioramaStage && state.dioramaStage.setActiveLandmarkPin) {
+      state.dioramaStage.setActiveLandmarkPin(null);
+      if (state.dioramaStage.resetOverlayPadding) {
+        state.dioramaStage.resetOverlayPadding();
+      }
+    }
+    renderLandmarksDock();
+  }
+
+  function stepLandmarkOverlay(delta) {
+    const hh = getHamburgCity();
+    const landmarks = hh.cityMap.landmarks || [];
+    if (!landmarks.length) return;
+    const curIdx = landmarks.findIndex((l) => l.id === state.activeLandmarkId);
+    const nextIdx = ((curIdx === -1 ? 0 : curIdx) + delta + landmarks.length) % landmarks.length;
+    focusLandmark3D(landmarks[nextIdx].id, true);
+  }
+
+  /* ------------------------------------------------------------------------
+     Hub Timeline & City Departure Board
      ------------------------------------------------------------------------ */
   function renderTimeline() {
     const tr = DATA.i18n[state.lang];
@@ -243,62 +525,6 @@
       .join('');
   }
 
-  function renderSvgPins() {
-    const group = document.getElementById('svg-city-pins');
-    const ns = 'http://www.w3.org/2000/svg';
-    group.innerHTML = '';
-
-    DATA.cities.forEach((city) => {
-      const isActive = city.id === state.activeCityId;
-      const labelText = loc(city, 'name');
-      const boxWidth = Math.max(66, labelText.length * 7.6 + 16);
-      const labelOffsetX = city.id === 'frankfurt' ? -boxWidth - 14 : 14;
-
-      const g = document.createElementNS(ns, 'g');
-      g.setAttribute('class', `city-pin-group ${isActive ? 'is-active' : ''}`);
-      g.setAttribute('data-select-city', city.id);
-      g.setAttribute('tabindex', '0');
-      g.setAttribute('role', 'button');
-      g.setAttribute('aria-label', `${labelText} — ${loc(city, 'dates')}`);
-      g.style.setProperty('--pin-color', city.accentColor);
-
-      const halo = document.createElementNS(ns, 'circle');
-      halo.setAttribute('class', 'pin-halo');
-      halo.setAttribute('cx', city.svgPos.x);
-      halo.setAttribute('cy', city.svgPos.y);
-      halo.setAttribute('r', isActive ? '14' : '11');
-
-      const core = document.createElementNS(ns, 'circle');
-      core.setAttribute('class', 'pin-core');
-      core.setAttribute('cx', city.svgPos.x);
-      core.setAttribute('cy', city.svgPos.y);
-      core.setAttribute('r', isActive ? '7' : '5.5');
-
-      const rect = document.createElementNS(ns, 'rect');
-      rect.setAttribute('class', 'pin-label-bg');
-      rect.setAttribute('x', city.svgPos.x + labelOffsetX);
-      rect.setAttribute('y', city.svgPos.y - 11);
-      rect.setAttribute('width', boxWidth);
-      rect.setAttribute('height', '22');
-      rect.setAttribute('rx', '2');
-
-      const text = document.createElementNS(ns, 'text');
-      text.setAttribute('class', 'pin-label');
-      text.setAttribute('x', city.svgPos.x + labelOffsetX + 8);
-      text.setAttribute('y', city.svgPos.y + 4);
-      text.textContent = labelText;
-
-      g.appendChild(halo);
-      g.appendChild(core);
-      g.appendChild(rect);
-      g.appendChild(text);
-      group.appendChild(g);
-    });
-
-    const active = getActiveCity();
-    document.getElementById('map-active-coords').textContent = active.coords;
-  }
-
   function renderCityCards() {
     const container = document.getElementById('city-cards');
     const filtered = DATA.cities.filter((c) => {
@@ -311,11 +537,7 @@
       .map((city) => {
         const isActive = city.id === state.activeCityId;
         const statusClass =
-          city.status === 'active'
-            ? 'is-active-status'
-            : city.status === 'forming'
-            ? 'is-forming-status'
-            : '';
+          city.status === 'active' ? 'is-active-status' : city.status === 'forming' ? 'is-forming-status' : '';
 
         return `
         <button type="button"
@@ -357,9 +579,9 @@
         </div>
         <div>
           <div class="mono-label" style="margin-bottom:8px;">${loc(city, 'dates')}</div>
-          <a href="#ticket-section" class="btn btn--primary" data-prefill-city="${city.id}">
+          <button type="button" class="btn btn--primary" data-prefill-city="${city.id}">
             ${city.isLabStub ? tr.labAction : DATA.i18n[state.lang].hub.reserveBtn}
-          </a>
+          </button>
         </div>
       </div>`;
 
@@ -387,14 +609,13 @@
               )
               .join('')}
           </div>
-          <a href="#ticket-section" class="btn btn--outline" data-prefill-city="${city.id}">
+          <button type="button" class="btn btn--outline" data-prefill-city="${city.id}">
             ${tr.labAction}
-          </a>
+          </button>
         </div>`;
       return;
     }
 
-    // Полное досье Гамбурга с 3 вкладками
     const tabsHtml = `
       <div class="dossier-tabs" role="tablist">
         <button type="button" class="dossier-tab ${state.dossierTab === 'story' ? 'is-active' : ''}" data-dossier-tab="story">
@@ -413,66 +634,72 @@
       bodyHtml = `
         <div class="acts-container">
           ${city.acts
-            .map(
-              (act) => `
-            <article class="act-block act-block--${act.tone}">
-              <div class="act-text">
-                <div class="act-num">${act.num}</div>
-                <h3 class="act-title">${loc(act, 'title')}</h3>
-                ${(state.lang === 'ua' ? act.paragraphsUa : act.paragraphsRu).map((p) => `<p>${p}</p>`).join('')}
-                <div class="act-museum-plate">${loc(act, 'museumPlate')}</div>
-              </div>
-              <figure class="act-figure" data-lightbox-src="${act.image}">
-                <img src="${act.image}" alt="${loc(act, 'imageCaption')}" loading="lazy" />
-                <figcaption>${loc(act, 'imageCaption')}</figcaption>
-              </figure>
-            </article>`
-            )
+            .map((act) => {
+              const paras = loc(act, 'paragraphs') || act.paragraphsRu;
+              return `
+              <article class="act-block act-block--${act.tone}">
+                <div class="act-text">
+                  <div class="act-num">${act.num}</div>
+                  <h3 class="act-title">${loc(act, 'title')}</h3>
+                  ${paras.map((p) => `<p>${p}</p>`).join('')}
+                  <div class="act-museum-plate">${loc(act, 'museumPlate')}</div>
+                </div>
+                <figure class="act-figure" data-lightbox-src="${act.image}">
+                  <img src="${act.image}" alt="${loc(act, 'imageCaption')}" loading="lazy" />
+                  <figcaption>${loc(act, 'imageCaption')}</figcaption>
+                </figure>
+              </article>`;
+            })
             .join('')}
         </div>`;
     } else if (state.dossierTab === 'schedule') {
-      const days = city.days.filter((d) => (state.scheduleMode === 'weekend' ? d.isWeekendCore : true));
       bodyHtml = `
         <div class="schedule-panel">
-          <div class="schedule-toolbar">
-            <div style="display:flex; gap:8px; flex-wrap:wrap;">
-              <button type="button" class="pill-btn ${state.scheduleMode === 'all' ? 'is-active' : ''}" data-schedule-mode="all">
-                ${tr.scheduleFilters.all}
-              </button>
-              <button type="button" class="pill-btn ${state.scheduleMode === 'weekend' ? 'is-active' : ''}" data-schedule-mode="weekend">
-                ${tr.scheduleFilters.weekend}
-              </button>
-            </div>
-            <span class="mono-label">${loc(city, 'dates')}</span>
-          </div>
-          <div class="weekend-callout">${tr.weekendNote}</div>
+          <div class="weekend-callout">${tr.scheduleNotice}</div>
           <div class="days-grid">
-            ${days
-              .map(
-                (day) => `
-              <article class="day-card ${day.isWeekendCore ? 'is-weekend' : ''}">
+            ${city.days
+              .map((day) => {
+                const slotLabels =
+                  day.dayNum === 1
+                    ? {
+                        ru: ['УТРО · ЛОГИСТИКА', 'ДЕНЬ · ЗАСЕЛЕНИЕ В ЕДИНЫЙ ОТЕЛЬ', 'ВЕЧЕР · ЗНАКОМСТВО И УЖИН'],
+                        ua: ['РАНОК · ЛОГІСТИКА', 'ДЕНЬ · ПОСЕЛЕННЯ В ЄДИНИЙ ГОТЕЛЬ', 'ВЕЧІР · ЗНАЙОМСТВО І ВЕЧЕРЯ'],
+                        de: ['MORGEN · ANREISE', 'TAG · GEMEINSAMER CHECK-IN', 'ABEND · KENNENLERN-DINNER'],
+                        en: ['MORNING · ARRIVAL', 'AFTERNOON · UNIFIED HOTEL CHECK-IN', 'EVENING · WELCOME DINNER']
+                      }[state.lang]
+                    : day.dayNum === 4
+                    ? {
+                        ru: ['УТРО · ФИНАЛЬНАЯ ЛЕКЦИЯ В ЗАЛЕ', 'ДЕНЬ · ВЫСЕЛЕНИЕ И ОТЪЕЗД', 'ПОСЛЕ · АРХИВ И ИСТОЧНИКИ'],
+                        ua: ['РАНОК · ФІНАЛЬНА ЛЕКЦІЯ В ЗАЛІ', 'ДЕНЬ · ВИСЕЛЕННЯ І ВІД’ЇЗД', 'ПІСЛЯ · АРХІВ І ДЖЕРЕЛА'],
+                        de: ['MORGEN · ABSCHLUSSVORLESUNG', 'TAG · CHECK-OUT & ABREISE', 'DANACH · LITERATUR & NOTIZEN'],
+                        en: ['MORNING · CLOSING LECTURE', 'AFTERNOON · CHECK-OUT & DEPARTURE', 'FOLLOW-UP · ARCHIVE & READING LIST']
+                      }[state.lang]
+                    : [tr.blocks.morning, tr.blocks.afternoon, tr.blocks.evening];
+
+                return `
+              <article class="day-card">
                 <div class="day-card__top">
                   <span class="mono-label">${loc(day, 'weekday')}</span>
-                  ${day.isWeekendCore ? `<span class="mono-label stamp-pill">${state.lang === 'ua' ? 'WEEKEND CORE · СБ–НД' : 'WEEKEND CORE · СБ–ВС'}</span>` : '<span class="mono-label">OPENING DAYS</span>'}
+                  <span class="mono-label">4–10 PARTICIPANTS · HOTEL + CONFERENCE HALL</span>
                 </div>
                 <h3 class="day-card__title">${loc(day, 'title')}</h3>
                 <p class="day-card__lead">${loc(day, 'lead')}</p>
                 <div class="day-slots">
                   <div class="day-slot">
-                    <h4>${tr.blocks.morning}</h4>
+                    <h4>${slotLabels[0]}</h4>
                     <p>${loc(day, 'morning')}</p>
                   </div>
                   <div class="day-slot">
-                    <h4>${tr.blocks.afternoon}</h4>
+                    <h4>${slotLabels[1]}</h4>
                     <p>${loc(day, 'afternoon')}</p>
                   </div>
                   <div class="day-slot">
-                    <h4>${tr.blocks.evening}</h4>
+                    <h4>${slotLabels[2]}</h4>
                     <p>${loc(day, 'evening')}</p>
                   </div>
                 </div>
-              </article>`
-              )
+              </article>`;
+              })
               .join('')}
           </div>
         </div>`;
@@ -509,13 +736,12 @@
   }
 
   /* ------------------------------------------------------------------------
-     1840 <-> 1843 Interactive Comparison
+     Deepened Heroes & Clean Auto-Running Cinema Video (1840 -> 1843)
      ------------------------------------------------------------------------ */
   function renderCompareModule() {
     const fc = DATA.faceComparison;
     const tr = DATA.i18n[state.lang].compare;
 
-    // Plate switcher image & caption
     const img1843 = document.getElementById('compare-1843-img');
     const cap1843 = document.getElementById('caption-1843');
     const hotspots1843 = document.getElementById('hotspots-1843');
@@ -542,13 +768,17 @@
       btn.classList.toggle('is-active', btn.getAttribute('data-plate') === state.activePlate);
     });
 
-    // Hotspots on 1840 & 1843a
-    hotspots1840.innerHTML = fc.persons
+    const canvasPersons = fc.persons.filter((p) => p.onCanvas);
+
+    hotspots1840.innerHTML = canvasPersons
       .map(
         (p) => `
+      <div class="face-focus-ring ${p.id === state.activePersonId ? 'is-active' : ''}"
+        style="left:${p.face1840.x}%; top:${p.face1840.y}%;"
+        data-face-ring="${p.id}"></div>
       <button type="button"
         class="hotspot-pin ${p.id === state.activePersonId ? 'is-active' : ''}"
-        style="left:${p.pos1840.x}%; top:${p.pos1840.y}%;"
+        style="left:${p.badge1840.x}%; top:${p.badge1840.y}%;"
         data-person-id="${p.id}"
         title="${loc(p, 'name')}">
         ${p.num}
@@ -556,12 +786,15 @@
       )
       .join('');
 
-    hotspots1843.innerHTML = fc.persons
+    hotspots1843.innerHTML = canvasPersons
       .map(
         (p) => `
+      <div class="face-focus-ring ${p.id === state.activePersonId ? 'is-active' : ''}"
+        style="left:${p.face1843.x}%; top:${p.face1843.y}%;"
+        data-face-ring="${p.id}"></div>
       <button type="button"
         class="hotspot-pin ${p.id === state.activePersonId ? 'is-active' : ''}"
-        style="left:${p.pos1843.x}%; top:${p.pos1843.y}%;"
+        style="left:${p.badge1843.x}%; top:${p.badge1843.y}%;"
         data-person-id="${p.id}"
         title="${loc(p, 'name')}">
         ${p.num}
@@ -569,7 +802,6 @@
       )
       .join('');
 
-    // Person chips
     document.getElementById('person-selector').innerHTML = fc.persons
       .map(
         (p) => `
@@ -581,14 +813,12 @@
       )
       .join('');
 
-    // Active person dossier card
     updateActivePersonUI();
 
-    // Toggle pins vs slider
     const pinsView = document.getElementById('compare-pins-view');
-    const sliderView = document.getElementById('compare-slider-view');
+    const cinemaView = document.getElementById('compare-cinema-view');
     pinsView.hidden = state.compareMode !== 'pins';
-    sliderView.hidden = state.compareMode !== 'slider';
+    cinemaView.hidden = state.compareMode !== 'cinema';
     document.querySelectorAll('[data-compare-mode]').forEach((b) => {
       b.classList.toggle('is-active', b.getAttribute('data-compare-mode') === state.compareMode);
     });
@@ -599,28 +829,149 @@
     document.querySelectorAll('[data-person-id]').forEach((el) => {
       el.classList.toggle('is-active', el.getAttribute('data-person-id') === state.activePersonId);
     });
-    const activePerson = fc.persons.find((p) => p.id === state.activePersonId) || fc.persons[0];
-    const h1840 = state.lang === 'ua' ? '1840 · ПЕНЗЕЛЬ ГЮНТЕРА ГЕНСЛЕРА' : '1840 · КИСТЬ ГЮНТЕРА ГЕНСЛЕРА';
-    const h1843 = state.lang === 'ua' ? '6 ТРАВНЯ 1843 · СРІБЛО ДАГЕРОТИПА' : '6 МАЯ 1843 · СЕРЕБРО ДАГЕРОТИПА';
+    document.querySelectorAll('[data-face-ring]').forEach((el) => {
+      el.classList.toggle('is-active', el.getAttribute('data-face-ring') === state.activePersonId);
+    });
+
+    const person = fc.persons.find((p) => p.id === state.activePersonId) || fc.persons[1];
+    const lbl1840 = { ru: '1840 · КИСТЬ ГЮНТЕРА ГЕНСЛЕРА', ua: '1840 · ПЕНЗЕЛЬ ГЕНСЛЕРА', de: '1840 · GEMÄLDE GENSLER', en: '1840 · GENSLER PAINTING' }[state.lang];
+    const lbl1843 = { ru: '6 МАЯ 1843 · СЕРЕБРО ДАГЕРОТИПА', ua: '6 ТРАВНЯ 1843 · СРІБЛО', de: '6. MAI 1843 · DAGUERREOTYPIE', en: 'MAY 6, 1843 · DAGUERREOTYPE' }[state.lang];
+    const lblWorks = { ru: 'Основные работы и артефакты маршрута', ua: 'Основні роботи та артефакти', de: 'Hauptwerke & Exponate', en: 'Major Works & Artifacts' }[state.lang];
+
     document.getElementById('person-dossier').innerHTML = `
       <div class="person-dossier__head">
-        <h3>${activePerson.num}. ${loc(activePerson, 'name')}</h3>
-        <span class="mono-label">${loc(activePerson, 'role')}</span>
+        <h3>${person.num}. ${loc(person, 'name')} <small class="mono-label">(${person.years})</small></h3>
+        <span class="mono-label">${loc(person, 'role')}</span>
       </div>
+      <p class="person-bio-text">${loc(person, 'bio')}</p>
+      <blockquote class="trial-excerpt">${loc(person, 'trialExcerpt')}</blockquote>
       <div class="person-dossier__cols">
         <div class="person-dossier__col">
-          <h4>${h1840}</h4>
-          <p>${loc(activePerson, 'desc1840')}</p>
+          <h4>${lbl1840}</h4>
+          <p>${loc(person, 'desc1840')}</p>
         </div>
         <div class="person-dossier__col">
-          <h4>${h1843}</h4>
-          <p>${loc(activePerson, 'desc1843')}</p>
+          <h4>${lbl1843}</h4>
+          <p>${loc(person, 'desc1843')}</p>
+        </div>
+      </div>
+      <div class="person-works-wrap">
+        <h4>${lblWorks}</h4>
+        <div class="person-works-grid">
+          ${person.works
+            .map(
+              (w) => `
+            <div class="work-chip">
+              <img src="${w.thumb}" alt="${w.title}" loading="lazy" />
+              <div>
+                <strong>${w.title}</strong>
+                <small>${w.museum}</small>
+              </div>
+            </div>`
+            )
+            .join('')}
         </div>
       </div>`;
   }
 
+  /* Автоматическое видео-приближение лиц: сначала проходит по картине 1840 г., затем по дагеротипу 1843 г. */
+  function buildCinemaSequence() {
+    const fc = DATA.faceComparison;
+    const persons = fc.persons.filter((p) => p.onCanvas);
+    const seq = [];
+
+    // 1. Общий план картины 1840 г. + 5 лиц по очереди
+    seq.push({ era: '1840', isOverview: true, src: fc.painting1840, person: null });
+    persons.forEach((p) => {
+      seq.push({ era: '1840', isOverview: false, src: fc.painting1840, person: p, face: p.face1840 });
+    });
+
+    // 2. Общий план дагеротипа 1843 г. + 5 лиц по очереди
+    seq.push({ era: '1843', isOverview: true, src: fc.daguerreotype1843a, person: null });
+    persons.forEach((p) => {
+      seq.push({ era: '1843', isOverview: false, src: fc.daguerreotype1843a, person: p, face: p.face1843 });
+    });
+
+    return seq;
+  }
+
+  function renderCinemaSequenceStep() {
+    const seq = buildCinemaSequence();
+    const step = seq[state.cinemaSeqIndex % seq.length];
+    if (!step) return;
+
+    const imgEl = document.getElementById('cinema-img');
+    const plaque = document.getElementById('cinema-floating-plaque');
+    const bar = document.getElementById('cinema-progress-bar');
+
+    if (imgEl.getAttribute('src') !== step.src) {
+      imgEl.style.opacity = '0.25';
+      setTimeout(() => {
+        imgEl.src = step.src;
+        imgEl.style.opacity = '1';
+      }, 220);
+    }
+
+    if (step.isOverview) {
+      imgEl.style.transform = 'scale(1.03) translate(0%, 0%)';
+      plaque.classList.add('is-overview');
+      const eraLabel1840 = {
+        ru: ['1840 · МАСЛО, ХОЛСТ', 'Гамбургское общество художников', 'За два года до Великого пожара (Гюнтер Генслер)'],
+        ua: ['1840 · ОЛІЯ, ПОЛОТНО', 'Гамбурзьке товариство художників', 'За два роки до Великої пожежі (Гюнтер Генслер)'],
+        de: ['1840 · ÖL AUF LEINWAND', 'Hamburger Künstlerverein', 'Zwei Jahre vor dem Großen Brand (Günther Gensler)'],
+        en: ['1840 · OIL ON CANVAS', 'Hamburg Artists’ Association', 'Two years before the Great Fire (Günther Gensler)']
+      }[state.lang];
+      const eraLabel1843 = {
+        ru: ['6 МАЯ 1843 · СЕРЕБРЯНЫЙ ДАГЕРОТИП', 'Те же мастера год спустя после пожара', 'Сад на Caffamacherreihe (Карл Фердинанд Штельцнер)'],
+        ua: ['6 ТРАВНЯ 1843 · СРІБНИЙ ДАГЕРОТИП', 'Ті самі майстри рік потому після пожежі', 'Сад на Caffamacherreihe (Карл Фердинанд Штельцнер)'],
+        de: ['6. MAI 1843 · DAGUERREOTYPIE', 'Dieselben Künstler ein Jahr nach dem Brand', 'Im Garten an der Caffamacherreihe (C. F. Stelzner)'],
+        en: ['MAY 6, 1843 · SILVER DAGUERREOTYPE', 'The surviving artists one year after the fire', 'Garden at Caffamacherreihe (C. F. Stelzner)']
+      }[state.lang];
+      const labels = step.era === '1840' ? eraLabel1840 : eraLabel1843;
+      document.getElementById('cinema-plate-tag').textContent = labels[0];
+      document.getElementById('cinema-person-name').textContent = labels[1];
+      document.getElementById('cinema-person-quote').textContent = labels[2];
+    } else {
+      plaque.classList.remove('is-overview');
+      // Точное центрирование лица (x%, y%) в кадре 6:5
+      const scale = 2.45;
+      const tx = Math.max(-28, Math.min(28, 50 - step.face.x));
+      const ty = Math.max(-26, Math.min(26, 50 - step.face.y));
+      imgEl.style.transform = `scale(${scale}) translate(${tx}%, ${ty}%)`;
+
+      const eraPrefix =
+        step.era === '1840'
+          ? { ru: '1840 · КИСТЬ ГЕНСЛЕРА', ua: '1840 · ПЕНЗЕЛЬ ГЕНСЛЕРА', de: '1840 · GEMÄLDE', en: '1840 · PAINTING' }[state.lang]
+          : { ru: '1843 · СЕРЕБРО ДАГЕРОТИПА', ua: '1843 · СРІБЛО ДАГЕРОТИПА', de: '1843 · DAGUERREOTYPIE', en: '1843 · DAGUERREOTYPE' }[state.lang];
+
+      document.getElementById('cinema-plate-tag').textContent = `${eraPrefix} · №${step.person.num}`;
+      document.getElementById('cinema-person-name').textContent = `${loc(step.person, 'name')} (${step.person.years})`;
+      document.getElementById('cinema-person-quote').textContent = loc(step.person, 'role');
+    }
+
+    const pct = Math.round((((state.cinemaSeqIndex % seq.length) + 1) / seq.length) * 100);
+    if (bar) bar.style.width = `${pct}%`;
+  }
+
+  function startAutoCinemaLoop() {
+    stopAutoCinemaLoop();
+    renderCinemaSequenceStep();
+    state.cinemaTimer = setInterval(() => {
+      const seq = buildCinemaSequence();
+      state.cinemaSeqIndex = (state.cinemaSeqIndex + 1) % seq.length;
+      renderCinemaSequenceStep();
+    }, 3200);
+  }
+
+  function stopAutoCinemaLoop() {
+    if (state.cinemaTimer) {
+      clearInterval(state.cinemaTimer);
+      state.cinemaTimer = null;
+    }
+  }
+
   /* ------------------------------------------------------------------------
-     Fahrkarte Ticket Form & Live Preview
+     Fahrkarte Pre-Registration Form & Telegram Bot Delivery
      ------------------------------------------------------------------------ */
   function populateTicketCitySelect() {
     const select = document.getElementById('f-city');
@@ -631,78 +982,133 @@
     select.value = DATA.cities.some((c) => c.id === prev) ? prev : state.activeCityId;
   }
 
-  function updateTicketFormatOptions() {
-    const formatSel = document.getElementById('f-format');
-    const currentVal = formatSel.value || 'full';
-    if (state.lang === 'ua') {
-      formatSel.options[0].textContent = '4 дні (Чт–Нд) · 390 €';
-      formatSel.options[1].textContent = 'Вікенд (2 дні, Сб–Нд) · 260 €';
-      formatSel.options[2].textContent = 'Лист очікування · 0 €';
-    } else {
-      formatSel.options[0].textContent = '4 дня (Чт–Вс) · 390 €';
-      formatSel.options[1].textContent = 'Уикенд (2 дня, Сб–Вс) · 260 €';
-      formatSel.options[2].textContent = 'Лист ожидания · 0 €';
-    }
-    formatSel.value = currentVal;
+  function updateTicketFormSelects() {
+    const seatsSel = document.getElementById('f-seats');
+    const val = seatsSel.value || '1';
+    const labels = {
+      ru: ['1 место', '2 места', '3–4 места'],
+      ua: ['1 місце', '2 місця', '3–4 місця'],
+      de: ['1 Platz', '2 Plätze', '3–4 Plätze'],
+      en: ['1 seat', '2 seats', '3–4 seats']
+    }[state.lang];
+    seatsSel.options[0].textContent = labels[0];
+    seatsSel.options[1].textContent = labels[1];
+    seatsSel.options[2].textContent = labels[2];
+    seatsSel.value = val;
   }
 
-  function updateTicketPreview() {
+  function buildTicketMessage() {
     const cityId = document.getElementById('f-city').value || state.activeCityId;
     const city = DATA.cities.find((c) => c.id === cityId) || DATA.cities[0];
-    const formatVal = document.getElementById('f-format').value;
-    const groupLang = document.getElementById('f-lang').value;
-    const name = document.getElementById('f-name').value.trim() || (state.lang === 'ua' ? 'Гість' : 'Гость');
+    const seats = document.getElementById('f-seats').value || '1';
+    const groupLang = document.getElementById('f-lang').value || 'RU';
+    const guestFallback = { ru: 'Гость', ua: 'Гість', de: 'Gast', en: 'Guest' }[state.lang];
+    const name = document.getElementById('f-name').value.trim() || guestFallback;
     const contact = document.getElementById('f-contact').value.trim() || '—';
     const comment = document.getElementById('f-comment').value.trim();
 
-    let formatLabel = state.lang === 'ua' ? '4 дні (Чт–Нд)' : '4 дня (Чт–Вс)';
-    let priceText = `${DATA.meta.prices.fullEarly} €`;
-    if (formatVal === 'weekend') {
-      formatLabel = state.lang === 'ua' ? 'Вікенд-ядро (2 дні)' : 'Уикенд-ядро (2 дня)';
-      priceText = `${DATA.meta.prices.weekend} €`;
-    } else if (formatVal === 'waitlist' || city.isLabStub) {
-      formatLabel = state.lang === 'ua' ? 'Лист очікування (трійка)' : 'Лист ожидания (тройка)';
-      priceText = state.lang === 'ua' ? '0 € зараз' : '0 € сейчас';
+    const lines = [
+      `📌 ПРЕДЗАПИСЬ НА ЭКСПЕДИЦИЮ · 2027`,
+      `Город: ${loc(city, 'name')}`,
+      `Даты: ${loc(city, 'dates')}`,
+      `Формат: Единая программа (4 дня / 3 ночи, общий отель)`,
+      `Количество мест: ${seats}`,
+      `Язык группы: ${groupLang}`,
+      `Имя: ${name}`,
+      `Контакт: ${contact}`
+    ];
+    if (comment) lines.push(`Комментарий: ${comment}`);
+
+    return {
+      city,
+      seats,
+      groupLang,
+      name,
+      contact,
+      text: lines.join('\n')
+    };
+  }
+
+  function updateTicketPreview() {
+    const data = buildTicketMessage();
+    document.getElementById('tp-issue').textContent = `№ ${data.city.issueNo}`;
+    document.getElementById('tp-city').textContent = loc(data.city, 'name');
+    document.getElementById('tp-dates').textContent = loc(data.city, 'dates');
+    document.getElementById('tp-person').textContent = `${data.name} · ${data.seats} · ${data.groupLang}`;
+    document.getElementById('tp-message').textContent = data.text;
+
+    const tgHref = `https://t.me/${DATA.meta.telegramBot.fallbackHandle}?text=${encodeURIComponent(data.text)}`;
+    document.getElementById('btn-open-direct').setAttribute('href', tgHref);
+  }
+
+  function scrollToRegistrationForm() {
+    const formBox = document.getElementById('fahrkarte-box') || document.getElementById('fahrkarte-form');
+    if (formBox) {
+      formBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => {
+        const nameInput = document.getElementById('f-name');
+        if (nameInput) nameInput.focus({ preventScroll: true });
+      }, 450);
+    }
+  }
+
+  async function sendToTelegramBot(payloadText) {
+    const { token, admins, knownChatIds } = DATA.meta.telegramBot;
+    const statusEl = document.getElementById('bot-status');
+    const tr = DATA.i18n[state.lang].tariffs.form;
+    statusEl.textContent = tr.sending;
+
+    const cacheKey = 'sg_tg_admin_chats';
+    let cachedIds = [];
+    try {
+      cachedIds = JSON.parse(localStorage.getItem(cacheKey) || '[]');
+    } catch {
+      cachedIds = [];
     }
 
-    const seatLabel = state.lang === 'ua' ? 'місце №' : 'место №';
-    const spotsText = city.isLabStub
-      ? `${city.spotsFilled} / ${city.spotsMin}`
-      : `${city.spotsFilled} / ${city.spotsMin} (${seatLabel}${Math.min(city.spotsFilled + 1, city.spotsMin)})`;
+    const adminUsernamesLower = admins.map((a) => a.toLowerCase());
+    const resolvedIds = new Set([...(knownChatIds || []), ...cachedIds]);
 
-    document.getElementById('tp-issue').textContent = `№ ${city.issueNo}`;
-    document.getElementById('tp-city').textContent = loc(city, 'name');
-    document.getElementById('tp-dates').textContent = loc(city, 'dates');
-    document.getElementById('tp-format').textContent = formatLabel;
-    document.getElementById('tp-price').textContent = priceText;
-    document.getElementById('tp-spots').textContent = spotsText;
-    document.getElementById('tp-person').textContent = `${name} · ${groupLang}`;
+    try {
+      const updRes = await fetch(`https://api.telegram.org/bot${token}/getUpdates?limit=50`);
+      if (updRes.ok) {
+        const updJson = await updRes.json();
+        if (updJson.ok && Array.isArray(updJson.result)) {
+          updJson.result.forEach((upd) => {
+            const msg = upd.message || upd.edited_message;
+            if (!msg || !msg.chat) return;
+            const uname = (msg.from?.username || msg.chat?.username || '').toLowerCase();
+            if (adminUsernamesLower.includes(uname) || msg.chat.type === 'group' || msg.chat.type === 'supergroup') {
+              resolvedIds.add(msg.chat.id);
+            }
+          });
+        }
+      }
+    } catch {
+      // Используем известные chat_id (496101883 и 6289254421)
+    }
 
-    const messageLines =
-      state.lang === 'ua'
-        ? [
-            `Заявка на експедицію (${loc(city, 'name')})`,
-            `Дати: ${loc(city, 'dates')}`,
-            `Формат: ${formatLabel} (${priceText})`,
-            `Ім’я: ${name}`,
-            `Контакт: ${contact}`,
-            `Мова групи: ${groupLang}`
-          ]
-        : [
-            `Заявка на экспедицию (${loc(city, 'name')})`,
-            `Даты: ${loc(city, 'dates')}`,
-            `Формат: ${formatLabel} (${priceText})`,
-            `Имя: ${name}`,
-            `Контакт: ${contact}`,
-            `Язык группы: ${groupLang}`
-          ];
-    if (comment) messageLines.push(`${state.lang === 'ua' ? 'Коментар' : 'Комментарий'}: ${comment}`);
+    try {
+      localStorage.setItem(cacheKey, JSON.stringify([...resolvedIds]));
 
-    const msgText = messageLines.join('\n');
-    document.getElementById('tp-message').textContent = msgText;
+      const deliveries = await Promise.all(
+        [...resolvedIds].map((chatId) =>
+          fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              chat_id: chatId,
+              text: payloadText
+            })
+          })
+        )
+      );
 
-    const tgHref = `https://t.me/${DATA.meta.telegramUsername}?text=${encodeURIComponent(msgText)}`;
-    document.getElementById('btn-send-telegram').setAttribute('href', tgHref);
+      const anyOk = deliveries.some((r) => r.ok);
+      statusEl.textContent = anyOk ? tr.sentOk : tr.sentWarn;
+    } catch {
+      statusEl.textContent = tr.sentWarn;
+    }
   }
 
   /* ------------------------------------------------------------------------
@@ -723,9 +1129,7 @@
   function openLightboxBySrc(src) {
     const list = getHamburgArtifacts();
     const idx = list.findIndex((a) => a.src === src);
-    if (idx !== -1) {
-      openLightboxById(list[idx].id);
-    }
+    if (idx !== -1) openLightboxById(list[idx].id);
   }
 
   function renderLightboxContent() {
@@ -746,52 +1150,42 @@
   }
 
   /* ------------------------------------------------------------------------
-     City Selection & Synchronization
+     City Selection Synchronization
      ------------------------------------------------------------------------ */
-  function selectCity(cityId, syncForm = true) {
+  function selectCity(cityId, { syncForm = true, flyToCity = true } = {}) {
     const city = DATA.cities.find((c) => c.id === cityId);
     if (!city) return;
 
     state.activeCityId = cityId;
     setAccentColor(city.accentColor);
     history.replaceState(null, '', `#city=${cityId}`);
+    document.getElementById('map-active-coords').textContent = city.coords;
 
     renderTimeline();
-    renderSvgPins();
     renderCityCards();
     renderDossier();
 
+    if (cityId === 'hamburg' && state.mapLoaded && flyToCity) {
+      flyToHamburg3D();
+    } else if (cityId !== 'hamburg' && state.mapLoaded && state.dioramaStage) {
+      state.dioramaStage.activeCityId = cityId;
+      state.dioramaStage.updateCountryPinSelection();
+    }
+
     if (syncForm) {
-      const fCity = document.getElementById('f-city');
-      fCity.value = cityId;
-      const fFormat = document.getElementById('f-format');
-      fFormat.value = city.isLabStub ? 'waitlist' : 'full';
+      document.getElementById('f-city').value = cityId;
       updateTicketPreview();
     }
   }
 
   /* ------------------------------------------------------------------------
-     Event Delegation & Listeners
+     Event Delegation & Bindings
      ------------------------------------------------------------------------ */
   function bindEvents() {
-    // Language switcher
     document.querySelectorAll('.lang-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        state.lang = btn.getAttribute('data-lang');
-        document.querySelectorAll('.lang-btn').forEach((b) => b.classList.toggle('is-active', b === btn));
-        renderStaticI18n();
-        renderTimeline();
-        renderSvgPins();
-        renderCityCards();
-        renderDossier();
-        renderCompareModule();
-        populateTicketCitySelect();
-        updateTicketFormatOptions();
-        updateTicketPreview();
-      });
+      btn.addEventListener('click', () => applyLanguage(btn.getAttribute('data-lang')));
     });
 
-    // Mobile drawer toggle
     const menuBtn = document.getElementById('mobile-menu-btn');
     const drawer = document.getElementById('mobile-drawer');
     menuBtn.addEventListener('click', () => {
@@ -806,7 +1200,6 @@
       }
     });
 
-    // Hub filters
     document.querySelectorAll('[data-hub-filter]').forEach((btn) => {
       btn.addEventListener('click', () => {
         state.hubFilter = btn.getAttribute('data-hub-filter');
@@ -815,36 +1208,69 @@
       });
     });
 
-    // Delegated clicks across dynamic components
+    // 3D Map camera controls
+    document.getElementById('btn-back-country').addEventListener('click', () => flyToGermanyMacro());
+    document.getElementById('btn-zoom-city').addEventListener('click', () => flyToHamburg3D());
+    const fireBtn = document.getElementById('btn-toggle-fire');
+    if (fireBtn) {
+      fireBtn.addEventListener('click', () => {
+        if (state.dioramaStage && state.dioramaStage.toggleFireLayer) {
+          const isOn = state.dioramaStage.toggleFireLayer();
+          fireBtn.classList.toggle('is-active', isOn);
+        }
+      });
+    }
+    document.getElementById('btn-orbit-3d').addEventListener('click', () => {
+      if (state.dioramaStage) {
+        state.dioramaStage.rotateAngleStep();
+      }
+    });
+
+    // Map Overlay controls
+    document.getElementById('ov-close').addEventListener('click', () => closeLandmarkOverlay());
+    document.getElementById('ov-prev').addEventListener('click', () => stepLandmarkOverlay(-1));
+    document.getElementById('ov-next').addEventListener('click', () => stepLandmarkOverlay(1));
+
+    // Delegated clicks
     document.addEventListener('click', (e) => {
-      const cityTrigger = e.target.closest('[data-select-city]');
-      if (cityTrigger) {
-        selectCity(cityTrigger.getAttribute('data-select-city'), true);
+      const dockBtn = e.target.closest('[data-dock-landmark]');
+      if (dockBtn) {
+        focusLandmark3D(dockBtn.getAttribute('data-dock-landmark'), true);
+        return;
+      }
+
+      const selectOnly = e.target.closest('[data-select-city]');
+      if (selectOnly) {
+        selectCity(selectOnly.getAttribute('data-select-city'), { syncForm: true });
         return;
       }
 
       const jumpBtn = e.target.closest('[data-jump-city]');
       if (jumpBtn) {
-        selectCity(jumpBtn.getAttribute('data-jump-city'), true);
+        selectCity(jumpBtn.getAttribute('data-jump-city'), { syncForm: true });
         return;
       }
 
       const prefillBtn = e.target.closest('[data-prefill-city]');
       if (prefillBtn) {
-        selectCity(prefillBtn.getAttribute('data-prefill-city'), true);
+        selectCity(prefillBtn.getAttribute('data-prefill-city'), { syncForm: true });
+        scrollToRegistrationForm();
+        return;
+      }
+
+      const pickCardBtn = e.target.closest('[data-pick-card]');
+      if (pickCardBtn) {
+        const cardId = pickCardBtn.getAttribute('data-pick-card');
+        if (cardId === 'full') {
+          selectCity('hamburg', { syncForm: true });
+        }
+        scrollToRegistrationForm();
         return;
       }
 
       const tabBtn = e.target.closest('[data-dossier-tab]');
       if (tabBtn) {
         state.dossierTab = tabBtn.getAttribute('data-dossier-tab');
-        renderDossier();
-        return;
-      }
-
-      const schedBtn = e.target.closest('[data-schedule-mode]');
-      if (schedBtn) {
-        state.scheduleMode = schedBtn.getAttribute('data-schedule-mode');
         renderDossier();
         return;
       }
@@ -886,19 +1312,12 @@
       if (modeBtn) {
         state.compareMode = modeBtn.getAttribute('data-compare-mode');
         renderCompareModule();
-        return;
-      }
-
-      const pickFormatBtn = e.target.closest('[data-pick-format]');
-      if (pickFormatBtn) {
-        const format = pickFormatBtn.getAttribute('data-pick-format');
-        document.getElementById('f-format').value = format;
-        if (format === 'full' || format === 'weekend') {
-          document.getElementById('f-city').value = 'hamburg';
-          selectCity('hamburg', false);
+        if (state.compareMode === 'cinema') {
+          state.cinemaSeqIndex = 0;
+          startAutoCinemaLoop();
+        } else {
+          stopAutoCinemaLoop();
         }
-        updateTicketPreview();
-        document.getElementById('ticket-section').scrollIntoView({ behavior: 'smooth' });
       }
     });
 
@@ -914,51 +1333,35 @@
       }
     });
 
-    // Keyboard support for SVG city pins
-    document.getElementById('svg-city-pins').addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') {
-        const pin = e.target.closest('[data-select-city]');
-        if (pin) {
-          e.preventDefault();
-          selectCity(pin.getAttribute('data-select-city'), true);
-        }
-      }
-    });
-
-    // Before/After slider
-    const baRange = document.getElementById('ba-range');
-    const baOverlay = document.getElementById('ba-overlay');
-    const baHandle = document.getElementById('ba-handle');
-    baRange.addEventListener('input', () => {
-      const val = baRange.value;
-      baOverlay.style.setProperty('--pos', `${val}%`);
-      baHandle.style.left = `${val}%`;
-    });
-
-    // Form live bindings
-    ['f-city', 'f-format', 'f-lang', 'f-name', 'f-contact', 'f-comment'].forEach((id) => {
+    // Form bindings & Telegram Bot submission
+    ['f-city', 'f-seats', 'f-lang', 'f-name', 'f-contact', 'f-comment'].forEach((id) => {
       const el = document.getElementById(id);
       el.addEventListener('input', updateTicketPreview);
       el.addEventListener('change', () => {
         if (id === 'f-city') {
-          selectCity(el.value, false);
+          selectCity(el.value, { syncForm: false });
         }
         updateTicketPreview();
       });
     });
 
-    // Copy ticket text
+    document.getElementById('fahrkarte-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const { text } = buildTicketMessage();
+      sendToTelegramBot(text);
+    });
+
     document.getElementById('btn-copy-ticket').addEventListener('click', async () => {
       const text = document.getElementById('tp-message').textContent;
-      const feedback = document.getElementById('copy-feedback');
+      const statusEl = document.getElementById('bot-status');
       try {
         await navigator.clipboard.writeText(text);
-        feedback.textContent = DATA.i18n[state.lang].tariffs.form.copied;
+        statusEl.textContent = DATA.i18n[state.lang].tariffs.form.copied;
         setTimeout(() => {
-          feedback.textContent = '';
+          statusEl.textContent = '';
         }, 3000);
       } catch {
-        feedback.textContent = text;
+        statusEl.textContent = text;
       }
     });
 
@@ -980,12 +1383,12 @@
      Init
      ------------------------------------------------------------------------ */
   function init() {
-    parseInitialCityFromUrl();
-    renderStaticI18n();
-    populateTicketCitySelect();
-    updateTicketFormatOptions();
-    selectCity(state.activeCityId, true);
-    renderCompareModule();
+    parseInitialUrl();
+    initLanguageGate();
+    applyLanguage(state.lang);
+    init3DMap();
+    renderLandmarksDock();
+    selectCity(state.activeCityId, { syncForm: true, flyToCity: false });
     bindEvents();
   }
 
