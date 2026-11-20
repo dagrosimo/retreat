@@ -8,18 +8,21 @@
   if (!DATA) return;
 
   const state = {
-    lang: 'ru',
+    lang: 'en',
     activeCityId: 'hamburg',
     mapView: 'city', // 'country' | 'city' (сосредоточены на 3D Гамбурге)
     activeLandmarkId: null,
     hubFilter: 'all',
     dossierTab: 'story',
     archiveFilter: 'all',
-    compareMode: 'pins', // 'pins' | 'cinema'
+    compareView: 'closeup', // 'closeup' | 'full'
+    compareAutoPlay: true,
+    compareTimer: null,
+    compareInView: false,
     activePlate: 'plate1843a',
     activePersonId: 'p1',
-    cinemaSeqIndex: 0,
-    cinemaTimer: null,
+    reelIndex: 0,
+    reelTimer: null,
     lightboxList: [],
     lightboxIndex: 0,
     mapInstance: null,
@@ -33,7 +36,7 @@
   function loc(obj, baseKey) {
     if (!obj) return '';
     const map = { ru: 'Ru', ua: 'Ua', de: 'De', en: 'En' };
-    const suffix = map[state.lang] || 'Ru';
+    const suffix = map[state.lang] || 'En';
     return obj[baseKey + suffix] ?? obj[baseKey + 'En'] ?? obj[baseKey + 'Ru'] ?? obj[baseKey] ?? '';
   }
 
@@ -84,28 +87,6 @@
     }
   }
 
-  /* ------------------------------------------------------------------------
-     Language Gate (Pre-entry screen)
-     ------------------------------------------------------------------------ */
-  function initLanguageGate() {
-    const gate = document.getElementById('lang-gate');
-    const saved = sessionStorage.getItem('sg_exp_lang');
-    if (saved && ['ru', 'ua', 'de', 'en'].includes(saved)) {
-      gate.hidden = true;
-    } else {
-      gate.hidden = false;
-    }
-
-    document.querySelectorAll('[data-pick-lang]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        const chosen = btn.getAttribute('data-pick-lang');
-        sessionStorage.setItem('sg_exp_lang', chosen);
-        applyLanguage(chosen);
-        gate.hidden = true;
-      });
-    });
-  }
-
   function applyLanguage(lang) {
     if (!['ru', 'ua', 'de', 'en'].includes(lang)) return;
     state.lang = lang;
@@ -120,7 +101,7 @@
     if (state.activeLandmarkId) renderLandmarkOverlay(state.activeLandmarkId);
     renderDossier();
     renderCompareModule();
-    renderCinemaSequenceStep();
+    renderHeroReelSlide(state.reelIndex);
     populateTicketCitySelect();
     updateTicketFormSelects();
     updateTicketPreview();
@@ -132,10 +113,6 @@
   function renderStaticI18n() {
     const tr = DATA.i18n[state.lang];
     document.documentElement.lang = state.lang === 'ua' ? 'uk' : state.lang;
-
-    document.getElementById('gate-eyebrow').textContent = tr.gate.eyebrow;
-    document.getElementById('gate-title').textContent = tr.gate.title;
-    document.getElementById('gate-subtitle').textContent = tr.gate.subtitle;
 
     document.getElementById('top-strip-text').textContent = tr.topStrip;
     document.getElementById('top-strip-right').textContent = tr.topStripRight;
@@ -160,6 +137,48 @@
     document.getElementById('triptych-cap-1').textContent = tr.hero.triptych[0];
     document.getElementById('triptych-cap-2').textContent = tr.hero.triptych[1];
     document.getElementById('triptych-cap-3').textContent = tr.hero.triptych[2];
+
+    const mobileHeroMeta = {
+      en: {
+        reelBadge: 'HAMBURG · JAN 28–31, 2027',
+        facts: 'HAMBURG · JAN 28–31, 2027 · 4–10 GUESTS · SHARED HOTEL',
+        stickyCity: 'HAMBURG · JAN 28–31',
+        stickySub: '4–10 guests · No payment now',
+        stickyBtn: 'Pre-Register →'
+      },
+      de: {
+        reelBadge: 'HAMBURG · 28.–31. JAN 2027',
+        facts: 'HAMBURG · 28.–31. JAN 2027 · 4–10 PERS. · GEMEINSAMES HOTEL',
+        stickyCity: 'HAMBURG · 28.–31. JAN',
+        stickySub: '4–10 Pers. · Unverbindlich',
+        stickyBtn: 'Vormerken →'
+      },
+      ru: {
+        reelBadge: 'ГАМБУРГ · 28–31 ЯНВ 2027',
+        facts: 'ГАМБУРГ · 28–31 ЯНВ 2027 · 4–10 ЧЕЛ. · ЕДИНЫЙ ОТЕЛЬ',
+        stickyCity: 'ГАМБУРГ · 28–31 ЯНВ',
+        stickySub: '4–10 чел. · Без оплаты сейчас',
+        stickyBtn: 'Предзапись →'
+      },
+      ua: {
+        reelBadge: 'ГАМБУРГ · 28–31 СІЧ 2027',
+        facts: 'ГАМБУРГ · 28–31 СІЧ 2027 · 4–10 ОСІБ · ЄДИНИЙ ГОТЕЛЬ',
+        stickyCity: 'ГАМБУРГ · 28–31 СІЧ',
+        stickySub: '4–10 осіб · Без оплати зараз',
+        stickyBtn: 'Передзапис →'
+      }
+    }[state.lang];
+
+    const reelBadgeEl = document.getElementById('reel-badge-dates');
+    const mobileFactsEl = document.getElementById('hero-mobile-facts');
+    const stickyCityEl = document.getElementById('sticky-city-label');
+    const stickySubEl = document.getElementById('sticky-sub-label');
+    const stickyBtnEl = document.getElementById('sticky-cta-btn');
+    if (reelBadgeEl) reelBadgeEl.textContent = mobileHeroMeta.reelBadge;
+    if (mobileFactsEl) mobileFactsEl.textContent = mobileHeroMeta.facts;
+    if (stickyCityEl) stickyCityEl.textContent = mobileHeroMeta.stickyCity;
+    if (stickySubEl) stickySubEl.textContent = mobileHeroMeta.stickySub;
+    if (stickyBtnEl) stickyBtnEl.textContent = mobileHeroMeta.stickyBtn;
 
     // Principles
     document.getElementById('principles-eyebrow').textContent = tr.principles.eyebrow;
@@ -230,12 +249,28 @@
     document.getElementById('map-meta-label').textContent =
       state.mapView === 'city' ? tr.hub.mapMetaCity : tr.hub.mapMetaCountry;
 
-    // Compare & Cinema
+    // Compare & Unified Live Face Study
     document.getElementById('compare-eyebrow').textContent = tr.compare.eyebrow;
     document.getElementById('compare-title').textContent = tr.compare.title;
     document.getElementById('compare-lead').textContent = tr.compare.lead;
-    document.getElementById('btn-mode-pins').textContent = tr.compare.modePins;
-    document.getElementById('btn-mode-cinema').textContent = tr.compare.modeCinema;
+
+    const cmpControls = {
+      en: { closeup: 'Close-Up: 1840 ↔ 1843', full: 'Full Canvas (Pins)', b1840: '1840 · PAINTING', b1843: '1843 · DAGUERREOTYPE' },
+      de: { closeup: 'Nahaufnahme: 1840 ↔ 1843', full: 'Gesamtansicht (Pins)', b1840: '1840 · GEMÄLDE', b1843: '1843 · DAGUERREOTYPIE' },
+      ru: { closeup: 'Крупный план: 1840 ↔ 1843', full: 'Общий план (пины)', b1840: '1840 · ХОЛСТ', b1843: '1843 · ДАГЕРОТИП' },
+      ua: { closeup: 'Великий план: 1840 ↔ 1843', full: 'Загальний план (піни)', b1840: '1840 · ПОЛОТНО', b1843: '1843 · ДАГЕРОТИП' }
+    }[state.lang];
+
+    const btnCloseup = document.getElementById('btn-compare-closeup');
+    const btnFull = document.getElementById('btn-compare-full');
+    const badge1840 = document.getElementById('badge-1840');
+    const badge1843 = document.getElementById('badge-1843');
+    if (btnCloseup) btnCloseup.textContent = cmpControls.closeup;
+    if (btnFull) btnFull.textContent = cmpControls.full;
+    if (badge1840) badge1840.textContent = cmpControls.b1840;
+    if (badge1843) badge1843.textContent = cmpControls.b1843;
+    updateAutoPlayButtonLabel();
+
     document.getElementById('btn-plate-1843a').textContent = tr.compare.plateButtons.plate1843a;
     document.getElementById('btn-plate-1843b').textContent = tr.compare.plateButtons.plate1843b;
     document.getElementById('btn-plate-1842ruins').textContent = tr.compare.plateButtons.plate1842ruins;
@@ -634,17 +669,22 @@
       bodyHtml = `
         <div class="acts-container">
           ${city.acts
-            .map((act) => {
+            .map((act, idx) => {
               const paras = loc(act, 'paragraphs') || act.paragraphsRu;
               return `
-              <article class="act-block act-block--${act.tone}">
+              <article class="act-block act-block--${act.tone} ${idx === 0 ? 'is-expanded' : ''}" data-mobile-accordion>
                 <div class="act-text">
-                  <div class="act-num">${act.num}</div>
-                  <h3 class="act-title">${loc(act, 'title')}</h3>
-                  ${paras.map((p) => `<p>${p}</p>`).join('')}
-                  <div class="act-museum-plate">${loc(act, 'museumPlate')}</div>
+                  <button type="button" class="mobile-acc-head" data-toggle-acc aria-expanded="${idx === 0 ? 'true' : 'false'}">
+                    <span class="act-num">${loc(act, 'num') || act.num}</span>
+                    <span class="act-title">${loc(act, 'title')}</span>
+                    <span class="mobile-acc-chevron" aria-hidden="true"></span>
+                  </button>
+                  <div class="mobile-acc-body">
+                    ${paras.map((p) => `<p>${p}</p>`).join('')}
+                    <div class="act-museum-plate">${loc(act, 'museumPlate')}</div>
+                  </div>
                 </div>
-                <figure class="act-figure" data-lightbox-src="${act.image}">
+                <figure class="act-figure mobile-acc-body" data-lightbox-src="${act.image}">
                   <img src="${act.image}" alt="${loc(act, 'imageCaption')}" loading="lazy" />
                   <figcaption>${loc(act, 'imageCaption')}</figcaption>
                 </figure>
@@ -653,12 +693,19 @@
             .join('')}
         </div>`;
     } else if (state.dossierTab === 'schedule') {
+      const dayMetaBadge = {
+        en: '4–10 PARTICIPANTS · HOTEL + CONFERENCE HALL',
+        de: '4–10 TEILNEHMENDE · HOTEL + KONFERENZRAUM',
+        ru: '4–10 УЧАСТНИКОВ · ОТЕЛЬ + КОНФЕРЕНЦ-ЗАЛ',
+        ua: '4–10 УЧАСНИКІВ · ГОТЕЛЬ + КОНФЕРЕНЦ-ЗАЛ'
+      }[state.lang];
+
       bodyHtml = `
         <div class="schedule-panel">
           <div class="weekend-callout">${tr.scheduleNotice}</div>
           <div class="days-grid">
             ${city.days
-              .map((day) => {
+              .map((day, idx) => {
                 const slotLabels =
                   day.dayNum === 1
                     ? {
@@ -670,32 +717,39 @@
                     : day.dayNum === 4
                     ? {
                         ru: ['УТРО · ФИНАЛЬНАЯ ЛЕКЦИЯ В ЗАЛЕ', 'ДЕНЬ · ВЫСЕЛЕНИЕ И ОТЪЕЗД', 'ПОСЛЕ · АРХИВ И ИСТОЧНИКИ'],
-                        ua: ['РАНОК · ФІНАЛЬНА ЛЕКЦІЯ В ЗАЛІ', 'ДЕНЬ · ВИСЕЛЕННЯ І ВІД’ЇЗД', 'ПІСЛЯ · АРХІВ І ДЖЕРЕЛА'],
+                        ua: ['РАНОК · ФІНАЛЬНА ЛЕКЦІЯ В ЗАЛІ', 'ДЕНЬ · ВИСЕЛЕННЯ І ВІД’ЇЗД', 'ПІСЛЯ · АРХИВ І ДЖЕРЕЛА'],
                         de: ['MORGEN · ABSCHLUSSVORLESUNG', 'TAG · CHECK-OUT & ABREISE', 'DANACH · LITERATUR & NOTIZEN'],
                         en: ['MORNING · CLOSING LECTURE', 'AFTERNOON · CHECK-OUT & DEPARTURE', 'FOLLOW-UP · ARCHIVE & READING LIST']
                       }[state.lang]
                     : [tr.blocks.morning, tr.blocks.afternoon, tr.blocks.evening];
 
                 return `
-              <article class="day-card">
-                <div class="day-card__top">
-                  <span class="mono-label">${loc(day, 'weekday')}</span>
-                  <span class="mono-label">4–10 PARTICIPANTS · HOTEL + CONFERENCE HALL</span>
-                </div>
-                <h3 class="day-card__title">${loc(day, 'title')}</h3>
-                <p class="day-card__lead">${loc(day, 'lead')}</p>
-                <div class="day-slots">
-                  <div class="day-slot">
-                    <h4>${slotLabels[0]}</h4>
-                    <p>${loc(day, 'morning')}</p>
+              <article class="day-card ${idx === 0 ? 'is-expanded' : ''}" data-mobile-accordion>
+                <button type="button" class="day-card__trigger" data-toggle-acc aria-expanded="${idx === 0 ? 'true' : 'false'}">
+                  <div class="day-card__top">
+                    <span class="mono-label">${loc(day, 'weekday')}</span>
+                    <span class="mono-label day-card__meta">${dayMetaBadge}</span>
                   </div>
-                  <div class="day-slot">
-                    <h4>${slotLabels[1]}</h4>
-                    <p>${loc(day, 'afternoon')}</p>
+                  <div class="day-card__title-row">
+                    <h3 class="day-card__title">${loc(day, 'title')}</h3>
+                    <span class="mobile-acc-chevron" aria-hidden="true"></span>
                   </div>
-                  <div class="day-slot">
-                    <h4>${slotLabels[2]}</h4>
-                    <p>${loc(day, 'evening')}</p>
+                </button>
+                <div class="mobile-acc-body">
+                  <p class="day-card__lead">${loc(day, 'lead')}</p>
+                  <div class="day-slots">
+                    <div class="day-slot">
+                      <h4>${slotLabels[0]}</h4>
+                      <p>${loc(day, 'morning')}</p>
+                    </div>
+                    <div class="day-slot">
+                      <h4>${slotLabels[1]}</h4>
+                      <p>${loc(day, 'afternoon')}</p>
+                    </div>
+                    <div class="day-slot">
+                      <h4>${slotLabels[2]}</h4>
+                      <p>${loc(day, 'evening')}</p>
+                    </div>
                   </div>
                 </div>
               </article>`;
@@ -736,8 +790,124 @@
   }
 
   /* ------------------------------------------------------------------------
-     Deepened Heroes & Clean Auto-Running Cinema Video (1840 -> 1843)
+     Mobile Hero Live Montage (Variant A: 1840 -> 1842 -> 1843)
      ------------------------------------------------------------------------ */
+  const REEL_YEARS = ['1840', '1842', '1843'];
+
+  function renderHeroReelSlide(index) {
+    const reel = document.getElementById('hero-mobile-reel');
+    if (!reel) return;
+    const tr = DATA.i18n[state.lang].hero;
+    const idx = ((index % 3) + 3) % 3;
+    state.reelIndex = idx;
+
+    reel.querySelectorAll('.hero-reel__slide').forEach((img, i) => {
+      img.classList.toggle('is-active', i === idx);
+    });
+    reel.querySelectorAll('.hero-reel__bar').forEach((bar, i) => {
+      bar.classList.toggle('is-active', i === idx);
+      bar.classList.toggle('is-done', i < idx);
+    });
+
+    const yearEl = document.getElementById('reel-year');
+    const capEl = document.getElementById('reel-cap');
+    if (yearEl) yearEl.textContent = REEL_YEARS[idx];
+    if (capEl) capEl.textContent = tr.triptych[idx] || '';
+  }
+
+  function startHeroReelLoop() {
+    if (state.reelTimer) clearInterval(state.reelTimer);
+    renderHeroReelSlide(state.reelIndex);
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    state.reelTimer = setInterval(() => {
+      renderHeroReelSlide(state.reelIndex + 1);
+    }, 3400);
+  }
+
+  /* ------------------------------------------------------------------------
+     Mobile Sticky CTA Bar (Appears after Hero, hides at Registration Form)
+     ------------------------------------------------------------------------ */
+  function initMobileStickyCta() {
+    const bar = document.getElementById('mobile-sticky-cta');
+    const hero = document.getElementById('hero-section');
+    const ticket = document.getElementById('ticket-section');
+    if (!bar || !hero || !ticket || !('IntersectionObserver' in window)) return;
+
+    let heroVisible = true;
+    let ticketVisible = false;
+
+    const syncBar = () => {
+      const show = !heroVisible && !ticketVisible;
+      bar.classList.toggle('is-visible', show);
+      bar.setAttribute('aria-hidden', String(!show));
+    };
+
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.target === hero) heroVisible = entry.isIntersecting;
+          if (entry.target === ticket) ticketVisible = entry.isIntersecting;
+        });
+        syncBar();
+      },
+      { threshold: 0.08 }
+    );
+    obs.observe(hero);
+    obs.observe(ticket);
+  }
+
+  /* ------------------------------------------------------------------------
+     Unified Synchronized 1840 <-> 1843 Face Study & Auto-Tour
+     ------------------------------------------------------------------------ */
+  function updateAutoPlayButtonLabel() {
+    const btn = document.getElementById('btn-compare-autoplay');
+    if (!btn) return;
+    const labels = {
+      en: state.compareAutoPlay ? '⏸ Auto-Tour' : '▶ Play Tour',
+      de: state.compareAutoPlay ? '⏸ Auto-Tour' : '▶ Tour starten',
+      ru: state.compareAutoPlay ? '⏸ Авто-обход' : '▶ Кино-обход',
+      ua: state.compareAutoPlay ? '⏸ Авто-огляд' : '▶ Кіно-огляд'
+    }[state.lang];
+    btn.textContent = labels;
+    btn.classList.toggle('is-active', state.compareAutoPlay);
+    btn.setAttribute('aria-pressed', String(state.compareAutoPlay));
+  }
+
+  function applyCompareZoom() {
+    const fc = DATA.faceComparison;
+    const person = fc.persons.find((p) => p.id === state.activePersonId) || fc.persons[1];
+    const img1840 = document.getElementById('compare-1840-img');
+    const img1843 = document.getElementById('compare-1843-img');
+    const wrap = document.getElementById('compare-pins-view');
+    if (!img1840 || !img1843 || !wrap) return;
+
+    const canZoomPair = state.compareView === 'closeup' && person && person.onCanvas;
+    wrap.classList.toggle('is-closeup', state.compareView === 'closeup');
+    wrap.classList.toggle('is-full-canvas', state.compareView === 'full');
+
+    if (canZoomPair) {
+      const scale = 2.55;
+      const tx40 = Math.max(-30, Math.min(30, 50 - person.face1840.x));
+      const ty40 = Math.max(-28, Math.min(28, 50 - person.face1840.y));
+      img1840.style.transform = `scale(${scale}) translate(${tx40}%, ${ty40}%)`;
+
+      if (state.activePlate === 'plate1843a') {
+        const tx43 = Math.max(-30, Math.min(30, 50 - person.face1843.x));
+        const ty43 = Math.max(-28, Math.min(28, 50 - person.face1843.y));
+        img1843.style.transform = `scale(${scale}) translate(${tx43}%, ${ty43}%)`;
+      } else {
+        img1843.style.transform = 'scale(1) translate(0%, 0%)';
+      }
+    } else {
+      img1840.style.transform = 'scale(1) translate(0%, 0%)';
+      img1843.style.transform = 'scale(1) translate(0%, 0%)';
+    }
+
+    document.querySelectorAll('[data-compare-view]').forEach((b) => {
+      b.classList.toggle('is-active', b.getAttribute('data-compare-view') === state.compareView);
+    });
+  }
+
   function renderCompareModule() {
     const fc = DATA.faceComparison;
     const tr = DATA.i18n[state.lang].compare;
@@ -755,7 +925,7 @@
     img1843.src = plateMap[state.activePlate] || fc.daguerreotype1843a;
     if (state.activePlate === 'plate1843a') {
       cap1843.textContent = tr.caption1843;
-      hotspots1843.style.display = 'block';
+      hotspots1843.style.display = '';
     } else if (state.activePlate === 'plate1843b') {
       cap1843.textContent = tr.plateButtons.plate1843b;
       hotspots1843.style.display = 'none';
@@ -814,14 +984,6 @@
       .join('');
 
     updateActivePersonUI();
-
-    const pinsView = document.getElementById('compare-pins-view');
-    const cinemaView = document.getElementById('compare-cinema-view');
-    pinsView.hidden = state.compareMode !== 'pins';
-    cinemaView.hidden = state.compareMode !== 'cinema';
-    document.querySelectorAll('[data-compare-mode]').forEach((b) => {
-      b.classList.toggle('is-active', b.getAttribute('data-compare-mode') === state.compareMode);
-    });
   }
 
   function updateActivePersonUI() {
@@ -872,102 +1034,52 @@
             .join('')}
         </div>
       </div>`;
+
+    applyCompareZoom();
   }
 
-  /* Автоматическое видео-приближение лиц: сначала проходит по картине 1840 г., затем по дагеротипу 1843 г. */
-  function buildCinemaSequence() {
-    const fc = DATA.faceComparison;
-    const persons = fc.persons.filter((p) => p.onCanvas);
-    const seq = [];
+  function startCompareAutoTour() {
+    stopCompareAutoTour();
+    if (!state.compareAutoPlay || !state.compareInView) return;
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // 1. Общий план картины 1840 г. + 5 лиц по очереди
-    seq.push({ era: '1840', isOverview: true, src: fc.painting1840, person: null });
-    persons.forEach((p) => {
-      seq.push({ era: '1840', isOverview: false, src: fc.painting1840, person: p, face: p.face1840 });
-    });
+    const canvasIds = DATA.faceComparison.persons.filter((p) => p.onCanvas).map((p) => p.id);
+    if (!canvasIds.length) return;
 
-    // 2. Общий план дагеротипа 1843 г. + 5 лиц по очереди
-    seq.push({ era: '1843', isOverview: true, src: fc.daguerreotype1843a, person: null });
-    persons.forEach((p) => {
-      seq.push({ era: '1843', isOverview: false, src: fc.daguerreotype1843a, person: p, face: p.face1843 });
-    });
-
-    return seq;
+    state.compareTimer = setInterval(() => {
+      if (!state.compareAutoPlay || !state.compareInView) return;
+      const cur = canvasIds.indexOf(state.activePersonId);
+      const next = canvasIds[(cur + 1) % canvasIds.length];
+      state.activePersonId = next;
+      state.activePlate = 'plate1843a';
+      updateActivePersonUI();
+    }, 3800);
   }
 
-  function renderCinemaSequenceStep() {
-    const seq = buildCinemaSequence();
-    const step = seq[state.cinemaSeqIndex % seq.length];
-    if (!step) return;
-
-    const imgEl = document.getElementById('cinema-img');
-    const plaque = document.getElementById('cinema-floating-plaque');
-    const bar = document.getElementById('cinema-progress-bar');
-
-    if (imgEl.getAttribute('src') !== step.src) {
-      imgEl.style.opacity = '0.25';
-      setTimeout(() => {
-        imgEl.src = step.src;
-        imgEl.style.opacity = '1';
-      }, 220);
+  function stopCompareAutoTour() {
+    if (state.compareTimer) {
+      clearInterval(state.compareTimer);
+      state.compareTimer = null;
     }
-
-    if (step.isOverview) {
-      imgEl.style.transform = 'scale(1.03) translate(0%, 0%)';
-      plaque.classList.add('is-overview');
-      const eraLabel1840 = {
-        ru: ['1840 · МАСЛО, ХОЛСТ', 'Гамбургское общество художников', 'За два года до Великого пожара (Гюнтер Генслер)'],
-        ua: ['1840 · ОЛІЯ, ПОЛОТНО', 'Гамбурзьке товариство художників', 'За два роки до Великої пожежі (Гюнтер Генслер)'],
-        de: ['1840 · ÖL AUF LEINWAND', 'Hamburger Künstlerverein', 'Zwei Jahre vor dem Großen Brand (Günther Gensler)'],
-        en: ['1840 · OIL ON CANVAS', 'Hamburg Artists’ Association', 'Two years before the Great Fire (Günther Gensler)']
-      }[state.lang];
-      const eraLabel1843 = {
-        ru: ['6 МАЯ 1843 · СЕРЕБРЯНЫЙ ДАГЕРОТИП', 'Те же мастера год спустя после пожара', 'Сад на Caffamacherreihe (Карл Фердинанд Штельцнер)'],
-        ua: ['6 ТРАВНЯ 1843 · СРІБНИЙ ДАГЕРОТИП', 'Ті самі майстри рік потому після пожежі', 'Сад на Caffamacherreihe (Карл Фердинанд Штельцнер)'],
-        de: ['6. MAI 1843 · DAGUERREOTYPIE', 'Dieselben Künstler ein Jahr nach dem Brand', 'Im Garten an der Caffamacherreihe (C. F. Stelzner)'],
-        en: ['MAY 6, 1843 · SILVER DAGUERREOTYPE', 'The surviving artists one year after the fire', 'Garden at Caffamacherreihe (C. F. Stelzner)']
-      }[state.lang];
-      const labels = step.era === '1840' ? eraLabel1840 : eraLabel1843;
-      document.getElementById('cinema-plate-tag').textContent = labels[0];
-      document.getElementById('cinema-person-name').textContent = labels[1];
-      document.getElementById('cinema-person-quote').textContent = labels[2];
-    } else {
-      plaque.classList.remove('is-overview');
-      // Точное центрирование лица (x%, y%) в кадре 6:5
-      const scale = 2.45;
-      const tx = Math.max(-28, Math.min(28, 50 - step.face.x));
-      const ty = Math.max(-26, Math.min(26, 50 - step.face.y));
-      imgEl.style.transform = `scale(${scale}) translate(${tx}%, ${ty}%)`;
-
-      const eraPrefix =
-        step.era === '1840'
-          ? { ru: '1840 · КИСТЬ ГЕНСЛЕРА', ua: '1840 · ПЕНЗЕЛЬ ГЕНСЛЕРА', de: '1840 · GEMÄLDE', en: '1840 · PAINTING' }[state.lang]
-          : { ru: '1843 · СЕРЕБРО ДАГЕРОТИПА', ua: '1843 · СРІБЛО ДАГЕРОТИПА', de: '1843 · DAGUERREOTYPIE', en: '1843 · DAGUERREOTYPE' }[state.lang];
-
-      document.getElementById('cinema-plate-tag').textContent = `${eraPrefix} · №${step.person.num}`;
-      document.getElementById('cinema-person-name').textContent = `${loc(step.person, 'name')} (${step.person.years})`;
-      document.getElementById('cinema-person-quote').textContent = loc(step.person, 'role');
-    }
-
-    const pct = Math.round((((state.cinemaSeqIndex % seq.length) + 1) / seq.length) * 100);
-    if (bar) bar.style.width = `${pct}%`;
   }
 
-  function startAutoCinemaLoop() {
-    stopAutoCinemaLoop();
-    renderCinemaSequenceStep();
-    state.cinemaTimer = setInterval(() => {
-      const seq = buildCinemaSequence();
-      state.cinemaSeqIndex = (state.cinemaSeqIndex + 1) % seq.length;
-      renderCinemaSequenceStep();
-    }, 3200);
-  }
-
-  function stopAutoCinemaLoop() {
-    if (state.cinemaTimer) {
-      clearInterval(state.cinemaTimer);
-      state.cinemaTimer = null;
-    }
+  function initCompareObserver() {
+    const sec = document.getElementById('compare');
+    if (!sec || !('IntersectionObserver' in window)) return;
+    const obs = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          state.compareInView = entry.isIntersecting;
+          if (state.compareInView && state.compareAutoPlay) {
+            startCompareAutoTour();
+          } else {
+            stopCompareAutoTour();
+          }
+        });
+      },
+      { threshold: 0.2 }
+    );
+    obs.observe(sec);
   }
 
   /* ------------------------------------------------------------------------
@@ -1001,23 +1113,70 @@
     const cityId = document.getElementById('f-city').value || state.activeCityId;
     const city = DATA.cities.find((c) => c.id === cityId) || DATA.cities[0];
     const seats = document.getElementById('f-seats').value || '1';
-    const groupLang = document.getElementById('f-lang').value || 'RU';
+    const groupLang = document.getElementById('f-lang').value || 'EN';
     const guestFallback = { ru: 'Гость', ua: 'Гість', de: 'Gast', en: 'Guest' }[state.lang];
     const name = document.getElementById('f-name').value.trim() || guestFallback;
     const contact = document.getElementById('f-contact').value.trim() || '—';
     const comment = document.getElementById('f-comment').value.trim();
 
+    const msgDict = {
+      en: {
+        head: '📌 EXPEDITION PRE-REGISTRATION · 2027',
+        city: 'City',
+        dates: 'Dates',
+        format: 'Format: Unified 4-day / 3-night expedition (shared hotel)',
+        seats: 'Seats',
+        lang: 'Group language',
+        name: 'Name',
+        contact: 'Contact',
+        comment: 'Comment'
+      },
+      de: {
+        head: '📌 VORANMELDUNG EXPEDITION · 2027',
+        city: 'Stadt',
+        dates: 'Termine',
+        format: 'Format: 4 Tage / 3 Nächte (gemeinsames Hotel)',
+        seats: 'Plätze',
+        lang: 'Gruppensprache',
+        name: 'Name',
+        contact: 'Kontakt',
+        comment: 'Kommentar'
+      },
+      ru: {
+        head: '📌 ПРЕДЗАПИСЬ НА ЭКСПЕДИЦИЮ · 2027',
+        city: 'Город',
+        dates: 'Даты',
+        format: 'Формат: Единая программа (4 дня / 3 ночи, общий отель)',
+        seats: 'Количество мест',
+        lang: 'Язык группы',
+        name: 'Имя',
+        contact: 'Контакт',
+        comment: 'Комментарий'
+      },
+      ua: {
+        head: '📌 ПОПЕРЕДНІЙ ЗАПИС НА ЕКСПЕДИЦІЮ · 2027',
+        city: 'Місто',
+        dates: 'Дати',
+        format: 'Формат: Єдина програма (4 дні / 3 ночі, спільний готель)',
+        seats: 'Кількість місць',
+        lang: 'Мова групи',
+        name: 'Ім’я',
+        contact: 'Контакт',
+        comment: 'Коментар'
+      }
+    }[state.lang];
+
     const lines = [
-      `📌 ПРЕДЗАПИСЬ НА ЭКСПЕДИЦИЮ · 2027`,
-      `Город: ${loc(city, 'name')}`,
-      `Даты: ${loc(city, 'dates')}`,
-      `Формат: Единая программа (4 дня / 3 ночи, общий отель)`,
-      `Количество мест: ${seats}`,
-      `Язык группы: ${groupLang}`,
-      `Имя: ${name}`,
-      `Контакт: ${contact}`
+      msgDict.head,
+      `${msgDict.city}: ${loc(city, 'name')}`,
+      `${msgDict.dates}: ${loc(city, 'dates')}`,
+      msgDict.format,
+      `${msgDict.seats}: ${seats}`,
+      `${msgDict.lang}: ${groupLang}`,
+      `${msgDict.name}: ${name}`,
+      `${msgDict.contact}: ${contact}`
     ];
-    if (comment) lines.push(`Комментарий: ${comment}`);
+    if (comment) lines.push(`${msgDict.comment}: ${comment}`);
 
     return {
       city,
@@ -1294,9 +1453,36 @@
         return;
       }
 
+      const reelPick = e.target.closest('[data-reel-pick]');
+      if (reelPick) {
+        const idx = parseInt(reelPick.getAttribute('data-reel-pick'), 10);
+        if (!Number.isNaN(idx)) {
+          state.reelIndex = idx;
+          startHeroReelLoop();
+        }
+        return;
+      }
+
+      const accBtn = e.target.closest('[data-toggle-acc]');
+      if (accBtn) {
+        const card = accBtn.closest('[data-mobile-accordion]');
+        if (card) {
+          const isOpen = card.classList.toggle('is-expanded');
+          accBtn.setAttribute('aria-expanded', String(isOpen));
+        }
+        return;
+      }
+
       const personBtn = e.target.closest('[data-person-id]');
       if (personBtn) {
+        const isPinClick = personBtn.classList.contains('hotspot-pin');
         state.activePersonId = personBtn.getAttribute('data-person-id');
+        state.compareAutoPlay = false;
+        stopCompareAutoTour();
+        updateAutoPlayButtonLabel();
+        if (isPinClick) {
+          state.compareView = 'closeup';
+        }
         updateActivePersonUI();
         return;
       }
@@ -1304,19 +1490,31 @@
       const plateBtn = e.target.closest('[data-plate]');
       if (plateBtn) {
         state.activePlate = plateBtn.getAttribute('data-plate');
+        state.compareAutoPlay = false;
+        stopCompareAutoTour();
+        updateAutoPlayButtonLabel();
         renderCompareModule();
         return;
       }
 
-      const modeBtn = e.target.closest('[data-compare-mode]');
-      if (modeBtn) {
-        state.compareMode = modeBtn.getAttribute('data-compare-mode');
-        renderCompareModule();
-        if (state.compareMode === 'cinema') {
-          state.cinemaSeqIndex = 0;
-          startAutoCinemaLoop();
+      const viewBtn = e.target.closest('[data-compare-view]');
+      if (viewBtn) {
+        state.compareView = viewBtn.getAttribute('data-compare-view');
+        applyCompareZoom();
+        return;
+      }
+
+      const autoBtn = e.target.closest('#btn-compare-autoplay');
+      if (autoBtn) {
+        state.compareAutoPlay = !state.compareAutoPlay;
+        updateAutoPlayButtonLabel();
+        if (state.compareAutoPlay) {
+          state.compareView = 'closeup';
+          state.activePlate = 'plate1843a';
+          renderCompareModule();
+          startCompareAutoTour();
         } else {
-          stopAutoCinemaLoop();
+          stopCompareAutoTour();
         }
       }
     });
@@ -1384,12 +1582,14 @@
      ------------------------------------------------------------------------ */
   function init() {
     parseInitialUrl();
-    initLanguageGate();
     applyLanguage(state.lang);
     init3DMap();
     renderLandmarksDock();
     selectCity(state.activeCityId, { syncForm: true, flyToCity: false });
     bindEvents();
+    startHeroReelLoop();
+    initMobileStickyCta();
+    initCompareObserver();
   }
 
   init();

@@ -481,7 +481,7 @@
       this.onModeChange = opts.onModeChange || function () {};
       this.getLandmarksData = opts.getLandmarksData || function () { return []; };
       this.getCitiesData = opts.getCitiesData || function () { return []; };
-      this.getLang = opts.getLang || function () { return 'ru'; };
+      this.getLang = opts.getLang || function () { return 'en'; };
       this.loc = opts.loc || function (obj, key) { return obj[key]; };
 
       this.mode = 'city'; // 'city' | 'country'
@@ -508,17 +508,23 @@
       if (!window.maplibregl) return;
       this.container.innerHTML = '';
 
+      const isMobile =
+        window.matchMedia &&
+        window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
+      const startZoom = (this.container.clientWidth || 640) < 520 ? 13.15 : HAMBURG_VIEW.zoom;
+
       this.map = new window.maplibregl.Map({
         container: this.container,
         style: buildArchivalStyle(),
         center: HAMBURG_VIEW.center,
-        zoom: HAMBURG_VIEW.zoom,
+        zoom: startZoom,
         pitch: HAMBURG_VIEW.pitch,
         bearing: HAMBURG_VIEW.bearing,
-        minZoom: 12.2,
+        minZoom: 12.0,
         maxZoom: 17.8,
         maxPitch: 64,
         maxBounds: HAMBURG_BOUNDS,
+        cooperativeGestures: isMobile,
         antialias: true,
         attributionControl: false
       });
@@ -1084,7 +1090,9 @@
         zoom: targetZoom,
         pitch: targetPitch,
         bearing: targetBearing,
-        padding: isWide ? { top: 20, bottom: 20, left: 20, right: 360 } : { top: 20, bottom: 20, left: 20, right: 20 },
+        padding: isWide
+          ? { top: 20, bottom: 20, left: 20, right: 360 }
+          : { top: 14, bottom: 210, left: 14, right: 14 },
         duration: wasCountry ? 1300 : 850,
         curve: 1.3,
         essential: true

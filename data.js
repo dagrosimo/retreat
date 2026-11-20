@@ -9,10 +9,10 @@
 window.EXPEDITIONS_DATA = {
   meta: {
     brand: {
-      ru: 'Архивные Экспедиции',
-      ua: 'Архівні Експедиції',
-      de: 'Archiv-Expeditionen',
-      en: 'Archival Expeditions'
+      ru: 'Философские Экспедиции',
+      ua: 'Філософські Експедиції',
+      de: 'Philosophische Expeditionen',
+      en: 'Philosophical Expeditions'
     },
     author: {
       ru: 'Сергей Григоришин',
@@ -32,11 +32,6 @@ window.EXPEDITIONS_DATA = {
 
   i18n: {
     ru: {
-      gate: {
-        eyebrow: 'SERGEI GRYGORYSHYN · ARCHIVAL EXPEDITIONS · 2027',
-        title: 'Выберите язык издания',
-        subtitle: 'Авторские 4-дневные философские экспедиции по городам Германии. Язык самой поездки подбирается под собранную группу.'
-      },
       topStrip: 'СЕРГЕЙ ГРИГОРИШИН · ФИЛОСОФСКИЕ ЭКСПЕДИЦИИ · ГЕРМАНИЯ · 2027',
       topStripRight: 'ГРУППА 4–10 ЧЕЛ. · ЕДИНЫЙ ОТЕЛЬ · ТОЛЬКО ПРЕДЗАПИСЬ',
       nav: {
@@ -281,11 +276,6 @@ window.EXPEDITIONS_DATA = {
     },
 
     ua: {
-      gate: {
-        eyebrow: 'SERGEI GRYGORYSHYN · ARCHIVAL EXPEDITIONS · 2027',
-        title: 'Оберіть мову видання',
-        subtitle: 'Авторські 4-денні філософські експедиції містами Німеччини. Мова самої поїздки узгоджується під зібрану групу.'
-      },
       topStrip: 'СЕРГІЙ ГРИГОРИШИН · ФІЛОСОФСЬКІ ЕКСПЕДИЦІЇ · НІМЕЧЧИНА · 2027',
       topStripRight: 'ГРУПА 4–10 ОСІБ · ЄДИНИЙ ГОТЕЛЬ · ЛИШЕ ПОПЕРЕДНІЙ ЗАПИС',
       nav: {
@@ -530,11 +520,6 @@ window.EXPEDITIONS_DATA = {
     },
 
     de: {
-      gate: {
-        eyebrow: 'SERGEI GRYGORYSHYN · ARCHIV-EXPEDITIONEN · 2027',
-        title: 'Sprache der Ausgabe wählen',
-        subtitle: 'Kuratorische 4-tägige Philosophie- und Kunstexpeditionen durch Deutschland. Die Arbeitssprache der Gruppe richtet sich nach den Teilnehmenden.'
-      },
       topStrip: 'SERGEI GRYGORYSHYN · PHILOSOPHISCHE EXPEDITIONEN · DEUTSCHLAND · 2027',
       topStripRight: 'GRUPPE 4–10 PERS. · EIN GEMEINSAMES HOTEL · VORANMELDUNG',
       nav: {
@@ -779,11 +764,6 @@ window.EXPEDITIONS_DATA = {
     },
 
     en: {
-      gate: {
-        eyebrow: 'SERGEI GRYGORYSHYN · ARCHIVAL EXPEDITIONS · 2027',
-        title: 'Choose Edition Language',
-        subtitle: 'Intimate 4-day philosophical and art-historical expeditions across Germany. Expedition working language adapts to the formed group.'
-      },
       topStrip: 'SERGEI GRYGORYSHYN · PHILOSOPHICAL EXPEDITIONS · GERMANY · 2027',
       topStripRight: 'GROUP 4–10 GUESTS · SHARED HOTEL · PRE-REGISTRATION ONLY',
       nav: {
@@ -1324,7 +1304,11 @@ window.EXPEDITIONS_DATA = {
         {
           id: 'act-1',
           tone: 'dawn',
-          num: 'АКТ I · 1808',
+          num: 'ACT I · 1808',
+          numRu: 'АКТ I · 1808',
+          numUa: 'АКТ I · 1808',
+          numDe: 'AKT I · 1808',
+          numEn: 'ACT I · 1808',
           titleRu: 'Мистический свет и пророчество Филиппа Отто Рунге',
           titleUa: 'Містичне світло і пророцтво Філіпа Отто Рунге',
           titleDe: 'Runges mystisches Licht und die Prophezeiung der Elemente',
@@ -1358,7 +1342,11 @@ window.EXPEDITIONS_DATA = {
         {
           id: 'act-2',
           tone: 'biedermeier',
-          num: 'АКТ II · 1840',
+          num: 'ACT II · 1840',
+          numRu: 'АКТ II · 1840',
+          numUa: 'АКТ II · 1840',
+          numDe: 'AKT II · 1840',
+          numEn: 'ACT II · 1840',
           titleRu: 'Иллюзия вечного уюта и династия братьев Генслер',
           titleUa: 'Ілюзія вічного затишку й династія братів Генслер',
           titleDe: 'Die Illusion ewiger Geborgenheit: Die Brüder Gensler',
@@ -1392,7 +1380,11 @@ window.EXPEDITIONS_DATA = {
         {
           id: 'act-3',
           tone: 'fire',
-          num: 'АКТ III · МАЙ 1842',
+          num: 'ACT III · MAY 1842',
+          numRu: 'АКТ III · МАЙ 1842',
+          numUa: 'АКТ III · ТРАВЕНЬ 1842',
+          numDe: 'AKT III · MAI 1842',
+          numEn: 'ACT III · MAY 1842',
           titleRu: 'Пророчество сходит с холстов: Великий пожар',
           titleUa: 'Пророцтво сходить із полотен: Велика пожежа',
           titleDe: 'Der Große Brand von 1842: Die Elemente verlassen die Leinwand',
@@ -1426,7 +1418,11 @@ window.EXPEDITIONS_DATA = {
         {
           id: 'act-4',
           tone: 'silver',
-          num: 'АКТ IV · 1842–1843',
+          num: 'ACT IV · 1842–1843',
+          numRu: 'АКТ IV · 1842–1843',
+          numUa: 'АКТ IV · 1842–1843',
+          numDe: 'AKT IV · 1842–1843',
+          numEn: 'ACT IV · 1842–1843',
           titleRu: 'Серебряная пластина и тишина Ольсдорфа',
           titleUa: 'Срібна пластина й тиша Ольсдорфа',
           titleDe: 'Die Silberplatte von 1843 & die Stille von Ohlsdorf',

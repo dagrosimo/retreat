@@ -1,90 +1,54 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Сергей Григоришин · Философские экспедиции по Германии (2027)</title>
-  <meta name="description" content="Неделимые 4-дневные философские экспедиции по Германии по графику к.ф.н. Сергея Григоришина. Единый отель, конференц-зал и группа 4–10 человек." />
+  <title>Sergei Grygoryshyn · Philosophical Expeditions in Germany (2027)</title>
+  <meta name="description" content="Indivisible 4-day philosophical expeditions across Germany led by PhD philosopher Sergei Grygoryshyn. Unified hotel, conference room, and a group of 4–10 guests." />
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' fill='%23141311'/><text x='16' y='21' font-family='Georgia,serif' font-size='14' font-weight='bold' fill='%23F3EFE6' text-anchor='middle'>SG</text></svg>" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,400;1,7..72,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="vendor/maplibre-gl.css" />
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=4" />
 </head>
 <body>
-  <!-- ЭКРАН ВЫБОРА ЯЗЫКА ПЕРЕД ОТКРЫТИЕМ САЙТА -->
-  <div class="lang-gate" id="lang-gate" role="dialog" aria-modal="true" aria-labelledby="gate-title">
-    <div class="lang-gate__card">
-      <div class="lang-gate__top">
-        <span class="brand__mark">SG</span>
-        <span class="mono-label" id="gate-eyebrow">SERGEI GRYGORYSHYN · ARCHIVAL EXPEDITIONS · 2027</span>
-      </div>
-      <h2 class="lang-gate__title" id="gate-title">Выберите язык издания / Choose Language</h2>
-      <p class="lang-gate__subtitle" id="gate-subtitle">
-        Авторские 4-дневные философские экспедиции по городам Германии. Язык самой поездки подбирается под собранную группу.
-      </p>
-      <div class="lang-gate__grid">
-        <button type="button" class="gate-choice" data-pick-lang="ru">
-          <span class="gate-choice__code">RU</span>
-          <strong>Русский</strong>
-          <small>Философские экспедиции 2027</small>
-        </button>
-        <button type="button" class="gate-choice" data-pick-lang="ua">
-          <span class="gate-choice__code">UA</span>
-          <strong>Українська</strong>
-          <small>Філософські експедиції 2027</small>
-        </button>
-        <button type="button" class="gate-choice" data-pick-lang="de">
-          <span class="gate-choice__code">DE</span>
-          <strong>Deutsch</strong>
-          <small>Philosophische Expeditionen 2027</small>
-        </button>
-        <button type="button" class="gate-choice" data-pick-lang="en">
-          <span class="gate-choice__code">EN</span>
-          <strong>English</strong>
-          <small>Philosophical Expeditions 2027</small>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Верхняя архивная лента -->
+  <!-- Верхняя информационная лента -->
   <div class="archival-strip">
     <div class="container archival-strip__inner">
-      <span class="mono-label" id="top-strip-text">СЕРГЕЙ ГРИГОРИШИН · ФИЛОСОФСКИЕ ЭКСПЕДИЦИИ · ГЕРМАНИЯ · 2027</span>
-      <span class="mono-label archival-strip__right" id="top-strip-right">ГРУППА 4–10 ЧЕЛ. · ЕДИНЫЙ ОТЕЛЬ · ТОЛЬКО ПРЕДЗАПИСЬ</span>
+      <span class="mono-label" id="top-strip-text">SERGEI GRYGORYSHYN · PHILOSOPHICAL EXPEDITIONS · GERMANY · 2027</span>
+      <span class="mono-label archival-strip__right" id="top-strip-right">GROUP 4–10 GUESTS · SHARED HOTEL · PRE-REGISTRATION ONLY</span>
     </div>
   </div>
 
   <!-- Липкая шапка -->
   <header class="site-header" id="site-header">
     <div class="container header-inner">
-      <a href="#top" class="brand" aria-label="Наверх">
+      <a href="#top" class="brand" aria-label="Back to top">
         <span class="brand__mark">SG</span>
         <span class="brand__text">
-          <strong id="brand-author">Сергей Григоришин</strong>
-          <small id="brand-sub">Архивные Экспедиции</small>
+          <strong id="brand-author">Sergei Grygoryshyn</strong>
+          <small id="brand-sub">Philosophical Expeditions</small>
         </span>
       </a>
 
-      <nav class="main-nav" aria-label="Навигация по разделам">
-        <a href="#hub" data-nav="map">Карта и зум</a>
-        <a href="#dossier" data-nav="dossier">Программа</a>
+      <nav class="main-nav" aria-label="Section navigation">
+        <a href="#hub" data-nav="map">Map &amp; Zoom</a>
+        <a href="#dossier" data-nav="dossier">Program</a>
         <a href="#compare" data-nav="compare">1840 ↔ 1843</a>
-        <a href="#principles" data-nav="how">Формат</a>
-        <a href="#speaker" data-nav="speaker">О ведущем</a>
-        <a href="#ticket-section" data-nav="ticket" class="nav-cta">Предзапись</a>
+        <a href="#principles" data-nav="how">Format</a>
+        <a href="#speaker" data-nav="speaker">Scholar</a>
+        <a href="#ticket-section" data-nav="ticket" class="nav-cta">Pre-Register</a>
       </nav>
 
       <div class="header-controls">
-        <div class="lang-switch" role="group" aria-label="Язык сайта">
-          <button type="button" class="lang-btn is-active" data-lang="ru">RU</button>
-          <button type="button" class="lang-btn" data-lang="ua">UA</button>
+        <div class="lang-switch" role="group" aria-label="Site language">
+          <button type="button" class="lang-btn is-active" data-lang="en">EN</button>
           <button type="button" class="lang-btn" data-lang="de">DE</button>
-          <button type="button" class="lang-btn" data-lang="en">EN</button>
+          <button type="button" class="lang-btn" data-lang="ru">RU</button>
+          <button type="button" class="lang-btn" data-lang="ua">UA</button>
         </div>
-        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Меню" aria-expanded="false">
+        <button type="button" class="mobile-menu-btn" id="mobile-menu-btn" aria-label="Menu" aria-expanded="false">
           <span></span><span></span>
         </button>
       </div>
@@ -92,64 +56,87 @@
 
     <!-- Мобильное меню -->
     <div class="mobile-drawer" id="mobile-drawer" hidden>
-      <a href="#hub" data-nav="map">Карта и зум</a>
-      <a href="#dossier" data-nav="dossier">Программа</a>
+      <a href="#hub" data-nav="map">Map &amp; Zoom</a>
+      <a href="#dossier" data-nav="dossier">Program</a>
       <a href="#compare" data-nav="compare">1840 ↔ 1843</a>
-      <a href="#principles" data-nav="how">Формат</a>
-      <a href="#speaker" data-nav="speaker">О ведущем</a>
-      <a href="#ticket-section" data-nav="ticket">Предзапись</a>
+      <a href="#principles" data-nav="how">Format</a>
+      <a href="#speaker" data-nav="speaker">Scholar</a>
+      <a href="#ticket-section" data-nav="ticket">Pre-Register</a>
     </div>
   </header>
 
   <main id="top">
     <!-- 1. HERO -->
-    <section class="hero">
+    <section class="hero" id="hero-section">
       <div class="container hero-grid">
         <div class="hero-copy">
-          <p class="eyebrow" id="hero-eyebrow">КАТАЛОГ ЭКСПЕДИЦИЙ · ВЫПУСК №01 · 2027</p>
+          <p class="eyebrow" id="hero-eyebrow">EXPEDITION CATALOGUE · ISSUE №01 · 2027</p>
+
+          <!-- Mobile-only Live Montage Stage (Variant A: 1840 -> 1842 -> 1843) -->
+          <div class="hero-mobile-reel" id="hero-mobile-reel" aria-label="1840 to 1843 visual story preview">
+            <div class="hero-reel__stage">
+              <img class="hero-reel__slide is-active" data-reel-idx="0" data-lightbox-id="art-6" src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Günther Gensler, Hamburg Artists' Association, 1840" loading="eager" />
+              <img class="hero-reel__slide" data-reel-idx="1" data-lightbox-id="art-10" src="фото и картины/photo_10_2026-11-18_13-34-16.jpg" alt="Great Fire of Hamburg, May 1842" loading="eager" />
+              <img class="hero-reel__slide hero-reel__slide--silver" data-reel-idx="2" data-lightbox-id="art-7" src="фото и картины/photo_7_2026-11-18_13-34-16.jpg" alt="C. F. Stelzner, Daguerreotype, May 6, 1843" loading="eager" />
+              <div class="hero-reel__scrim"></div>
+              <div class="hero-reel__top">
+                <span class="mono-label hero-reel__badge" id="reel-badge-dates">HAMBURG · JAN 28–31, 2027</span>
+              </div>
+              <div class="hero-reel__bottom">
+                <div class="hero-reel__meta">
+                  <span class="mono-label hero-reel__year" id="reel-year">1840</span>
+                  <strong class="hero-reel__cap" id="reel-cap">Brush · Comfort</strong>
+                </div>
+                <div class="hero-reel__bars" role="tablist" aria-label="Story frames">
+                  <button type="button" class="hero-reel__bar is-active" data-reel-pick="0" aria-label="1840"><span></span></button>
+                  <button type="button" class="hero-reel__bar" data-reel-pick="1" aria-label="1842"><span></span></button>
+                  <button type="button" class="hero-reel__bar" data-reel-pick="2" aria-label="1843"><span></span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <blockquote class="hero-hook" id="hero-hook">
-            «В 1840 году они позировали в мастерской, уверенные, что их мир вечен. Через два года город сгорел — а выживших запечатлела уже не кисть, а серебряная пластина дагеротипа».
+            “In 1840 they posed in their studio, certain that their cozy world would endure forever. Two years later the city burned—and the survivors were captured not by brush, but on a silver daguerreotype plate.”
           </blockquote>
-          <h1 class="hero-title" id="hero-title">Камерные философские экспедиции по Германии</h1>
+          <h1 class="hero-title" id="hero-title">Intimate Philosophical Expeditions in Germany</h1>
+          <p class="hero-mobile-facts mono-label" id="hero-mobile-facts">
+            HAMBURG · JAN 28–31, 2027 · 4–10 GUESTS · SHARED HOTEL
+          </p>
           <p class="hero-subtitle" id="hero-subtitle">
-            Неделимые 4-дневные интеллектуальные погружения по личному графику к.ф.н. Сергея Григоришина. Единый отель для всей группы, лекции в арендованном конференц-зале и организованные визиты в музеи (группа 4–10 человек).
+            An indivisible 4-day intellectual journey led by PhD philosopher Sergei Grygoryshyn. Unified hotel accommodation for the whole group, lectures in a private hotel conference hall, and registered museum visits (4–10 participants).
           </p>
           <div class="hero-actions">
-            <a href="#hub" class="btn btn--primary" id="hero-cta-primary">Карта земель и городов 2027</a>
-            <a href="#dossier" class="btn btn--outline" id="hero-cta-secondary" data-jump-city="hamburg">Открыть маршрут №1: Гамбург (28–31 янв)</a>
+            <a href="#hub" class="btn btn--primary" id="hero-cta-primary">Explore Map of German States &amp; 2027 Dates</a>
+            <a href="#dossier" class="btn btn--outline" id="hero-cta-secondary" data-jump-city="hamburg">Explore Route №1: Hamburg (Jan 28–31)</a>
           </div>
         </div>
 
-        <aside class="hero-showcase" aria-label="Превью ближайшей экспедиции">
+        <aside class="hero-showcase" aria-label="Upcoming expedition preview">
           <div class="showcase-header">
-            <span class="mono-label" id="hero-badge-title">БЛИЖАЙШИЙ СТАРТ · ГАМБУРГ</span>
-            <span class="mono-label stamp-pill" id="hero-badge-dates">28–31 ЯНВАРЯ 2027</span>
+            <span class="mono-label" id="hero-badge-title">FIRST DEPARTURE · HAMBURG</span>
+            <span class="mono-label stamp-pill" id="hero-badge-dates">JANUARY 28–31, 2027</span>
           </div>
 
           <div class="triptych">
             <figure class="triptych__item" data-lightbox-id="art-6">
-              <img src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Гюнтер Генслер, Гамбургское общество художников, 1840" loading="eager" />
-              <figcaption><span>1840</span> <em id="triptych-cap-1">Кисть · Уют</em></figcaption>
+              <img src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Günther Gensler, Hamburg Artists' Association, 1840" loading="eager" />
+              <figcaption><span>1840</span> <em id="triptych-cap-1">Brush · Comfort</em></figcaption>
             </figure>
             <figure class="triptych__item triptych__item--fire" data-lightbox-id="art-10">
-              <img src="фото и картины/photo_10_2026-11-18_13-34-16.jpg" alt="Великий пожар Гамбурга, май 1842" loading="eager" />
-              <figcaption><span>1842</span> <em id="triptych-cap-2">Огонь · Слом</em></figcaption>
+              <img src="фото и картины/photo_10_2026-11-18_13-34-16.jpg" alt="Great Fire of Hamburg, May 1842" loading="eager" />
+              <figcaption><span>1842</span> <em id="triptych-cap-2">Fire · Rupture</em></figcaption>
             </figure>
             <figure class="triptych__item triptych__item--silver" data-lightbox-id="art-7">
-              <img src="фото и картины/photo_7_2026-11-18_13-34-16.jpg" alt="Дагеротип Карла Фердинанда Штельцнера, 6 мая 1843" loading="eager" />
-              <figcaption><span>1843</span> <em id="triptych-cap-3">Серебро · Документ</em></figcaption>
+              <img src="фото и картины/photo_7_2026-11-18_13-34-16.jpg" alt="C. F. Stelzner, Daguerreotype, May 6, 1843" loading="eager" />
+              <figcaption><span>1843</span> <em id="triptych-cap-3">Silver · Witness</em></figcaption>
             </figure>
           </div>
 
           <div class="showcase-footer">
-            <div class="trio-meter" aria-label="Набор группы 4–10">
-              <span class="trio-dot is-filled"></span>
-              <span class="trio-dot is-filled"></span>
-              <span class="trio-dot is-filled"></span>
-              <span class="trio-dot is-open"></span>
-            </div>
+            <span class="status-pulse" aria-hidden="true"></span>
             <p class="mono-label showcase-status" id="hero-badge-status">
-              Идёт предзапись в первую группу (от 4 до 10 участников · единый отель)
+              Pre-registration open (4–10 participants · unified hotel &amp; conference room)
             </p>
           </div>
         </aside>
@@ -257,27 +244,29 @@
       </div>
     </section>
 
-    <!-- 5. TRIAL-ВЕРСИЯ ЭКСКУРСИИ: ГЕРОИ, РАБОТЫ И КИНО-КАМЕРА (1840 <-> 1843) -->
+    <!-- 5. TRIAL-ВЕРСИЯ ЭКСКУРСИИ: ЕДИНЫЙ СИНХРОННЫЙ КИНО-СРАВНИТЕЛЬ (1840 <-> 1843) -->
     <section class="compare-section" id="compare">
       <div class="container">
         <div class="section-head section-head--split">
           <div>
-            <p class="eyebrow" id="compare-eyebrow">TRIAL-ВЕРСИЯ ЭКСКУРСИИ · 1808–1843</p>
-            <h2 class="section-title" id="compare-title">Герои, их полотна и живой кино-разбор: 1840 против 1843</h2>
+            <p class="eyebrow" id="compare-eyebrow">EXPEDITION TRIAL · 1808–1843</p>
+            <h2 class="section-title" id="compare-title">Artists, Masterworks &amp; Live Face Study: 1840 vs 1843</h2>
             <p class="section-lead" id="compare-lead"></p>
           </div>
-          <div class="compare-mode-switch" role="group" aria-label="Режим изучения">
-            <button type="button" class="pill-btn is-active" data-compare-mode="pins" id="btn-mode-pins">Интерактив: Личности и работы (6 героев)</button>
-            <button type="button" class="pill-btn" data-compare-mode="cinema" id="btn-mode-cinema">🎥 Кино-камера: Живой зум по лицам</button>
+          <div class="compare-mode-switch" role="group" aria-label="Comparison view controls">
+            <button type="button" class="pill-btn is-active" data-compare-view="closeup" id="btn-compare-closeup">Close-Up: 1840 ↔ 1843</button>
+            <button type="button" class="pill-btn" data-compare-view="full" id="btn-compare-full">Full Canvas (Pins)</button>
+            <button type="button" class="pill-btn is-active" id="btn-compare-autoplay" aria-pressed="true">⏸ Auto-Tour</button>
           </div>
         </div>
 
-        <!-- Режим 1: Парные пластины с метками ниже лиц + тонкая рамка вокруг лица -->
-        <div class="compare-pins-view" id="compare-pins-view">
-          <div class="compare-dual-grid">
+        <!-- Единая сцена: синхронный зум на лица ИЛИ общий план с пинами -->
+        <div class="compare-pins-view is-closeup" id="compare-pins-view">
+          <div class="compare-dual-grid" id="compare-dual-grid">
             <figure class="compare-plate" id="plate-1840-wrap">
               <div class="plate-stage">
-                <img src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Гюнтер Генслер, Гамбургское общество художников, 1840" />
+                <span class="mono-label plate-year-badge" id="badge-1840">1840 · PAINTING</span>
+                <img id="compare-1840-img" src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Günther Gensler, Hamburg Artists' Association, 1840" />
                 <div class="hotspot-layer" id="hotspots-1840"></div>
               </div>
               <figcaption class="museum-caption" id="caption-1840"></figcaption>
@@ -285,7 +274,8 @@
 
             <figure class="compare-plate" id="plate-1843-wrap">
               <div class="plate-stage">
-                <img id="compare-1843-img" src="фото и картины/photo_7_2026-11-18_13-34-16.jpg" alt="Дагеротип Штельцнера, 6 мая 1843" />
+                <span class="mono-label plate-year-badge plate-year-badge--silver" id="badge-1843">1843 · DAGUERREOTYPE</span>
+                <img id="compare-1843-img" src="фото и картины/photo_7_2026-11-18_13-34-16.jpg" alt="C. F. Stelzner, Daguerreotype, May 6, 1843" />
                 <div class="hotspot-layer" id="hotspots-1843"></div>
               </div>
               <figcaption class="museum-caption" id="caption-1843"></figcaption>
@@ -305,26 +295,6 @@
           <article class="person-dossier" id="person-dossier"></article>
 
           <p class="compare-disclaimer" id="compare-disclaimer"></p>
-        </div>
-
-        <!-- Режим 2: КИНО-КАМЕРА (чистое автоматическое видео-приближение по лицам без лишнего интерфейса) -->
-        <div class="compare-cinema-view" id="compare-cinema-view" hidden>
-          <div class="cinema-clean-frame" id="cinema-clean-frame">
-            <img id="cinema-img" class="cinema-img" src="фото и картины/photo_6_2026-11-18_13-34-16.jpg" alt="Кино-обход портретов 1840 и 1843" />
-            <div class="cinema-vignette"></div>
-
-            <!-- Стильная плавающая плашка с именем в момент приближения к лицу -->
-            <div class="cinema-floating-plaque" id="cinema-floating-plaque">
-              <span class="mono-label cinema-plaque__era" id="cinema-plate-tag">1840 · КИСТЬ ГЕНСЛЕРА</span>
-              <strong class="cinema-plaque__name" id="cinema-person-name">Гюнтер Генслер (1803–1884)</strong>
-              <span class="cinema-plaque__role" id="cinema-person-quote">Автор полотна 1840 г., идеолог союза</span>
-            </div>
-
-            <!-- Прогресс-полоска внизу видеокадра -->
-            <div class="cinema-progress-track">
-              <div class="cinema-progress-bar" id="cinema-progress-bar"></div>
-            </div>
-          </div>
         </div>
       </div>
     </section>
@@ -411,12 +381,12 @@
                   </select>
                 </div>
                 <div>
-                  <label for="f-lang" id="lbl-lang">Удобный язык группы</label>
+                  <label for="f-lang" id="lbl-lang">Preferred Group Language</label>
                   <select id="f-lang" name="groupLang">
+                    <option value="EN" selected>English</option>
+                    <option value="DE">Deutsch</option>
                     <option value="RU">Русский</option>
                     <option value="UA">Українська</option>
-                    <option value="DE">Deutsch</option>
-                    <option value="EN">English</option>
                   </select>
                 </div>
               </div>
@@ -437,22 +407,24 @@
                 <textarea id="f-comment" name="comment" rows="2"></textarea>
               </div>
 
-              <div class="form-actions">
-                <button type="submit" class="btn btn--primary" id="btn-send-bot">
-                  Отправить заявку в Telegram-бот
+              <div class="form-actions form-actions--streamlined">
+                <button type="submit" class="btn btn--primary btn--submit-main" id="btn-send-bot">
+                  Submit Pre-Registration to Telegram Bot
                 </button>
-                <a href="#" class="btn btn--outline" id="btn-open-direct" target="_blank" rel="noopener noreferrer">
-                  Написать напрямую (@gryd_me)
-                </a>
-                <button type="button" class="btn btn--outline" id="btn-copy-ticket">
-                  Скопировать текст
-                </button>
+                <div class="form-secondary-links">
+                  <a href="#" class="form-text-link" id="btn-open-direct" target="_blank" rel="noopener noreferrer">
+                    Message Directly (@gryd_me) ↗
+                  </a>
+                  <button type="button" class="form-text-link" id="btn-copy-ticket">
+                    Copy Text
+                  </button>
+                </div>
               </div>
               <p class="copy-feedback mono-label" id="bot-status" aria-live="polite"></p>
             </form>
 
-            <!-- Визуальный макет билета Fahrkarte -->
-            <aside class="ticket-preview" aria-label="Предпросмотр билета">
+            <!-- Визуальный макет билета Fahrkarte (на мобилке сворачивается для лёгкости) -->
+            <aside class="ticket-preview" id="ticket-preview-aside" aria-label="Ticket preview">
               <div class="ticket-preview__body">
                 <div class="ticket-top">
                   <span class="mono-label">FAHRKARTE · SERGEI GRYGORYSHYN</span>
@@ -508,7 +480,7 @@
   <footer class="site-footer">
     <div class="container footer-grid">
       <div>
-        <p class="mono-label footer-brand">SERGEI GRYGORYSHYN · ARCHIVAL EXPEDITIONS · 2027</p>
+        <p class="mono-label footer-brand">SERGEI GRYGORYSHYN · PHILOSOPHICAL EXPEDITIONS · 2027</p>
         <p class="footer-legal" id="footer-legal"></p>
       </div>
       <div class="footer-meta">
@@ -517,6 +489,15 @@
       </div>
     </div>
   </footer>
+
+  <!-- ЛИПКАЯ МОБИЛЬНАЯ ПАНЕЛЬ ПРЕДЗАПИСИ (только на телефонах после Hero) -->
+  <div class="mobile-sticky-cta" id="mobile-sticky-cta" aria-hidden="true">
+    <div class="mobile-sticky-cta__info">
+      <span class="mono-label mobile-sticky-cta__city" id="sticky-city-label">HAMBURG · JAN 28–31</span>
+      <span class="mobile-sticky-cta__sub" id="sticky-sub-label">4–10 guests · No payment now</span>
+    </div>
+    <a href="#fahrkarte-box" class="btn btn--primary mobile-sticky-cta__btn" id="sticky-cta-btn">Pre-Register →</a>
+  </div>
 
   <!-- НАТИВНЫЙ ЛАЙТБОКС ДЛЯ АРТЕФАКТОВ (<dialog>) -->
   <dialog class="artifact-dialog" id="artifact-dialog" aria-labelledby="dialog-title">
@@ -542,8 +523,8 @@
 
   <script src="vendor/maplibre-gl.js"></script>
   <script src="vendor/bundeslaender.js"></script>
-  <script src="vendor/hamburg_map_3d.js"></script>
-  <script src="data.js"></script>
-  <script src="app.js"></script>
+  <script src="vendor/hamburg_map_3d.js?v=4"></script>
+  <script src="data.js?v=4"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>
