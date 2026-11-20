@@ -48,6 +48,14 @@
     munich: [11.582, 48.1351]
   };
 
+  const CITY_TO_STATE = {
+    hamburg: 'hamburg',
+    dresden: 'sachsen',
+    berlin: 'berlin',
+    frankfurt: 'hessen',
+    munich: 'bayern'
+  };
+
   const SHORT_LANDMARK_NAMES = {
     'hm-1': {
       ru: 'Отель у Альстера',
@@ -564,11 +572,18 @@
           '#E3DBC8', '#DDD3BE', '#E7E0CF', '#D9CEB8',
           '#E0D7C3', '#E8E2D2', '#D8CBB4', '#E2DAC6'
         ];
+        this.stateFeatureIds = {};
         geo.features.forEach((f, idx) => {
-          f.id = idx;
-          const isHH = (f.properties && f.properties.name || '').toLowerCase().includes('hamburg');
+          f.id = idx + 1;
+          const normName = ((f.properties && f.properties.name) || '').toLowerCase();
+          const isHH = normName.includes('hamburg');
           f.properties._isHamburg = isHH;
           f.properties._baseColor = isHH ? '#C23B1A' : palette[idx % palette.length];
+          if (normName.includes('hamburg')) this.stateFeatureIds.hamburg = f.id;
+          else if (normName === 'sachsen' || normName.includes('saxony')) this.stateFeatureIds.sachsen = f.id;
+          else if (normName.includes('berlin')) this.stateFeatureIds.berlin = f.id;
+          else if (normName.includes('hessen') || normName.includes('hesse')) this.stateFeatureIds.hessen = f.id;
+          else if (normName.includes('bayern') || normName.includes('bavaria')) this.stateFeatureIds.bayern = f.id;
         });
 
         map.addSource('bundeslaender', {
@@ -584,6 +599,8 @@
           paint: {
             'fill-color': [
               'case',
+              ['boolean', ['feature-state', 'selected'], false],
+              ['case', ['get', '_isHamburg'], '#C23B1A', '#DEC7A4'],
               ['boolean', ['feature-state', 'hover'], false],
               ['case', ['get', '_isHamburg'], '#D64825', '#F6F1E4'],
               ['get', '_baseColor']
@@ -603,7 +620,12 @@
           maxzoom: 9.8,
           paint: {
             'line-color': '#141311',
-            'line-width': ['case', ['boolean', ['feature-state', 'hover'], false], 1.8, 1.05],
+            'line-width': [
+              'case',
+              ['boolean', ['feature-state', 'selected'], false], 2.1,
+              ['boolean', ['feature-state', 'hover'], false], 1.8,
+              1.05
+            ],
             'line-opacity': [
               'interpolate', ['linear'], ['zoom'],
               7.2, 0.78,
@@ -947,6 +969,70 @@
       Object.keys(this.countryMarkers).forEach((cid) => {
         this.countryMarkers[cid].el.classList.toggle('is-selected', cid === this.activeCityId);
       });
+
+      if (this.map && this.mapReady && this.stateFeatureIds) {
+        if (this.selectedStateId !== undefined && this.selectedStateId !== null) {
+          try {
+            this.map.setFeatureState({ source: 'bundeslaender', id: this.selectedStateId }, { selected: false });
+          } catch {}
+        }
+        const stateKey = CITY_TO_STATE[this.activeCityId];
+        const nextFid = stateKey ? this.stateFeatureIds[stateKey] : null;
+        this.selectedStateId = nextFid || null;
+        if (nextFid) {
+          try {
+            this.map.setFeatureState({ source: 'bundeslaender', id: nextFid }, { selected: true });
+          } catch {}
+        }
+      }
+    }
+
+    focusCountryCity(cityId) {
+      if (!this.map) return;
+      this.activeCityId = cityId;
+      this.updateCountryPinSelection();
+
+      const isNarrow = (this.container.clientWidth || 0) < 520;
+      const coords = CITY_COORDS[cityId] || GERMANY_VIEW.center;
+      const targetCenter = [
+        GERMANY_VIEW.center[0] * 0.78 + coords[0] * 0.22,
+        GERMANY_VIEW.center[1] * 0.78 + coords[1] * 0.22
+      ];
+      const targetZoom = isNarrow ? 4.48 : GERMANY_VIEW.zoom;
+
+      if (this.mode !== 'country') {
+        this.mode = 'country';
+        this.setActiveLandmarkPin(null);
+        this.onModeChange('country');
+        this.map.setMaxBounds(null);
+        this.map.setMinZoom(4.0);
+        this.map.dragRotate.disable();
+        this.map.touchPitch.disable();
+
+        this.map.flyTo({
+          center: targetCenter,
+          zoom: targetZoom,
+          pitch: 0,
+          bearing: 0,
+          padding: { top: 0, bottom: 0, left: 0, right: 0 },
+          duration: 1000,
+          curve: 1.28,
+          essential: true
+        });
+
+        this.map.once('moveend', () => {
+          if (this.mode === 'country') {
+            this.map.setMaxBounds(GERMANY_BOUNDS);
+          }
+        });
+      } else {
+        this.map.easeTo({
+          center: targetCenter,
+          zoom: targetZoom,
+          duration: 520,
+          essential: true
+        });
+      }
     }
 
     syncMarkerVisibility() {
@@ -1031,14 +1117,15 @@
       this.setActiveLandmarkPin(null);
       this.onModeChange('country');
 
+      const isNarrow = (this.container.clientWidth || 0) < 520;
       this.map.setMaxBounds(null);
-      this.map.setMinZoom(4.2);
+      this.map.setMinZoom(4.0);
       this.map.dragRotate.disable();
       this.map.touchPitch.disable();
 
       this.map.flyTo({
         center: GERMANY_VIEW.center,
-        zoom: GERMANY_VIEW.zoom,
+        zoom: isNarrow ? 4.45 : GERMANY_VIEW.zoom,
         pitch: GERMANY_VIEW.pitch,
         bearing: GERMANY_VIEW.bearing,
         padding: { top: 0, bottom: 0, left: 0, right: 0 },

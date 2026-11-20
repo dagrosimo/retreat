@@ -199,10 +199,6 @@
     document.getElementById('hub-eyebrow').textContent = tr.hub.eyebrow;
     document.getElementById('hub-title').textContent = tr.hub.title;
     document.getElementById('hub-lead').textContent = tr.hub.lead;
-    document.querySelectorAll('[data-hub-filter]').forEach((btn) => {
-      const k = btn.getAttribute('data-hub-filter');
-      if (tr.hub.filters[k]) btn.textContent = tr.hub.filters[k];
-    });
 
     const btnCountryLabels = {
       ru: '← Вся Германия (16 земель)',
@@ -374,8 +370,10 @@
 
     const fireBtn = document.getElementById('btn-toggle-fire');
     const orbitBtn = document.getElementById('btn-orbit-3d');
+    const dockEl = document.getElementById('hamburg-landmarks-dock');
     if (fireBtn) fireBtn.hidden = !isCity;
     if (orbitBtn) orbitBtn.hidden = !isCity;
+    if (dockEl) dockEl.hidden = !isCity;
   }
 
   function init3DMap() {
@@ -405,7 +403,7 @@
         }
       },
       onSelectCityFromCountry: (cityId) => {
-        selectCity(cityId, { syncForm: true, flyToCity: false });
+        selectCity(cityId, { syncForm: true, flyToCity: false, scrollTab: true });
       }
     });
     state.mapLoaded = true;
@@ -560,15 +558,95 @@
       .join('');
   }
 
+  function getCityShortMonth(cityId) {
+    const months = {
+      hamburg: { en: 'Jan', de: 'Jan', ru: 'Янв', ua: 'Січ' },
+      dresden: { en: 'Feb', de: 'Feb', ru: 'Фев', ua: 'Лют' },
+      berlin: { en: 'Mar', de: 'Mär', ru: 'Мар', ua: 'Бер' },
+      frankfurt: { en: 'Apr', de: 'Apr', ru: 'Апр', ua: 'Кві' },
+      munich: { en: 'May', de: 'Mai', ru: 'Май', ua: 'Тра' }
+    };
+    return (months[cityId] && months[cityId][state.lang]) || '';
+  }
+
+  function renderMobileCityTabs(scrollIntoView = false) {
+    const tabsEl = document.getElementById('mobile-city-tabs');
+    if (!tabsEl) return;
+
+    tabsEl.innerHTML = DATA.cities
+      .map((city) => {
+        const isActive = city.id === state.activeCityId;
+        const mon = getCityShortMonth(city.id);
+        return `
+        <button type="button"
+          role="tab"
+          aria-selected="${isActive ? 'true' : 'false'}"
+          class="mobile-city-tab ${isActive ? 'is-active' : ''}"
+          style="--tab-accent: ${city.accentColor}"
+          data-select-city="${city.id}">
+          <span class="mobile-city-tab__num">${city.issueNo}</span>
+          <span class="mobile-city-tab__name">${loc(city, 'name')}</span>
+          <span class="mobile-city-tab__mon">${mon}</span>
+        </button>`;
+      })
+      .join('');
+
+    if (scrollIntoView) {
+      const activeBtn = tabsEl.querySelector('.mobile-city-tab.is-active');
+      if (activeBtn && typeof activeBtn.scrollIntoView === 'function') {
+        activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+  }
+
+  function renderMobileActiveCityCard() {
+    const wrap = document.getElementById('mobile-active-city');
+    if (!wrap) return;
+    const city = getActiveCity();
+    if (!city) return;
+
+    const statusClass =
+      city.status === 'active' ? 'is-active-status' : city.status === 'forming' ? 'is-forming-status' : '';
+
+    const labels = {
+      en: { program: city.isLabStub ? 'Preview Concept ↓' : 'View Program ↓', reserve: 'Pre-Register →' },
+      de: { program: city.isLabStub ? 'Konzept ansehen ↓' : 'Programm ↓', reserve: 'Vormerken →' },
+      ru: { program: city.isLabStub ? 'Смотреть концепт ↓' : 'Программа ↓', reserve: 'Предзапись →' },
+      ua: { program: city.isLabStub ? 'Дивитись концепт ↓' : 'Програма ↓', reserve: 'Передзапис →' }
+    }[state.lang];
+
+    wrap.innerHTML = `
+      <article class="mobile-active-card" style="--card-accent: ${city.accentColor}">
+        <div class="mobile-active-card__head">
+          <span class="mono-label mobile-active-card__issue">№${city.issueNo} · ${loc(city, 'dates')}</span>
+          <span class="city-card__status ${statusClass}">${loc(city, 'statusLabel')}</span>
+        </div>
+        <h3 class="mobile-active-card__title">${loc(city, 'name')}: ${loc(city, 'title')}</h3>
+        <p class="mobile-active-card__sub">${loc(city, 'subtitle')}</p>
+        <div class="mobile-active-card__actions">
+          <a href="#dossier" class="btn btn--outline mobile-active-card__btn" data-scroll-dossier>${labels.program}</a>
+          <button type="button" class="btn btn--primary mobile-active-card__btn" data-prefill-city="${city.id}">${labels.reserve}</button>
+        </div>
+      </article>`;
+  }
+
+  function updateMobileStickyCta() {
+    const city = getActiveCity();
+    const stickyCityEl = document.getElementById('sticky-city-label');
+    const stickyBtnEl = document.getElementById('sticky-cta-btn');
+    if (!city) return;
+    if (stickyCityEl) {
+      const shortDate = loc(city, 'dates').split('(')[0].replace(/2027/g, '').replace(/,\s*$/, '').trim();
+      stickyCityEl.textContent = `${loc(city, 'name').toUpperCase()} · ${shortDate.toUpperCase()}`;
+    }
+    if (stickyBtnEl) {
+      stickyBtnEl.setAttribute('data-prefill-city', city.id);
+    }
+  }
+
   function renderCityCards() {
     const container = document.getElementById('city-cards');
-    const filtered = DATA.cities.filter((c) => {
-      if (state.hubFilter === 'active') return c.status === 'active' || c.status === 'forming';
-      if (state.hubFilter === 'lab') return c.isLabStub;
-      return true;
-    });
-
-    container.innerHTML = filtered
+    container.innerHTML = DATA.cities
       .map((city) => {
         const isActive = city.id === state.activeCityId;
         const statusClass =
@@ -592,6 +670,10 @@
         </button>`;
       })
       .join('');
+
+    renderMobileCityTabs(false);
+    renderMobileActiveCityCard();
+    updateMobileStickyCta();
   }
 
   /* ------------------------------------------------------------------------
@@ -842,18 +924,22 @@
       bar.setAttribute('aria-hidden', String(!show));
     };
 
-    const obs = new IntersectionObserver(
+    const heroObs = new IntersectionObserver(
       (entries) => {
-        entries.forEach((entry) => {
-          if (entry.target === hero) heroVisible = entry.isIntersecting;
-          if (entry.target === ticket) ticketVisible = entry.isIntersecting;
-        });
+        heroVisible = entries[0].isIntersecting;
         syncBar();
       },
-      { threshold: 0.08 }
+      { threshold: 0 }
     );
-    obs.observe(hero);
-    obs.observe(ticket);
+    const ticketObs = new IntersectionObserver(
+      (entries) => {
+        ticketVisible = entries[0].isIntersecting;
+        syncBar();
+      },
+      { threshold: 0.05 }
+    );
+    heroObs.observe(hero);
+    ticketObs.observe(ticket);
   }
 
   /* ------------------------------------------------------------------------
@@ -1311,7 +1397,7 @@
   /* ------------------------------------------------------------------------
      City Selection Synchronization
      ------------------------------------------------------------------------ */
-  function selectCity(cityId, { syncForm = true, flyToCity = true } = {}) {
+  function selectCity(cityId, { syncForm = true, flyToCity = true, scrollTab = false } = {}) {
     const city = DATA.cities.find((c) => c.id === cityId);
     if (!city) return;
 
@@ -1322,13 +1408,20 @@
 
     renderTimeline();
     renderCityCards();
+    if (scrollTab) renderMobileCityTabs(true);
     renderDossier();
 
     if (cityId === 'hamburg' && state.mapLoaded && flyToCity) {
       flyToHamburg3D();
     } else if (cityId !== 'hamburg' && state.mapLoaded && state.dioramaStage) {
-      state.dioramaStage.activeCityId = cityId;
-      state.dioramaStage.updateCountryPinSelection();
+      closeLandmarkOverlay();
+      syncMapToolbarUI('country');
+      if (state.dioramaStage.focusCountryCity) {
+        state.dioramaStage.focusCountryCity(cityId);
+      } else {
+        state.dioramaStage.activeCityId = cityId;
+        state.dioramaStage.updateCountryPinSelection();
+      }
     }
 
     if (syncForm) {
@@ -1359,17 +1452,19 @@
       }
     });
 
-    document.querySelectorAll('[data-hub-filter]').forEach((btn) => {
-      btn.addEventListener('click', () => {
-        state.hubFilter = btn.getAttribute('data-hub-filter');
-        document.querySelectorAll('[data-hub-filter]').forEach((b) => b.classList.toggle('is-active', b === btn));
-        renderCityCards();
+    // Hero primary CTA: "Explore Map of German States & 2027 Dates" -> open All Germany view!
+    const heroPrimaryCta = document.getElementById('hero-cta-primary');
+    if (heroPrimaryCta) {
+      heroPrimaryCta.addEventListener('click', () => {
+        flyToGermanyMacro();
       });
-    });
+    }
 
     // 3D Map camera controls
     document.getElementById('btn-back-country').addEventListener('click', () => flyToGermanyMacro());
-    document.getElementById('btn-zoom-city').addEventListener('click', () => flyToHamburg3D());
+    document.getElementById('btn-zoom-city').addEventListener('click', () => {
+      selectCity('hamburg', { syncForm: true, flyToCity: true, scrollTab: true });
+    });
     const fireBtn = document.getElementById('btn-toggle-fire');
     if (fireBtn) {
       fireBtn.addEventListener('click', () => {
@@ -1400,7 +1495,8 @@
 
       const selectOnly = e.target.closest('[data-select-city]');
       if (selectOnly) {
-        selectCity(selectOnly.getAttribute('data-select-city'), { syncForm: true });
+        const fromTab = selectOnly.classList.contains('mobile-city-tab');
+        selectCity(selectOnly.getAttribute('data-select-city'), { syncForm: true, scrollTab: fromTab });
         return;
       }
 

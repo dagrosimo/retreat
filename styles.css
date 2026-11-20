@@ -69,6 +69,10 @@ textarea {
   color: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .container {
   width: min(100% - 32px, var(--container));
   margin-inline: auto;
@@ -863,6 +867,12 @@ textarea {
 .country-city-pin.is-hamburg-hero {
   background: #C23B1A;
   border-color: #FFFFFF;
+}
+
+.country-city-pin.is-selected {
+  transform: translateY(-2px) scale(1.08);
+  box-shadow: 0 0 0 4px rgba(194, 59, 26, 0.28), 0 6px 16px rgba(20, 19, 17, 0.34);
+  z-index: 10;
 }
 
 .country-city-pin:hover {
@@ -2861,16 +2871,34 @@ textarea {
   color: var(--city-accent);
 }
 
+/* Mobile Variant 1: Horizontal 5-City Tabs above map + Single Live Active City Card below map */
+.mobile-city-tabs,
+.mobile-active-city {
+  display: none;
+}
+
 /* Sticky Mobile Bottom CTA Bar */
 .mobile-sticky-cta {
   display: none;
+}
+
+@keyframes cityCardFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .hero-reel__slide,
   .hero-reel__bar.is-active span::after,
   .plate-stage img,
-  .status-pulse {
+  .status-pulse,
+  .mobile-active-card {
     animation: none !important;
     transition: none !important;
   }
@@ -2894,6 +2922,134 @@ textarea {
   }
 
   .hero-showcase {
+    display: none;
+  }
+
+  /* Variant 1 Mobile Hub: 5 horizontal city tabs above map + 1 live active card below map */
+  .mobile-city-tabs {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    max-width: 100%;
+    padding: 2px 0 12px;
+    margin-bottom: 6px;
+    scroll-snap-type: x proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .mobile-city-tab {
+    flex: 0 0 auto;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 11px;
+    border: 1px solid var(--line-strong);
+    background: var(--bg-card);
+    color: var(--ink);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+    cursor: pointer;
+    scroll-snap-align: start;
+    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+  }
+
+  .mobile-city-tab__num {
+    display: inline-grid;
+    place-items: center;
+    min-width: 18px;
+    height: 18px;
+    padding: 0 3px;
+    background: var(--bg-paper-alt);
+    border: 1px solid var(--line-strong);
+    font-size: 9.5px;
+    font-weight: 600;
+  }
+
+  .mobile-city-tab__name {
+    font-weight: 600;
+  }
+
+  .mobile-city-tab__mon {
+    font-size: 9.5px;
+    color: var(--ink-muted);
+    text-transform: uppercase;
+  }
+
+  .mobile-city-tab.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--bg-paper);
+  }
+
+  .mobile-city-tab.is-active .mobile-city-tab__num {
+    background: var(--tab-accent, var(--city-accent));
+    border-color: var(--tab-accent, var(--city-accent));
+    color: #fff;
+  }
+
+  .mobile-city-tab.is-active .mobile-city-tab__mon {
+    color: rgba(243, 239, 230, 0.72);
+  }
+
+  .mobile-active-city {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .mobile-active-card {
+    padding: 16px 14px;
+    background: var(--bg-card);
+    border: 1px solid var(--line-strong);
+    border-left: 3px solid var(--card-accent, var(--city-accent));
+    animation: cityCardFade 0.26s ease;
+  }
+
+  .mobile-active-card__head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+
+  .mobile-active-card__issue {
+    color: var(--ink-muted);
+    font-size: 10px;
+  }
+
+  .mobile-active-card__title {
+    margin: 0 0 6px;
+    font-family: var(--font-display);
+    font-size: 1.45rem;
+    line-height: 1.15;
+    color: var(--ink);
+  }
+
+  .mobile-active-card__sub {
+    margin: 0 0 14px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    color: var(--ink-muted);
+  }
+
+  .mobile-active-card__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .mobile-active-card__btn {
+    justify-content: center;
+    padding: 10px 10px;
+    font-size: 10.5px;
+    text-align: center;
+  }
+
+  .board-column {
     display: none;
   }
 
@@ -2944,12 +3100,16 @@ textarea {
     backdrop-filter: blur(10px);
     border-top: 1px solid var(--ink);
     box-shadow: 0 -8px 24px rgba(20, 19, 17, 0.14);
-    transform: translateY(115%);
-    transition: transform 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0;
+    transform: translateY(16px);
+    pointer-events: none;
+    transition: opacity 0.48s cubic-bezier(0.16, 1, 0.3, 1), transform 0.48s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .mobile-sticky-cta.is-visible {
+    opacity: 1;
     transform: translateY(0);
+    pointer-events: auto;
   }
 
   .mobile-sticky-cta__info {

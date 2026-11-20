@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,400;1,7..72,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="vendor/maplibre-gl.css" />
-  <link rel="stylesheet" href="styles.css?v=4" />
+  <link rel="stylesheet" href="styles.css?v=5" />
 </head>
 <body>
   <!-- Верхняя информационная лента -->
@@ -160,21 +160,17 @@
     <!-- 3. ИНТЕРАКТИВНЫЙ ХАБ: ЗЕМЛИ ГЕРМАНИИ + ЗУМ ЦЕНТРА ГОРОДА + ТАБЛО 2027 -->
     <section class="hub-section" id="hub">
       <div class="container">
-        <div class="section-head section-head--split">
-          <div>
-            <p class="eyebrow" id="hub-eyebrow">КАРТОГРАФИЯ МАРШРУТОВ · 2027</p>
-            <h2 class="section-title" id="hub-title">Земли Германии и план ключевых точек</h2>
-            <p class="section-lead" id="hub-lead"></p>
-          </div>
-          <div class="hub-filters" id="hub-filters" role="group" aria-label="Фильтр городов">
-            <button type="button" class="pill-btn is-active" data-hub-filter="all">Все города (5)</button>
-            <button type="button" class="pill-btn" data-hub-filter="active">Открыт набор</button>
-            <button type="button" class="pill-btn" data-hub-filter="lab">В разработке</button>
-          </div>
+        <div class="section-head">
+          <p class="eyebrow" id="hub-eyebrow">КАРТОГРАФИЯ МАРШРУТОВ · 2027</p>
+          <h2 class="section-title" id="hub-title">Земли Германии и план ключевых точек</h2>
+          <p class="section-lead" id="hub-lead"></p>
         </div>
 
-        <!-- Временная шкала 12 месяцев 2027 -->
+        <!-- Временная шкала 12 месяцев 2027 (десктоп) -->
         <div class="timeline-rail" id="timeline-rail" aria-label="График на 2027 год"></div>
+
+        <!-- Мобильные горизонтальные табы 5 городов прямо над картой (Вариант 1) -->
+        <div class="mobile-city-tabs" id="mobile-city-tabs" role="tablist" aria-label="2027 Cities"></div>
 
         <div class="hub-grid">
           <!-- Левая колонка: 3D Изометрическая Карта (MapLibre GL + Three.js 3D модели + Оверлей поверх карты) -->
@@ -225,7 +221,10 @@
             </div>
           </div>
 
-          <!-- Правая колонка: Табло городов 2027 -->
+          <!-- Мобильная живая карточка выбранного города прямо под картой -->
+          <div class="mobile-active-city" id="mobile-active-city" aria-live="polite"></div>
+
+          <!-- Правая колонка (десктоп): Табло городов 2027 -->
           <div class="board-column">
             <div class="board-header">
               <span class="mono-label" id="board-title">ABFAHRTSTAFEL · ГРАФИК ПОЕЗДОК НА 2027</span>
@@ -523,8 +522,8 @@
 
   <script src="vendor/maplibre-gl.js"></script>
   <script src="vendor/bundeslaender.js"></script>
-  <script src="vendor/hamburg_map_3d.js?v=4"></script>
-  <script src="data.js?v=4"></script>
-  <script src="app.js?v=4"></script>
+  <script src="vendor/hamburg_map_3d.js?v=5"></script>
+  <script src="data.js?v=5"></script>
+  <script src="app.js?v=5"></script>
 </body>
 </html>
