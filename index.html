@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,400;1,600&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,400;1,7..72,400&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="vendor/maplibre-gl.css" />
-  <link rel="stylesheet" href="styles.css?v=5" />
+  <link rel="stylesheet" href="styles.css?v=6" />
 </head>
 <body>
   <!-- Верхняя информационная лента -->
@@ -108,7 +108,7 @@
           </p>
           <div class="hero-actions">
             <a href="#hub" class="btn btn--primary" id="hero-cta-primary">Explore Map of German States &amp; 2027 Dates</a>
-            <a href="#dossier" class="btn btn--outline" id="hero-cta-secondary" data-jump-city="hamburg">Explore Route №1: Hamburg (Jan 28–31)</a>
+            <a href="#dossier" class="btn btn--outline" id="hero-cta-secondary" data-jump-city="stuttgart">Explore Route №1: Stuttgart (Jan 28–31)</a>
           </div>
         </div>
 
@@ -176,18 +176,18 @@
           <!-- Левая колонка: 3D Изометрическая Карта (MapLibre GL + Three.js 3D модели + Оверлей поверх карты) -->
           <div class="map-frame" id="map-frame">
             <div class="map-frame__meta">
-              <span class="mono-label" id="map-meta-label">ФЕДЕРАЛЬНЫЕ ЗЕМЛИ ГЕРМАНИИ · 3D КАРТА</span>
-              <span class="mono-label" id="map-active-coords">53°33′N · 09°59′E</span>
+              <span class="mono-label" id="map-meta-label">CITY CENTER ZOOM · CONCEPTUAL LANDMARKS</span>
+              <span class="mono-label" id="map-active-coords">48°46′N · 09°11′E</span>
             </div>
 
             <div class="map3d-toolbar">
               <div class="map3d-toolbar__left">
-                <button type="button" class="pill-btn" id="btn-back-country">← Вся Германия (16 земель)</button>
-                <button type="button" class="pill-btn is-active" id="btn-zoom-city">Гамбург 3D</button>
+                <button type="button" class="pill-btn" id="btn-back-country">← All Germany (16 States)</button>
+                <button type="button" class="pill-btn is-active" id="btn-zoom-city">Stuttgart 3D</button>
               </div>
               <div class="map3d-toolbar__right">
-                <button type="button" class="pill-btn is-active" id="btn-toggle-fire" title="Показать границы Великого пожара 1842 года">Пожар 1842</button>
-                <button type="button" class="pill-btn" id="btn-orbit-3d" title="Повернуть 3D-камеру">↻ Ракурс</button>
+                <button type="button" class="pill-btn is-active" id="btn-toggle-fire" title="Toggle historical zone">Altstadt 1738</button>
+                <button type="button" class="pill-btn" id="btn-orbit-3d" title="Orbit 3D camera">↻ Orbit</button>
               </div>
             </div>
 
@@ -522,8 +522,8 @@
 
   <script src="vendor/maplibre-gl.js"></script>
   <script src="vendor/bundeslaender.js"></script>
-  <script src="vendor/hamburg_map_3d.js?v=5"></script>
-  <script src="data.js?v=5"></script>
-  <script src="app.js?v=5"></script>
+  <script src="vendor/hamburg_map_3d.js?v=6"></script>
+  <script src="data.js?v=6"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

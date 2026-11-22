@@ -29,6 +29,13 @@
     bearing: -14
   };
 
+  const STUTTGART_VIEW = {
+    center: [9.1765, 48.7768],
+    zoom: 14.1,
+    pitch: 52,
+    bearing: -14
+  };
+
   const GERMANY_BOUNDS = [
     [3.8, 46.3],
     [17.0, 55.9]
@@ -40,7 +47,31 @@
     [10.082, 53.648]
   ];
 
+  // Tight invisible walls covering Stuttgart historic basin (Kessel)
+  const STUTTGART_BOUNDS = [
+    [9.115, 48.742],
+    [9.235, 48.812]
+  ];
+
+  const CITY_3D_PRESETS = {
+    stuttgart: {
+      view: STUTTGART_VIEW,
+      mobileZoom: 13.25,
+      bounds: STUTTGART_BOUNDS,
+      accent: '#7A2E3A',
+      zoneLayers: ['stuttgart-zone-fill', 'stuttgart-zone-outline', 'stuttgart-zone-label']
+    },
+    hamburg: {
+      view: HAMBURG_VIEW,
+      mobileZoom: 13.15,
+      bounds: HAMBURG_BOUNDS,
+      accent: '#C23B1A',
+      zoneLayers: ['great-fire-fill', 'great-fire-outline', 'great-fire-label']
+    }
+  };
+
   const CITY_COORDS = {
+    stuttgart: [9.1829, 48.7758],
     hamburg: [9.9937, 53.5511],
     dresden: [13.7373, 51.0504],
     berlin: [13.405, 52.52],
@@ -49,6 +80,7 @@
   };
 
   const CITY_TO_STATE = {
+    stuttgart: 'baden',
     hamburg: 'hamburg',
     dresden: 'sachsen',
     berlin: 'berlin',
@@ -57,6 +89,54 @@
   };
 
   const SHORT_LANDMARK_NAMES = {
+    'st-1': {
+      ru: 'StadtPalais · Зюсс',
+      ua: 'StadtPalais · Зюсс',
+      de: 'StadtPalais · Süß',
+      en: 'StadtPalais · Süß'
+    },
+    'st-2': {
+      ru: 'Hospitalkirche · Шубарт',
+      ua: 'Hospitalkirche · Шубарт',
+      de: 'Hospitalkirche · Schubart',
+      en: 'Hospitalkirche · Schubart'
+    },
+    'st-3': {
+      ru: 'Altes Schloss · Karlsschule',
+      ua: 'Altes Schloss · Karlsschule',
+      de: 'Altes Schloss · Karlsschule',
+      en: 'Altes Schloss · Karlsschule'
+    },
+    'st-4': {
+      ru: 'Hoppenlau · В. Гауф',
+      ua: 'Hoppenlau · В. Гауф',
+      de: 'Hoppenlau · W. Hauff',
+      en: 'Hoppenlau · W. Hauff'
+    },
+    'st-5': {
+      ru: 'Schillerplatz (1839)',
+      ua: 'Schillerplatz (1839)',
+      de: 'Schillerplatz (1839)',
+      en: 'Schillerplatz (1839)'
+    },
+    'st-6': {
+      ru: 'Staatsgalerie · 1848',
+      ua: 'Staatsgalerie · 1848',
+      de: 'Staatsgalerie · 1848',
+      en: 'Staatsgalerie · 1848'
+    },
+    'st-7': {
+      ru: 'Дом Гегеля (Hegel-Haus)',
+      ua: 'Дім Гегеля (Hegel-Haus)',
+      de: 'Hegel-Haus',
+      en: 'Hegel-Haus'
+    },
+    'st-8': {
+      ru: 'Silberburg · Мёрике',
+      ua: 'Silberburg · Мьоріке',
+      de: 'Silberburg · Mörike',
+      en: 'Silberburg · Mörike'
+    },
     'hm-1': {
       ru: 'Отель у Альстера',
       ua: 'Готель біля Альстера',
@@ -125,6 +205,29 @@
             [9.9936, 53.5471], // Trostbrücke / St. Nikolai south-east
             [9.9904, 53.5456], // Nikolaifleet south
             [9.9862, 53.5453]
+          ]]
+        }
+      }
+    ]
+  };
+
+  // Historical 18th–19th century Residenzstadt & Literary Core of Stuttgart
+  const STUTTGART_RESIDENZ_GEOJSON = {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        properties: { name: 'RESIDENZSTADT · 1738–1848' },
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[
+            [9.1722, 48.7796], // Hospitalkirche / Büchsenstraße NW
+            [9.1774, 48.7809], // Schlossplatz / Königstraße N
+            [9.1852, 48.7798], // Akademiegarten / Kulturmeile NE
+            [9.1860, 48.7754], // StadtPalais / Charlottenplatz SE
+            [9.1782, 48.7724], // Eberhardstraße / Hegel-Haus S
+            [9.1726, 48.7746], // Calwer Straße / Rotebühl SW
+            [9.1722, 48.7796]
           ]]
         }
       }
@@ -494,7 +597,8 @@
 
       this.mode = 'city'; // 'city' | 'country'
       this.activeLandmarkId = null;
-      this.activeCityId = 'hamburg';
+      this.activeCityId = opts.initialCityId && CITY_3D_PRESETS[opts.initialCityId] ? opts.initialCityId : 'stuttgart';
+      this.active3DCityId = this.activeCityId;
       this.fireLayerVisible = true;
       this.hoveredStateId = null;
       this.landmarkMarkers = {};
@@ -502,6 +606,10 @@
       this.mapReady = false;
 
       this.initMap();
+    }
+
+    getPreset(cityId) {
+      return CITY_3D_PRESETS[cityId || this.active3DCityId] || CITY_3D_PRESETS.stuttgart;
     }
 
     getShortLandmarkName(lm) {
@@ -516,22 +624,23 @@
       if (!window.maplibregl) return;
       this.container.innerHTML = '';
 
+      const preset = this.getPreset(this.active3DCityId);
       const isMobile =
         window.matchMedia &&
         window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
-      const startZoom = (this.container.clientWidth || 640) < 520 ? 13.15 : HAMBURG_VIEW.zoom;
+      const startZoom = (this.container.clientWidth || 640) < 520 ? preset.mobileZoom : preset.view.zoom;
 
       this.map = new window.maplibregl.Map({
         container: this.container,
         style: buildArchivalStyle(),
-        center: HAMBURG_VIEW.center,
+        center: preset.view.center,
         zoom: startZoom,
-        pitch: HAMBURG_VIEW.pitch,
-        bearing: HAMBURG_VIEW.bearing,
+        pitch: preset.view.pitch,
+        bearing: preset.view.bearing,
         minZoom: 12.0,
         maxZoom: 17.8,
         maxPitch: 64,
-        maxBounds: HAMBURG_BOUNDS,
+        maxBounds: preset.bounds,
         cooperativeGestures: isMobile,
         antialias: true,
         attributionControl: false
@@ -577,9 +686,12 @@
           f.id = idx + 1;
           const normName = ((f.properties && f.properties.name) || '').toLowerCase();
           const isHH = normName.includes('hamburg');
+          const isBW = normName.includes('baden');
           f.properties._isHamburg = isHH;
-          f.properties._baseColor = isHH ? '#C23B1A' : palette[idx % palette.length];
-          if (normName.includes('hamburg')) this.stateFeatureIds.hamburg = f.id;
+          f.properties._isBaden = isBW;
+          f.properties._baseColor = isBW ? '#D9C2C6' : isHH ? '#C23B1A' : palette[idx % palette.length];
+          if (isBW) this.stateFeatureIds.baden = f.id;
+          else if (isHH) this.stateFeatureIds.hamburg = f.id;
           else if (normName === 'sachsen' || normName.includes('saxony')) this.stateFeatureIds.sachsen = f.id;
           else if (normName.includes('berlin')) this.stateFeatureIds.berlin = f.id;
           else if (normName.includes('hessen') || normName.includes('hesse')) this.stateFeatureIds.hessen = f.id;
@@ -657,12 +769,15 @@
           }
         });
 
-        // Clicking Hamburg state itself flies right into Hamburg 3D
+        // Clicking Baden-Württemberg (Stuttgart) or Hamburg flies right into that city's 3D view
         map.on('click', 'bundeslaender-fill', (e) => {
           if (this.mode !== 'country' || !e.features || !e.features.length) return;
           const props = e.features[0].properties || {};
-          if (props._isHamburg) {
-            this.whooshToCity();
+          if (props._isBaden) {
+            this.whooshToCity('stuttgart');
+            this.onSelectCityFromCountry('stuttgart');
+          } else if (props._isHamburg) {
+            this.whooshToCity('hamburg');
             this.onSelectCityFromCountry('hamburg');
           }
         });
@@ -692,7 +807,7 @@
         }
       });
 
-      // 3. GERMANY 5-CITY EXPEDITION ROUTE (macro view)
+      // 3. GERMANY 6-CITY EXPEDITION ROUTE (macro view: Stuttgart -> Hamburg -> Dresden -> Berlin -> Frankfurt -> Munich)
       map.addSource('country-route', {
         type: 'geojson',
         data: {
@@ -700,6 +815,7 @@
           geometry: {
             type: 'LineString',
             coordinates: [
+              CITY_COORDS.stuttgart,
               CITY_COORDS.hamburg,
               CITY_COORDS.dresden,
               CITY_COORDS.berlin,
@@ -773,13 +889,67 @@
         }
       });
 
-      // 5. HAMBURG EXPEDITION WALKING ROUTE (01 -> 06 downtown + continuation to 07 Ohlsdorf)
-      const landmarks = this.getLandmarksData();
-      const coreCoords = landmarks
+      // 4B. HISTORICAL STUTTGART RESIDENZSTADT OVERLAY (under 3D buildings!)
+      map.addSource('stuttgart-residenz', {
+        type: 'geojson',
+        data: STUTTGART_RESIDENZ_GEOJSON
+      });
+
+      map.addLayer({
+        id: 'stuttgart-zone-fill',
+        type: 'fill',
+        source: 'stuttgart-residenz',
+        minzoom: 11.2,
+        paint: {
+          'fill-color': '#7A2E3A',
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 11.2, 0, 12.6, 0.14]
+        }
+      }, beforeBuildings);
+
+      map.addLayer({
+        id: 'stuttgart-zone-outline',
+        type: 'line',
+        source: 'stuttgart-residenz',
+        minzoom: 11.2,
+        paint: {
+          'line-color': '#7A2E3A',
+          'line-width': 2,
+          'line-dasharray': [4, 2.5],
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 11.2, 0, 12.6, 0.76]
+        }
+      }, beforeBuildings);
+
+      map.addLayer({
+        id: 'stuttgart-zone-label',
+        type: 'symbol',
+        source: 'stuttgart-residenz',
+        minzoom: 13.0,
+        maxzoom: 15.8,
+        layout: {
+          'text-field': 'RESIDENZSTADT · 1738–1848',
+          'text-font': ['Noto Sans Bold'],
+          'text-size': 9.5,
+          'text-letter-spacing': 0.16
+        },
+        paint: {
+          'text-color': '#6E222E',
+          'text-halo-color': 'rgba(243, 239, 230, 0.92)',
+          'text-halo-width': 1.6
+        }
+      });
+
+      // 5. EXPEDITION WALKING ROUTES (both Hamburg & Stuttgart under 3D buildings!)
+      const allCities = this.getCitiesData();
+      const hhCity = allCities.find((c) => c.id === 'hamburg');
+      const stCity = allCities.find((c) => c.id === 'stuttgart');
+      const hhLandmarks = (hhCity && hhCity.cityMap && hhCity.cityMap.landmarks) || [];
+      const stLandmarks = (stCity && stCity.cityMap && stCity.cityMap.landmarks) || [];
+
+      const hhCoreCoords = hhLandmarks
         .filter((l) => l.id !== 'hm-7' && Array.isArray(l.lngLat))
         .map((l) => l.lngLat);
-      const lm6 = landmarks.find((l) => l.id === 'hm-6');
-      const lm7 = landmarks.find((l) => l.id === 'hm-7');
+      const lm6 = hhLandmarks.find((l) => l.id === 'hm-6');
+      const lm7 = hhLandmarks.find((l) => l.id === 'hm-7');
 
       map.addSource('hamburg-route', {
         type: 'geojson',
@@ -789,7 +959,7 @@
             {
               type: 'Feature',
               properties: { kind: 'core' },
-              geometry: { type: 'LineString', coordinates: coreCoords }
+              geometry: { type: 'LineString', coordinates: hhCoreCoords }
             },
             ...(lm6 && lm7
               ? [{
@@ -835,18 +1005,48 @@
         }
       }, beforeBuildings);
 
-      // 6. GROUND HALO ANCHORS UNDER THE 7 LANDMARKS
+      // Stuttgart literary-philosophical walking loop (st-1 .. st-8)
+      const stCoreCoords = stLandmarks
+        .filter((l) => Array.isArray(l.lngLat))
+        .map((l) => l.lngLat);
+
+      map.addSource('stuttgart-route', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: { type: 'LineString', coordinates: stCoreCoords }
+        }
+      });
+
+      map.addLayer({
+        id: 'stuttgart-route-core',
+        type: 'line',
+        source: 'stuttgart-route',
+        minzoom: 11.2,
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': '#7A2E3A',
+          'line-width': 2.4,
+          'line-dasharray': [3, 3],
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 11.2, 0, 12.6, 0.78]
+        }
+      }, beforeBuildings);
+
+      // 6. GROUND HALO ANCHORS UNDER ALL 3D CITY LANDMARKS (Stuttgart + Hamburg)
+      const allGeoLandmarks = [
+        ...stLandmarks.filter((l) => Array.isArray(l.lngLat)).map((l) => ({ ...l, _accent: '#7A2E3A' })),
+        ...hhLandmarks.filter((l) => Array.isArray(l.lngLat)).map((l) => ({ ...l, _accent: '#C23B1A' }))
+      ];
+
       map.addSource('landmark-halos', {
         type: 'geojson',
         data: {
           type: 'FeatureCollection',
-          features: landmarks
-            .filter((l) => Array.isArray(l.lngLat))
-            .map((l) => ({
-              type: 'Feature',
-              properties: { id: l.id },
-              geometry: { type: 'Point', coordinates: l.lngLat }
-            }))
+          features: allGeoLandmarks.map((l) => ({
+            type: 'Feature',
+            properties: { id: l.id, accent: l._accent },
+            geometry: { type: 'Point', coordinates: l.lngLat }
+          }))
         }
       });
 
@@ -857,9 +1057,9 @@
         minzoom: 11.8,
         paint: {
           'circle-radius': ['interpolate', ['linear'], ['zoom'], 12, 8, 16, 22],
-          'circle-color': '#C23B1A',
+          'circle-color': ['get', 'accent'],
           'circle-opacity': 0.16,
-          'circle-stroke-color': '#C23B1A',
+          'circle-stroke-color': ['get', 'accent'],
           'circle-stroke-width': 1.2,
           'circle-stroke-opacity': 0.55
         }
@@ -872,7 +1072,7 @@
       this.landmarkMarkers = {};
       if (!this.map) return;
 
-      const landmarks = this.getLandmarksData();
+      const landmarks = this.getLandmarksData(this.active3DCityId);
       landmarks.forEach((lm) => {
         if (!Array.isArray(lm.lngLat)) return;
 
@@ -920,25 +1120,25 @@
         const coords = CITY_COORDS[city.id];
         if (!coords) return;
 
-        const isHH = city.id === 'hamburg';
+        const has3D = Boolean(CITY_3D_PRESETS[city.id]);
         const root = document.createElement('div');
         root.className = 'map-marker-root';
 
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `country-city-pin ${isHH ? 'is-hamburg-hero' : ''} ${city.id === this.activeCityId ? 'is-selected' : ''}`;
+        btn.className = `country-city-pin ${has3D ? 'is-hamburg-hero' : ''} ${city.id === this.activeCityId ? 'is-selected' : ''}`;
         btn.innerHTML = `
           <span class="map3d-pin__num">№${city.issueNo}</span>
           <span>${this.loc(city, 'name')}</span>
-          ${isHH ? '<span class="country-pin-cta">3D →</span>' : ''}
+          ${has3D ? '<span class="country-pin-cta">3D →</span>' : ''}
         `;
 
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
           this.activeCityId = city.id;
-          if (city.id === 'hamburg') {
-            this.whooshToCity();
-            this.onSelectCityFromCountry('hamburg');
+          if (has3D) {
+            this.whooshToCity(city.id);
+            this.onSelectCityFromCountry(city.id);
           } else {
             this.onSelectCityFromCountry(city.id);
             this.updateCountryPinSelection();
@@ -1069,7 +1269,11 @@
       if (!this.map || !this.mapReady) return this.fireLayerVisible;
       this.fireLayerVisible = !this.fireLayerVisible;
       const vis = this.fireLayerVisible ? 'visible' : 'none';
-      ['great-fire-fill', 'great-fire-outline', 'great-fire-label'].forEach((layerId) => {
+      const layers = [
+        'great-fire-fill', 'great-fire-outline', 'great-fire-label',
+        'stuttgart-zone-fill', 'stuttgart-zone-outline', 'stuttgart-zone-label'
+      ];
+      layers.forEach((layerId) => {
         if (this.map.getLayer(layerId)) {
           this.map.setLayoutProperty(layerId, 'visibility', vis);
         }
@@ -1080,12 +1284,26 @@
     /* ========================================================================
        CAMERA FLIGHT CONTROLS (Seamless 60fps WebGL flyTo + Tight Bounds)
        ======================================================================== */
-    whooshToCity() {
+    whooshToCity(cityId) {
       if (!this.map) return;
+      const targetId = cityId && CITY_3D_PRESETS[cityId] ? cityId : (this.active3DCityId || 'stuttgart');
+      const preset = this.getPreset(targetId);
+      const changedCity = this.active3DCityId !== targetId;
       const wasCountry = this.mode === 'country';
+
       this.mode = 'city';
-      this.activeCityId = 'hamburg';
-      this.onModeChange('city');
+      this.activeCityId = targetId;
+      this.active3DCityId = targetId;
+      this.onModeChange('city', targetId);
+
+      if (changedCity) {
+        this.activeLandmarkId = null;
+        this.buildLandmarkHTMLPins();
+      }
+      this.updateCountryPinSelection();
+
+      const isNarrow = (this.container.clientWidth || 0) < 520;
+      const targetZoom = isNarrow ? preset.mobileZoom : preset.view.zoom;
 
       this.map.dragRotate.enable();
       this.map.touchPitch.enable();
@@ -1093,20 +1311,20 @@
       this.map.setMinZoom(4.5);
 
       this.map.flyTo({
-        center: HAMBURG_VIEW.center,
-        zoom: HAMBURG_VIEW.zoom,
-        pitch: HAMBURG_VIEW.pitch,
-        bearing: HAMBURG_VIEW.bearing,
+        center: preset.view.center,
+        zoom: targetZoom,
+        pitch: preset.view.pitch,
+        bearing: preset.view.bearing,
         padding: { top: 0, bottom: 0, left: 0, right: 0 },
-        duration: wasCountry ? 1250 : 750,
+        duration: wasCountry || changedCity ? 1250 : 750,
         curve: 1.35,
         essential: true
       });
 
       this.map.once('moveend', () => {
-        if (this.mode === 'city') {
-          this.map.setMinZoom(12.2);
-          this.map.setMaxBounds(HAMBURG_BOUNDS);
+        if (this.mode === 'city' && this.active3DCityId === targetId) {
+          this.map.setMinZoom(12.0);
+          this.map.setMaxBounds(preset.bounds);
         }
       });
     }
@@ -1153,14 +1371,16 @@
 
     focusLandmark(landmarkId) {
       if (!this.map) return;
-      const landmarks = this.getLandmarksData();
+      const landmarks = this.getLandmarksData(this.active3DCityId);
       const lm = landmarks.find((l) => l.id === landmarkId);
       if (!lm || !Array.isArray(lm.lngLat)) return;
 
+      const targetCityId = this.active3DCityId || 'stuttgart';
+      const preset = this.getPreset(targetCityId);
       const wasCountry = this.mode === 'country';
       this.mode = 'city';
       this.setActiveLandmarkPin(landmarkId);
-      this.onModeChange('city');
+      this.onModeChange('city', targetCityId);
 
       this.map.dragRotate.enable();
       this.map.touchPitch.enable();
@@ -1186,9 +1406,9 @@
       });
 
       this.map.once('moveend', () => {
-        if (this.mode === 'city') {
-          this.map.setMinZoom(12.2);
-          this.map.setMaxBounds(HAMBURG_BOUNDS);
+        if (this.mode === 'city' && this.active3DCityId === targetCityId) {
+          this.map.setMinZoom(12.0);
+          this.map.setMaxBounds(preset.bounds);
         }
       });
     }

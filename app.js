@@ -9,10 +9,10 @@
 
   const state = {
     lang: 'en',
-    activeCityId: 'hamburg',
-    mapView: 'city', // 'country' | 'city' (сосредоточены на 3D Гамбурге)
+    activeCityId: 'stuttgart',
+    active3DCityId: 'stuttgart',
+    mapView: 'city', // 'country' | 'city'
     activeLandmarkId: null,
-    hubFilter: 'all',
     dossierTab: 'story',
     archiveFilter: 'all',
     compareView: 'closeup', // 'closeup' | 'full'
@@ -52,13 +52,22 @@
     return DATA.cities.find((c) => c.id === state.activeCityId) || DATA.cities[0];
   }
 
+  function getActive3DCity(cityId) {
+    const cid = cityId || state.active3DCityId;
+    const found = DATA.cities.find((c) => c.id === cid && c.has3DMap);
+    return found || DATA.cities.find((c) => c.has3DMap) || DATA.cities[0];
+  }
+
   function getHamburgCity() {
     return DATA.cities.find((c) => c.id === 'hamburg') || DATA.cities[0];
   }
 
-  function getHamburgArtifacts() {
-    const h = getHamburgCity();
-    return h ? h.artifacts : [];
+  function getAllArtifacts() {
+    const out = [];
+    DATA.cities.forEach((c) => {
+      if (Array.isArray(c.artifacts)) out.push(...c.artifacts);
+    });
+    return out;
   }
 
   function setAccentColor(hex) {
@@ -140,30 +149,30 @@
 
     const mobileHeroMeta = {
       en: {
-        reelBadge: 'HAMBURG · JAN 28–31, 2027',
-        facts: 'HAMBURG · JAN 28–31, 2027 · 4–10 GUESTS · SHARED HOTEL',
-        stickyCity: 'HAMBURG · JAN 28–31',
+        reelBadge: 'HAMBURG · FEB 25–28, 2027',
+        facts: '№01 STUTTGART (JAN 28–31) · №02 HAMBURG (FEB 25–28) · 4–10 GUESTS',
+        stickyCity: 'STUTTGART · JAN 28–31',
         stickySub: '4–10 guests · No payment now',
         stickyBtn: 'Pre-Register →'
       },
       de: {
-        reelBadge: 'HAMBURG · 28.–31. JAN 2027',
-        facts: 'HAMBURG · 28.–31. JAN 2027 · 4–10 PERS. · GEMEINSAMES HOTEL',
-        stickyCity: 'HAMBURG · 28.–31. JAN',
+        reelBadge: 'HAMBURG · 25.–28. FEB 2027',
+        facts: '№01 STUTTGART (28.–31. JAN) · №02 HAMBURG (25.–28. FEB) · 4–10 PERS.',
+        stickyCity: 'STUTTGART · 28.–31. JAN',
         stickySub: '4–10 Pers. · Unverbindlich',
         stickyBtn: 'Vormerken →'
       },
       ru: {
-        reelBadge: 'ГАМБУРГ · 28–31 ЯНВ 2027',
-        facts: 'ГАМБУРГ · 28–31 ЯНВ 2027 · 4–10 ЧЕЛ. · ЕДИНЫЙ ОТЕЛЬ',
-        stickyCity: 'ГАМБУРГ · 28–31 ЯНВ',
+        reelBadge: 'ГАМБУРГ · 25–28 ФЕВ 2027',
+        facts: '№01 ШТУТГАРТ (28–31 ЯНВ) · №02 ГАМБУРГ (25–28 ФЕВ) · 4–10 ЧЕЛ.',
+        stickyCity: 'ШТУТГАРТ · 28–31 ЯНВ',
         stickySub: '4–10 чел. · Без оплаты сейчас',
         stickyBtn: 'Предзапись →'
       },
       ua: {
-        reelBadge: 'ГАМБУРГ · 28–31 СІЧ 2027',
-        facts: 'ГАМБУРГ · 28–31 СІЧ 2027 · 4–10 ОСІБ · ЄДИНИЙ ГОТЕЛЬ',
-        stickyCity: 'ГАМБУРГ · 28–31 СІЧ',
+        reelBadge: 'ГАМБУРГ · 25–28 ЛЮТ 2027',
+        facts: '№01 ШТУТГАРТ (28–31 СІЧ) · №02 ГАМБУРГ (25–28 ЛЮТ) · 4–10 ОСІБ',
+        stickyCity: 'ШТУТГАРТ · 28–31 СІЧ',
         stickySub: '4–10 осіб · Без оплати зараз',
         stickyBtn: 'Передзапис →'
       }
@@ -206,40 +215,16 @@
       de: '← Ganz Deutschland (16 Länder)',
       en: '← All Germany (16 States)'
     };
-    const btnCityLabels = {
-      ru: 'Гамбург 3D',
-      ua: 'Гамбург 3D',
-      de: 'Hamburg 3D',
-      en: 'Hamburg 3D'
-    };
     const btnOrbitLabels = {
       ru: '↻ Ракурс',
       ua: '↻ Ракурс',
       de: '↻ Winkel',
       en: '↻ Orbit'
     };
-    const btnFireLabels = {
-      ru: 'Пожар 1842',
-      ua: 'Пожежа 1842',
-      de: 'Brand 1842',
-      en: '1842 Fire'
-    };
-    const mapLegendLabels = {
-      ru: ['Точки маршрута (01–07)', 'Зона пожара 1842 и маршрут', 'ПКМ / Ctrl + мышь — вращение 3D'],
-      ua: ['Точки маршруту (01–07)', 'Зона пожежі 1842 і маршрут', 'ПКМ / Ctrl + миша — обертання 3D'],
-      de: ['Stationen (01–07)', 'Brandgebiet 1842 & Route', 'Rechtsklick / Strg — 3D drehen'],
-      en: ['Route Stops (01–07)', '1842 Fire Zone & Route', 'Right-drag / Ctrl — Orbit 3D']
-    }[state.lang];
 
     document.getElementById('btn-back-country').textContent = btnCountryLabels[state.lang];
-    document.getElementById('btn-zoom-city').textContent = btnCityLabels[state.lang];
     document.getElementById('btn-orbit-3d').textContent = btnOrbitLabels[state.lang];
-    const fireBtn = document.getElementById('btn-toggle-fire');
-    if (fireBtn) fireBtn.textContent = btnFireLabels[state.lang];
-
-    document.getElementById('legend-active').textContent = mapLegendLabels[0];
-    document.getElementById('legend-forming').textContent = mapLegendLabels[1];
-    document.getElementById('legend-wait').textContent = mapLegendLabels[2];
+    updateMap3DButtonsText();
     document.getElementById('board-title').textContent = tr.hub.boardTitle;
     document.getElementById('board-threshold').textContent = tr.hub.boardThreshold;
     document.getElementById('map-meta-label').textContent =
@@ -359,14 +344,56 @@
   /* ------------------------------------------------------------------------
      Real 3D Vector Archival Map (MapLibre GL + OpenFreeMap + 16 Bundesländer)
      ------------------------------------------------------------------------ */
-  function syncMapToolbarUI(mode) {
+  function updateMap3DButtonsText() {
+    const city3d = getActive3DCity();
+    const isStuttgart = city3d && city3d.id === 'stuttgart';
+
+    const zoomBtn = document.getElementById('btn-zoom-city');
+    if (zoomBtn && city3d) {
+      zoomBtn.textContent = `${loc(city3d, 'name')} 3D`;
+    }
+
+    const zoneLabels = isStuttgart
+      ? { ru: 'Резиденция 1738', ua: 'Резиденція 1738', de: 'Residenz 1738', en: 'Altstadt 1738' }
+      : { ru: 'Пожар 1842', ua: 'Пожежа 1842', de: 'Brand 1842', en: '1842 Fire' };
+    const fireBtn = document.getElementById('btn-toggle-fire');
+    if (fireBtn) fireBtn.textContent = zoneLabels[state.lang];
+
+    const legendLabels = isStuttgart
+      ? {
+          ru: ['Точки Штутгарта (01–08)', 'Резиденция 1738–1848 и маршрут', 'ПКМ / Ctrl + мышь — вращение 3D'],
+          ua: ['Точки Штутгарта (01–08)', 'Резиденція 1738–1848 і маршрут', 'ПКМ / Ctrl + миша — обертання 3D'],
+          de: ['Stationen Stuttgart (01–08)', 'Residenzstadt 1738–1848 & Route', 'Rechtsklick / Strg — 3D drehen'],
+          en: ['Stuttgart Stops (01–08)', 'Residenzstadt 1738–1848 & Route', 'Right-drag / Ctrl — Orbit 3D']
+        }[state.lang]
+      : {
+          ru: ['Точки Гамбурга (01–07)', 'Зона пожара 1842 и маршрут', 'ПКМ / Ctrl + мышь — вращение 3D'],
+          ua: ['Точки Гамбурга (01–07)', 'Зона пожежі 1842 і маршрут', 'ПКМ / Ctrl + миша — обертання 3D'],
+          de: ['Stationen Hamburg (01–07)', 'Brandgebiet 1842 & Route', 'Rechtsklick / Strg — 3D drehen'],
+          en: ['Hamburg Stops (01–07)', '1842 Fire Zone & Route', 'Right-drag / Ctrl — Orbit 3D']
+        }[state.lang];
+
+    const la = document.getElementById('legend-active');
+    const lf = document.getElementById('legend-forming');
+    const lw = document.getElementById('legend-wait');
+    if (la) la.textContent = legendLabels[0];
+    if (lf) lf.textContent = legendLabels[1];
+    if (lw) lw.textContent = legendLabels[2];
+  }
+
+  function syncMapToolbarUI(mode, cityId) {
     state.mapView = mode;
+    if (cityId && DATA.cities.some((c) => c.id === cityId && c.has3DMap)) {
+      state.active3DCityId = cityId;
+    }
     const isCity = mode === 'city';
     document.getElementById('btn-back-country').classList.toggle('is-active', !isCity);
     document.getElementById('btn-zoom-city').classList.toggle('is-active', isCity);
     document.getElementById('map-meta-label').textContent = isCity
       ? DATA.i18n[state.lang].hub.mapMetaCity
       : DATA.i18n[state.lang].hub.mapMetaCountry;
+
+    updateMap3DButtonsText();
 
     const fireBtn = document.getElementById('btn-toggle-fire');
     const orbitBtn = document.getElementById('btn-orbit-3d');
@@ -381,22 +408,29 @@
     const container = document.getElementById('maplibre-canvas');
     if (!container) return;
 
+    const initial3D = DATA.cities.some((c) => c.id === state.activeCityId && c.has3DMap)
+      ? state.activeCityId
+      : 'stuttgart';
+    state.active3DCityId = initial3D;
+
     state.dioramaStage = new window.HamburgDioramaStage({
       container,
-      getLandmarksData: () => {
-        const hh = getHamburgCity();
-        return (hh && hh.cityMap && hh.cityMap.landmarks) || [];
+      initialCityId: initial3D,
+      getLandmarksData: (cityId) => {
+        const c = getActive3DCity(cityId);
+        return (c && c.cityMap && c.cityMap.landmarks) || [];
       },
       getCitiesData: () => DATA.cities || [],
       getLang: () => state.lang,
       loc: (obj, key) => loc(obj, key),
-      onModeChange: (mode) => {
-        syncMapToolbarUI(mode);
+      onModeChange: (mode, cityId) => {
+        syncMapToolbarUI(mode, cityId);
       },
       onSelectLandmark: (landmarkId, openOverlay) => {
-        state.activeCityId = 'hamburg';
+        const c3d = getActive3DCity();
+        state.activeCityId = c3d.id;
         state.activeLandmarkId = landmarkId;
-        syncMapToolbarUI('city');
+        syncMapToolbarUI('city', c3d.id);
         renderLandmarksDock();
         if (openOverlay) {
           renderLandmarkOverlay(landmarkId);
@@ -407,7 +441,7 @@
       }
     });
     state.mapLoaded = true;
-    syncMapToolbarUI('city');
+    syncMapToolbarUI('city', initial3D);
   }
 
   function refreshMapMarkers() {
@@ -424,24 +458,31 @@
     }
   }
 
-  function flyToHamburg3D() {
-    state.activeCityId = 'hamburg';
-    syncMapToolbarUI('city');
+  function flyToCity3D(cityId) {
+    const target = getActive3DCity(cityId);
+    state.activeCityId = target.id;
+    state.active3DCityId = target.id;
+    closeLandmarkOverlay();
+    syncMapToolbarUI('city', target.id);
     renderLandmarksDock();
     if (state.dioramaStage) {
-      state.dioramaStage.whooshToCity();
+      state.dioramaStage.whooshToCity(target.id);
     }
   }
 
+  function flyToHamburg3D() {
+    flyToCity3D('hamburg');
+  }
+
   function focusLandmark3D(landmarkId, openOverlay = true) {
-    const hh = getHamburgCity();
-    const landmarks = hh.cityMap.landmarks || [];
+    const city3d = getActive3DCity();
+    const landmarks = (city3d && city3d.cityMap && city3d.cityMap.landmarks) || [];
     const lm = landmarks.find((l) => l.id === landmarkId) || landmarks[0];
     if (!lm) return;
 
-    state.activeCityId = 'hamburg';
+    state.activeCityId = city3d.id;
     state.activeLandmarkId = lm.id;
-    syncMapToolbarUI('city');
+    syncMapToolbarUI('city', city3d.id);
     renderLandmarksDock();
 
     if (state.dioramaStage) {
@@ -456,8 +497,8 @@
   function renderLandmarksDock() {
     const dock = document.getElementById('hamburg-landmarks-dock');
     if (!dock) return;
-    const hh = getHamburgCity();
-    const landmarks = hh.cityMap.landmarks || [];
+    const city3d = getActive3DCity();
+    const landmarks = (city3d && city3d.cityMap && city3d.cityMap.landmarks) || [];
     const shortMap = window.HAMBURG_SHORT_LANDMARK_NAMES || {};
 
     dock.innerHTML = landmarks
@@ -475,8 +516,8 @@
   }
 
   function renderLandmarkOverlay(landmarkId) {
-    const hh = getHamburgCity();
-    const landmarks = hh.cityMap.landmarks || [];
+    const city3d = getActive3DCity();
+    const landmarks = (city3d && city3d.cityMap && city3d.cityMap.landmarks) || [];
     const lm = landmarks.find((l) => l.id === landmarkId);
     const overlay = document.getElementById('map-landmark-overlay');
     if (!lm || !overlay) return;
@@ -527,8 +568,8 @@
   }
 
   function stepLandmarkOverlay(delta) {
-    const hh = getHamburgCity();
-    const landmarks = hh.cityMap.landmarks || [];
+    const city3d = getActive3DCity();
+    const landmarks = (city3d && city3d.cityMap && city3d.cityMap.landmarks) || [];
     if (!landmarks.length) return;
     const curIdx = landmarks.findIndex((l) => l.id === state.activeLandmarkId);
     const nextIdx = ((curIdx === -1 ? 0 : curIdx) + delta + landmarks.length) % landmarks.length;
@@ -560,11 +601,12 @@
 
   function getCityShortMonth(cityId) {
     const months = {
-      hamburg: { en: 'Jan', de: 'Jan', ru: 'Янв', ua: 'Січ' },
-      dresden: { en: 'Feb', de: 'Feb', ru: 'Фев', ua: 'Лют' },
-      berlin: { en: 'Mar', de: 'Mär', ru: 'Мар', ua: 'Бер' },
-      frankfurt: { en: 'Apr', de: 'Apr', ru: 'Апр', ua: 'Кві' },
-      munich: { en: 'May', de: 'Mai', ru: 'Май', ua: 'Тра' }
+      stuttgart: { en: 'Jan', de: 'Jan', ru: 'Янв', ua: 'Січ' },
+      hamburg: { en: 'Feb', de: 'Feb', ru: 'Фев', ua: 'Лют' },
+      dresden: { en: 'Mar', de: 'Mär', ru: 'Мар', ua: 'Бер' },
+      berlin: { en: 'Apr', de: 'Apr', ru: 'Апр', ua: 'Кві' },
+      frankfurt: { en: 'May', de: 'Mai', ru: 'Май', ua: 'Тра' },
+      munich: { en: 'Jun', de: 'Jun', ru: 'Июн', ua: 'Чер' }
     };
     return (months[cityId] && months[cityId][state.lang]) || '';
   }
@@ -733,16 +775,20 @@
       return;
     }
 
+    const storyTabLabel = (city.dossierTabs && loc(city.dossierTabs, 'story')) || tr.tabs.story;
+    const scheduleTabLabel = (city.dossierTabs && loc(city.dossierTabs, 'schedule')) || tr.tabs.schedule;
+    const archiveTabLabel = (city.dossierTabs && loc(city.dossierTabs, 'archive')) || tr.tabs.archive;
+
     const tabsHtml = `
       <div class="dossier-tabs" role="tablist">
         <button type="button" class="dossier-tab ${state.dossierTab === 'story' ? 'is-active' : ''}" data-dossier-tab="story">
-          📖 ${tr.tabs.story}
+          📖 ${storyTabLabel}
         </button>
         <button type="button" class="dossier-tab ${state.dossierTab === 'schedule' ? 'is-active' : ''}" data-dossier-tab="schedule">
-          🗓 ${tr.tabs.schedule}
+          🗓 ${scheduleTabLabel}
         </button>
         <button type="button" class="dossier-tab ${state.dossierTab === 'archive' ? 'is-active' : ''}" data-dossier-tab="archive">
-          🖼 ${tr.tabs.archive}
+          🖼 ${archiveTabLabel}
         </button>
       </div>`;
 
@@ -841,13 +887,22 @@
         </div>`;
     } else {
       const items = city.artifacts.filter((a) => (state.archiveFilter === 'all' ? true : a.category === state.archiveFilter));
+      const filterDefs = city.archiveFilters
+        ? Object.keys(city.archiveFilters).map((k) => ({ key: k, label: city.archiveFilters[k][state.lang] || city.archiveFilters[k].en }))
+        : [
+            { key: 'all', label: tr.archiveFilters.all },
+            { key: 'pre', label: tr.archiveFilters.pre },
+            { key: 'fire', label: tr.archiveFilters.fire },
+            { key: 'daguerre', label: tr.archiveFilters.daguerre }
+          ];
       bodyHtml = `
         <div class="archive-panel">
           <div class="archive-filters">
-            <button type="button" class="pill-btn ${state.archiveFilter === 'all' ? 'is-active' : ''}" data-archive-filter="all">${tr.archiveFilters.all}</button>
-            <button type="button" class="pill-btn ${state.archiveFilter === 'pre' ? 'is-active' : ''}" data-archive-filter="pre">${tr.archiveFilters.pre}</button>
-            <button type="button" class="pill-btn ${state.archiveFilter === 'fire' ? 'is-active' : ''}" data-archive-filter="fire">${tr.archiveFilters.fire}</button>
-            <button type="button" class="pill-btn ${state.archiveFilter === 'daguerre' ? 'is-active' : ''}" data-archive-filter="daguerre">${tr.archiveFilters.daguerre}</button>
+            ${filterDefs
+              .map(
+                (f) => `<button type="button" class="pill-btn ${state.archiveFilter === f.key ? 'is-active' : ''}" data-archive-filter="${f.key}">${f.label}</button>`
+              )
+              .join('')}
           </div>
           <div class="artifacts-grid">
             ${items
@@ -1362,7 +1417,7 @@
   const dialog = document.getElementById('artifact-dialog');
 
   function openLightboxById(artifactId) {
-    const list = getHamburgArtifacts();
+    const list = getAllArtifacts();
     const idx = list.findIndex((a) => a.id === artifactId);
     if (idx === -1) return;
     state.lightboxList = list;
@@ -1372,7 +1427,7 @@
   }
 
   function openLightboxBySrc(src) {
-    const list = getHamburgArtifacts();
+    const list = getAllArtifacts();
     const idx = list.findIndex((a) => a.src === src);
     if (idx !== -1) openLightboxById(list[idx].id);
   }
@@ -1401,7 +1456,11 @@
     const city = DATA.cities.find((c) => c.id === cityId);
     if (!city) return;
 
+    const changedCity = state.activeCityId !== cityId;
     state.activeCityId = cityId;
+    if (changedCity) {
+      state.archiveFilter = 'all';
+    }
     setAccentColor(city.accentColor);
     history.replaceState(null, '', `#city=${cityId}`);
     document.getElementById('map-active-coords').textContent = city.coords;
@@ -1411,9 +1470,15 @@
     if (scrollTab) renderMobileCityTabs(true);
     renderDossier();
 
-    if (cityId === 'hamburg' && state.mapLoaded && flyToCity) {
-      flyToHamburg3D();
-    } else if (cityId !== 'hamburg' && state.mapLoaded && state.dioramaStage) {
+    if (city.has3DMap) {
+      state.active3DCityId = cityId;
+      renderLandmarksDock();
+      if (state.mapLoaded && flyToCity) {
+        flyToCity3D(cityId);
+      } else {
+        updateMap3DButtonsText();
+      }
+    } else if (state.mapLoaded && state.dioramaStage) {
       closeLandmarkOverlay();
       syncMapToolbarUI('country');
       if (state.dioramaStage.focusCountryCity) {
@@ -1463,7 +1528,8 @@
     // 3D Map camera controls
     document.getElementById('btn-back-country').addEventListener('click', () => flyToGermanyMacro());
     document.getElementById('btn-zoom-city').addEventListener('click', () => {
-      selectCity('hamburg', { syncForm: true, flyToCity: true, scrollTab: true });
+      const target3D = state.active3DCityId || 'stuttgart';
+      selectCity(target3D, { syncForm: true, flyToCity: true, scrollTab: true });
     });
     const fireBtn = document.getElementById('btn-toggle-fire');
     if (fireBtn) {
@@ -1517,7 +1583,7 @@
       if (pickCardBtn) {
         const cardId = pickCardBtn.getAttribute('data-pick-card');
         if (cardId === 'full') {
-          selectCity('hamburg', { syncForm: true });
+          selectCity('stuttgart', { syncForm: true });
         }
         scrollToRegistrationForm();
         return;
