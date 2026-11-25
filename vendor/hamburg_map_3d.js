@@ -12,8 +12,79 @@
 (function () {
   'use strict';
 
-  const OPENFREEMAP_TILES = 'https://tiles.openfreemap.org/planet';
-  const OPENFREEMAP_GLYPHS = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
+  const ROOT_PREFIX = (document.body && document.body.dataset && document.body.dataset.root) || '';
+  const SITE_ROOT_URL = new URL(ROOT_PREFIX || './', window.location.href).href.replace(/\/?$/, '/');
+
+  function hasLocalTile(z, x, y) {
+    const manifest = window.LOCAL_MAP_MANIFEST;
+    if (!manifest || !manifest.tiles) return false;
+    const boxes = manifest.tiles[String(z)];
+    if (!Array.isArray(boxes)) return false;
+    let inBox = false;
+    for (let i = 0; i < boxes.length; i += 1) {
+      const b = boxes[i];
+      if (x >= b[0] && x <= b[1] && y >= b[2] && y <= b[3]) {
+        inBox = true;
+        break;
+      }
+    }
+    if (!inBox) return false;
+    if (Array.isArray(manifest.missing) && manifest.missing.indexOf(`${z}/${x}/${y}`) !== -1) {
+      return false;
+    }
+    return true;
+  }
+
+  let localProtocolRegistered = false;
+  function ensureLocalProtocol() {
+    if (localProtocolRegistered || !window.maplibregl || typeof window.maplibregl.addProtocol !== 'function') return;
+    localProtocolRegistered = true;
+
+    window.maplibregl.addProtocol('localmap', async (params, abortController) => {
+      const url = params && params.url ? String(params.url) : '';
+      const signal = abortController ? abortController.signal : undefined;
+
+      const tileMatch = url.match(/^localmap:\/\/tiles\/(\d+)\/(\d+)\/(\d+)(?:\.pbf)?$/);
+      if (tileMatch) {
+        const z = Number(tileMatch[1]);
+        const x = Number(tileMatch[2]);
+        const y = Number(tileMatch[3]);
+        if (!hasLocalTile(z, x, y)) {
+          return { data: new ArrayBuffer(0) };
+        }
+        try {
+          const res = await fetch(`${SITE_ROOT_URL}vendor/map-tiles/${z}/${x}/${y}.pbf`, { signal });
+          if (!res.ok) return { data: new ArrayBuffer(0) };
+          return { data: await res.arrayBuffer() };
+        } catch (err) {
+          if (err && err.name === 'AbortError') throw err;
+          return { data: new ArrayBuffer(0) };
+        }
+      }
+
+      const fontMatch = url.match(/^localmap:\/\/fonts\/([^/]+)\/(\d+-\d+)(?:\.pbf)?$/);
+      if (fontMatch) {
+        const rawStack = decodeURIComponent(fontMatch[1]).split(',')[0].trim();
+        const range = fontMatch[2];
+        const manifest = window.LOCAL_MAP_MANIFEST;
+        const okStack = manifest && Array.isArray(manifest.fonts) && manifest.fonts.indexOf(rawStack) !== -1;
+        const okRange = manifest && Array.isArray(manifest.fontRanges) && manifest.fontRanges.indexOf(range) !== -1;
+        if (!okStack || !okRange) {
+          return { data: new ArrayBuffer(0) };
+        }
+        try {
+          const res = await fetch(`${SITE_ROOT_URL}vendor/map-fonts/${encodeURIComponent(rawStack)}/${range}.pbf`, { signal });
+          if (!res.ok) return { data: new ArrayBuffer(0) };
+          return { data: await res.arrayBuffer() };
+        } catch (err) {
+          if (err && err.name === 'AbortError') throw err;
+          return { data: new ArrayBuffer(0) };
+        }
+      }
+
+      return { data: new ArrayBuffer(0) };
+    });
+  }
 
   const GERMANY_VIEW = {
     center: [10.45, 51.18],
@@ -138,10 +209,10 @@
       en: 'Silberburg · Mörike'
     },
     'hm-1': {
-      ru: 'Отель у Альстера',
-      ua: 'Готель біля Альстера',
-      de: 'Hotel · Binnenalster',
-      en: 'Binnenalster Hotel'
+      ru: 'Зал у Альстера',
+      ua: 'Зал біля Альстера',
+      de: 'Tagungsort · Alster',
+      en: 'Alster Seminar Hall'
     },
     'hm-2': {
       ru: 'Hamburger Kunsthalle',
@@ -260,7 +331,7 @@
     return {
       version: 8,
       name: 'Archival Editorial 3D',
-      glyphs: OPENFREEMAP_GLYPHS,
+      glyphs: 'localmap://fonts/{fontstack}/{range}',
       light: {
         anchor: 'viewport',
         color: '#FFF6E6',
@@ -270,7 +341,10 @@
       sources: {
         openfreemap: {
           type: 'vector',
-          url: OPENFREEMAP_TILES
+          tiles: ['localmap://tiles/{z}/{x}/{y}'],
+          minzoom: 0,
+          maxzoom: 14,
+          attribution: 'Kartendaten: © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap-Mitwirkende</a> (ODbL)'
         }
       },
       layers: [
@@ -595,10 +669,11 @@
       this.getLang = opts.getLang || function () { return 'en'; };
       this.loc = opts.loc || function (obj, key) { return obj[key]; };
 
-      this.mode = 'city'; // 'city' | 'country'
+      this.mode = opts.initialMode === 'country' ? 'country' : 'city'; // 'city' | 'country'
       this.activeLandmarkId = null;
-      this.activeCityId = opts.initialCityId && CITY_3D_PRESETS[opts.initialCityId] ? opts.initialCityId : 'stuttgart';
-      this.active3DCityId = this.activeCityId;
+      this.activeCityId = opts.initialCityId || 'stuttgart';
+      this.active3DCityId = opts.initialCityId && CITY_3D_PRESETS[opts.initialCityId] ? opts.initialCityId : 'stuttgart';
+      this.trackFilter = 'all'; // 'all' | 'writers' | 'artists'
       this.fireLayerVisible = true;
       this.hoveredStateId = null;
       this.landmarkMarkers = {};
@@ -622,29 +697,36 @@
 
     initMap() {
       if (!window.maplibregl) return;
+      ensureLocalProtocol();
       this.container.innerHTML = '';
 
       const preset = this.getPreset(this.active3DCityId);
       const isMobile =
         window.matchMedia &&
         window.matchMedia('(max-width: 820px), (pointer: coarse)').matches;
-      const startZoom = (this.container.clientWidth || 640) < 520 ? preset.mobileZoom : preset.view.zoom;
+      const isNarrow = (this.container.clientWidth || 640) < 520;
+      const startCountry = this.mode === 'country';
 
       this.map = new window.maplibregl.Map({
         container: this.container,
         style: buildArchivalStyle(),
-        center: preset.view.center,
-        zoom: startZoom,
-        pitch: preset.view.pitch,
-        bearing: preset.view.bearing,
-        minZoom: 12.0,
-        maxZoom: 17.8,
+        center: startCountry ? GERMANY_VIEW.center : preset.view.center,
+        zoom: startCountry ? (isNarrow ? 4.45 : GERMANY_VIEW.zoom) : (isNarrow ? preset.mobileZoom : preset.view.zoom),
+        pitch: startCountry ? 0 : preset.view.pitch,
+        bearing: startCountry ? 0 : preset.view.bearing,
+        minZoom: startCountry ? 4.0 : 12.0,
+        maxZoom: startCountry ? 6.5 : 17.8,
         maxPitch: 64,
-        maxBounds: preset.bounds,
+        maxBounds: startCountry ? GERMANY_BOUNDS : preset.bounds,
         cooperativeGestures: isMobile,
         antialias: true,
         attributionControl: false
       });
+
+      if (startCountry) {
+        this.map.dragRotate.disable();
+        this.map.touchPitch.disable();
+      }
 
       // Subtle minimal zoom buttons bottom-left
       this.map.addControl(
@@ -652,9 +734,9 @@
         'bottom-left'
       );
 
-      // Compact attribution
+      // Visible OpenStreetMap ODbL attribution
       this.map.addControl(
-        new window.maplibregl.AttributionControl({ compact: true }),
+        new window.maplibregl.AttributionControl({ compact: false }),
         'bottom-right'
       );
 
@@ -807,34 +889,76 @@
         }
       });
 
-      // 3. GERMANY 6-CITY EXPEDITION ROUTE (macro view: Stuttgart -> Hamburg -> Dresden -> Berlin -> Frankfurt -> Munich)
-      map.addSource('country-route', {
+      // 3. GERMANY SEPARATE CONCEPTUAL TRACK ROUTES (Artists & Photographers vs Writers & Philosophers)
+      const citiesList = this.getCitiesData();
+      const artistCoords = citiesList
+        .filter((c) => c.trackId === 'artists' && CITY_COORDS[c.id])
+        .map((c) => CITY_COORDS[c.id]);
+      const writerCoords = citiesList
+        .filter((c) => c.trackId === 'writers' && CITY_COORDS[c.id])
+        .map((c) => CITY_COORDS[c.id]);
+
+      map.addSource('country-route-artists', {
         type: 'geojson',
         data: {
           type: 'Feature',
-          geometry: {
-            type: 'LineString',
-            coordinates: [
-              CITY_COORDS.stuttgart,
-              CITY_COORDS.hamburg,
-              CITY_COORDS.dresden,
-              CITY_COORDS.berlin,
-              CITY_COORDS.frankfurt,
-              CITY_COORDS.munich
-            ]
-          }
+          geometry: { type: 'LineString', coordinates: artistCoords }
         }
       });
       map.addLayer({
-        id: 'country-route-line',
+        id: 'country-route-artists-line',
         type: 'line',
-        source: 'country-route',
+        source: 'country-route-artists',
         maxzoom: 9.0,
         paint: {
           'line-color': '#C23B1A',
-          'line-width': 2,
+          'line-width': 2.2,
           'line-dasharray': [4, 4],
-          'line-opacity': ['interpolate', ['linear'], ['zoom'], 7.0, 0.72, 8.8, 0]
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 7.0, 0.78, 8.8, 0]
+        }
+      });
+
+      map.addSource('country-route-writers', {
+        type: 'geojson',
+        data: {
+          type: 'FeatureCollection',
+          features: [
+            ...(writerCoords.length >= 2
+              ? [{ type: 'Feature', geometry: { type: 'LineString', coordinates: writerCoords } }]
+              : []),
+            ...writerCoords.map((pt) => ({
+              type: 'Feature',
+              geometry: { type: 'Point', coordinates: pt }
+            }))
+          ]
+        }
+      });
+      map.addLayer({
+        id: 'country-route-writers-line',
+        type: 'line',
+        source: 'country-route-writers',
+        maxzoom: 9.0,
+        filter: ['==', '$type', 'LineString'],
+        paint: {
+          'line-color': '#7A2E3A',
+          'line-width': 2.4,
+          'line-dasharray': [3, 3],
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 7.0, 0.85, 8.8, 0]
+        }
+      });
+      map.addLayer({
+        id: 'country-route-writers-halo',
+        type: 'circle',
+        source: 'country-route-writers',
+        maxzoom: 9.0,
+        filter: ['==', '$type', 'Point'],
+        paint: {
+          'circle-radius': 18,
+          'circle-color': '#7A2E3A',
+          'circle-opacity': ['interpolate', ['linear'], ['zoom'], 7.0, 0.22, 8.8, 0],
+          'circle-stroke-color': '#7A2E3A',
+          'circle-stroke-width': 1.5,
+          'circle-stroke-opacity': ['interpolate', ['linear'], ['zoom'], 7.0, 0.7, 8.8, 0]
         }
       });
 
@@ -1121,14 +1245,17 @@
         if (!coords) return;
 
         const has3D = Boolean(CITY_3D_PRESETS[city.id]);
+        const isWriter = city.trackId === 'writers';
+        const trackSym = isWriter ? '◆' : '●';
         const root = document.createElement('div');
         root.className = 'map-marker-root';
+        root.dataset.trackId = city.trackId || 'artists';
 
         const btn = document.createElement('button');
         btn.type = 'button';
-        btn.className = `country-city-pin ${has3D ? 'is-hamburg-hero' : ''} ${city.id === this.activeCityId ? 'is-selected' : ''}`;
+        btn.className = `country-city-pin ${isWriter ? 'is-track-writers' : 'is-track-artists'} ${has3D ? 'is-hamburg-hero' : ''} ${city.id === this.activeCityId ? 'is-selected' : ''}`;
         btn.innerHTML = `
-          <span class="map3d-pin__num">№${city.issueNo}</span>
+          <span class="map3d-pin__num">${trackSym} №${city.issueNo}</span>
           <span>${this.loc(city, 'name')}</span>
           ${has3D ? '<span class="country-pin-cta">3D →</span>' : ''}
         `;
@@ -1154,10 +1281,36 @@
           .setLngLat(coords)
           .addTo(this.map);
 
-        this.countryMarkers[city.id] = { marker, root, el: btn };
+        this.countryMarkers[city.id] = { marker, root, el: btn, trackId: city.trackId || 'artists' };
       });
 
       this.syncMarkerVisibility();
+      this.applyTrackFilterToMap();
+    }
+
+    setTrackFilter(trackId) {
+      this.trackFilter = trackId || 'all';
+      this.applyTrackFilterToMap();
+    }
+
+    applyTrackFilterToMap() {
+      const f = this.trackFilter || 'all';
+      Object.values(this.countryMarkers).forEach(({ el, trackId }) => {
+        const dimmed = f !== 'all' && trackId !== f;
+        el.classList.toggle('is-dimmed', dimmed);
+      });
+      if (this.map && this.mapReady) {
+        const showArtists = f === 'all' || f === 'artists';
+        const showWriters = f === 'all' || f === 'writers';
+        if (this.map.getLayer('country-route-artists-line')) {
+          this.map.setLayoutProperty('country-route-artists-line', 'visibility', showArtists ? 'visible' : 'none');
+        }
+        ['country-route-writers-line', 'country-route-writers-halo'].forEach((lid) => {
+          if (this.map.getLayer(lid)) {
+            this.map.setLayoutProperty(lid, 'visibility', showWriters ? 'visible' : 'none');
+          }
+        });
+      }
     }
 
     // Compatibility alias used by app.js when switching language
@@ -1206,6 +1359,7 @@
         this.onModeChange('country');
         this.map.setMaxBounds(null);
         this.map.setMinZoom(4.0);
+        this.map.setMaxZoom(6.5);
         this.map.dragRotate.disable();
         this.map.touchPitch.disable();
 
@@ -1226,6 +1380,7 @@
           }
         });
       } else {
+        this.map.setMaxZoom(6.5);
         this.map.easeTo({
           center: targetCenter,
           zoom: targetZoom,
@@ -1309,6 +1464,7 @@
       this.map.touchPitch.enable();
       this.map.setMaxBounds(null);
       this.map.setMinZoom(4.5);
+      this.map.setMaxZoom(17.8);
 
       this.map.flyTo({
         center: preset.view.center,
@@ -1338,6 +1494,7 @@
       const isNarrow = (this.container.clientWidth || 0) < 520;
       this.map.setMaxBounds(null);
       this.map.setMinZoom(4.0);
+      this.map.setMaxZoom(6.5);
       this.map.dragRotate.disable();
       this.map.touchPitch.disable();
 
@@ -1386,6 +1543,7 @@
       this.map.touchPitch.enable();
       this.map.setMaxBounds(null);
       this.map.setMinZoom(4.5);
+      this.map.setMaxZoom(17.8);
 
       const isWide = (this.container.clientWidth || 0) >= 620;
       const targetZoom = lm.id === 'hm-7' ? 14.6 : (lm.zoom ? Math.min(lm.zoom, 16.0) : 15.8);

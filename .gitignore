@@ -1,0 +1,18 @@
+# Internal notes, plans & compliance drafts
+*.txt
+!robots.txt
+!llms.txt
+*.md
+
+# Local agent skills, backend drafts & helper scripts
+.agents/
+netlify/
+fetch_local_map_tiles.py
+rebuild.bat
+__pycache__/
+*.pyc
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
