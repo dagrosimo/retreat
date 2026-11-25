@@ -751,8 +751,8 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
           </div>
           <div class="lecture-chronicle">
             <div class="lecture-chronicle__grid">
-              <img src="{esc(root_prefix)}сергей/лекция1.jpg" alt="Lecture session" loading="lazy" />
-              <img src="{esc(root_prefix)}сергей/лекция2.jpg" alt="Seminar discussion" loading="lazy" />
+              <img src="{esc(root_prefix)}сергей/лекция1.jpg?v={esc(data['siteConfig'].get('assetVersion', '15'))}" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
+              <img src="{esc(root_prefix)}сергей/лекция2.jpg?v={esc(data['siteConfig'].get('assetVersion', '15'))}" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
             </div>
             <span class="mono-label" id="lecture-caption">{esc(tr['speaker']['lectureCaption'])}</span>
           </div>

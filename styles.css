@@ -2166,6 +2166,17 @@ textarea {
   gap: 14px;
 }
 
+.lecture-chronicle__grid img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 22%;
+  padding: 5px;
+  background: var(--bg-card);
+  border: 1px solid var(--line-strong);
+}
+
 .lecture-shot {
   margin: 0;
   border: 1px solid var(--line-strong);

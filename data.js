@@ -4010,7 +4010,7 @@ window.EXPEDITIONS_DATA = {
   },
   "siteConfig": {
     "baseUrl": "https://dagrosimo.github.io/retreat",
-    "assetVersion": "14",
+    "assetVersion": "15",
     "formEndpoint": "",
     "hideClientBotToken": true,
     "analytics": {
