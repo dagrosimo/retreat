@@ -166,24 +166,24 @@ def render_ticket_section(
     if not locked_city_id:
         cards_items = "".join(
             f"""
-          <article class="tariff-card {'tariff-card--primary' if idx == 0 else ''}">
-            <span class="mono-label">{esc(card['tag'])}</span>
-            <h3>{esc(card['name'])}</h3>
-            <div class="tariff-price">
-              <strong>{esc(card['priceMain'])}</strong>
-              <span>{esc(card['priceNote'])}</span>
+          <article class="tariff-card {'tariff-card--featured' if idx == 0 else ''}">
+            <div>
+              <span class="mono-label">{esc(card['tag'])}</span>
+              <h3 class="tariff-card__name">{esc(card['name'])}</h3>
+              <div class="tariff-card__price"><strong>{esc(card['priceMain'])}</strong></div>
+              <p class="tariff-card__note">{esc(card['priceNote'])}</p>
+              <ul class="tariff-card__list">
+                {''.join(f'<li>{esc(feat)}</li>' for feat in card['features'])}
+              </ul>
             </div>
-            <ul class="tariff-list">
-              {''.join(f'<li>{esc(feat)}</li>' for feat in card['features'])}
-            </ul>
-            <button type="button" class="btn {'btn--primary' if idx == 0 else 'btn--outline'}" data-pick-card="{esc(card['id'])}">
+            <button type="button" class="btn {'btn--primary' if idx == 0 else 'btn--outline'}" {'id="tariff-primary-cta"' if idx == 0 else ''} data-pick-card="{esc(card['id'])}">
               {esc(card['cta'])}
             </button>
           </article>"""
             for idx, card in enumerate(tr["cards"])
         )
         cards_html = f"""
-        <div class="tariffs-grid" id="tariffs-grid">{cards_items}</div>
+        <div class="tariffs-grid tariffs-grid--two" id="tariffs-grid">{cards_items}</div>
         <p class="included-note" id="included-note">{esc(tr['includedNote'])}</p>"""
 
     city_options = "".join(
@@ -192,6 +192,8 @@ def render_ticket_section(
         for c in cities
     )
     default_lang_val = {"en": "EN", "de": "DE", "ru": "RU", "ua": "UA"}[lang]
+    initial_dur = loc(default_city, "duration", lang) or tr["ticketLabels"]["formatValue"]
+    serial_code = f"SER. 2027-{default_city['id'][:3].upper()}-{default_city['issueNo']}"
 
     return f"""
     <section class="ticket-section" id="ticket-section">
@@ -202,15 +204,16 @@ def render_ticket_section(
         </div>
 {cards_html}
         <div class="fahrkarte-wrap">
-          <div class="fahrkarte-head">
+          <div class="fahrkarte-header">
             <div>
-              <h3 id="ticket-title">{esc(tr['ticketTitle'])}</h3>
+              <h3 class="fahrkarte-title" id="ticket-title">{esc(tr['ticketTitle'])}</h3>
+              <p class="fahrkarte-subtitle" id="ticket-subtitle">{esc(tr['ticketSubtitle'])}</p>
             </div>
             <span class="mono-label stamp-pill" id="tp-reserve-badge">{esc(tr['badgeText'])}</span>
           </div>
 
           <div class="fahrkarte-grid">
-            <form class="ticket-form" id="fahrkarte-form" novalidate>
+            <form class="fahrkarte-form" id="fahrkarte-form" novalidate>
               <div class="form-row">
                 <label for="f-city" id="lbl-city">{esc(tr['form']['cityLabel'])}</label>
                 <select id="f-city" name="city">{city_options}</select>
@@ -237,11 +240,13 @@ def render_ticket_section(
               <div class="form-row form-row--two">
                 <div>
                   <label for="f-name" id="lbl-name">{esc(tr['form']['nameLabel'])}</label>
-                  <input type="text" id="f-name" name="name" placeholder="{esc(tr['form']['namePlaceholder'])}" autocomplete="name" />
+                  <input type="text" id="f-name" name="name" placeholder="{esc(tr['form']['namePlaceholder'])}" autocomplete="name" required aria-describedby="err-name" />
+                  <span class="field-error" id="err-name" role="alert"></span>
                 </div>
                 <div>
                   <label for="f-contact" id="lbl-contact">{esc(tr['form']['contactLabel'])}</label>
-                  <input type="text" id="f-contact" name="contact" placeholder="{esc(tr['form']['contactPlaceholder'])}" />
+                  <input type="text" id="f-contact" name="contact" placeholder="{esc(tr['form']['contactPlaceholder'])}" required aria-describedby="err-contact" />
+                  <span class="field-error" id="err-contact" role="alert"></span>
                 </div>
               </div>
               <div class="form-row">
@@ -262,9 +267,11 @@ def render_ticket_section(
                 </p>
               </div>
               <p class="copy-feedback mono-label" id="bot-status" aria-live="polite"></p>
+              <div class="ticket-direct-actions" id="ticket-direct-actions" hidden></div>
             </form>
 
             <aside class="ticket-preview" id="ticket-preview-aside" aria-label="Ticket preview">
+              <div class="ticket-stamp" id="ticket-stamp" hidden aria-live="polite"></div>
               <div class="ticket-preview__body">
                 <div class="ticket-top">
                   <span class="mono-label">FAHRKARTE · SERGII GRYGORYSHYN</span>
@@ -278,7 +285,7 @@ def render_ticket_section(
                 <dl class="ticket-specs">
                   <div>
                     <dt id="tp-label-format">{esc(tr['ticketLabels']['format'])}</dt>
-                    <dd id="tp-format">{esc(tr['ticketLabels']['formatValue'])}</dd>
+                    <dd id="tp-format">{esc(initial_dur)}</dd>
                   </div>
                   <div>
                     <dt id="tp-label-status">{esc(tr['ticketLabels']['status'])}</dt>
@@ -294,6 +301,10 @@ def render_ticket_section(
                   </div>
                 </dl>
               </div>
+              <div class="ticket-stub">
+                <span class="mono-label" id="tp-serial">{esc(serial_code)}</span>
+                <span class="mono-label" id="tp-stub-seats">1 · {esc(default_lang_val)}</span>
+              </div>
             </aside>
           </div>
         </div>
@@ -307,10 +318,11 @@ def render_footer_and_chrome(
     url_lang: str,
     root_prefix: str,
     sticky_city: dict[str, Any] | None = None,
-    include_maplibre: bool = True,
+    include_maplibre: bool = False,
+    include_bundeslaender: bool = True,
     is_root_legal: bool = False,
 ) -> str:
-    ver = esc(data["siteConfig"].get("assetVersion", "10"))
+    ver = esc(data["siteConfig"].get("assetVersion", "18"))
     legal_prefix = "../" if is_root_legal else f"{root_prefix}{url_lang}/"
     legal_links_labels = {
         "de": ("Impressum", "Datenschutzerklärung"),
@@ -364,9 +376,10 @@ def render_footer_and_chrome(
 
     map_scripts = ""
     if include_maplibre:
+        bl_script = f'  <script src="{root_prefix}vendor/bundeslaender.js"></script>\n' if include_bundeslaender else ""
         map_scripts = (
             f'  <script src="{root_prefix}vendor/maplibre-gl.js"></script>\n'
-            f'  <script src="{root_prefix}vendor/bundeslaender.js"></script>\n'
+            f'{bl_script}'
             f'  <script src="{root_prefix}vendor/map-tiles/manifest.js?v={ver}"></script>\n'
             f'  <script src="{root_prefix}vendor/hamburg_map_3d.js?v={ver}"></script>\n'
         )
@@ -394,7 +407,7 @@ def render_footer_and_chrome(
         </div>
       </div>
       <div class="dialog-img-wrap">
-        <img id="dialog-img" src="" alt="" />
+        <img id="dialog-img" alt="" hidden />
       </div>
       <div class="dialog-caption">
         <h3 id="dialog-title"></h3>
@@ -451,8 +464,8 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
         for item in tr["principles"]["items"]
     )
 
-    # Track switcher buttons
-    track_btns = f'<button type="button" class="track-lens-btn is-active" data-track-lens="all">{esc(v3["allTracksBtn"])}</button>'
+    # Track switcher buttons (dynamic total count)
+    track_btns = f'<button type="button" class="track-lens-btn is-active" data-track-lens="all">{esc(v3["allTracksBtn"])} ({len(cities)})</button>'
     for t in tracks:
         count = sum(1 for c in cities if c["trackId"] == t["id"])
         track_btns += (
@@ -461,12 +474,17 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
             f'<span class="track-lens-sym">{esc(t["symbol"])}</span> {esc(loc(t, "name", lang))} ({count})</button>'
         )
 
-    # City Departure Board (pre-rendered in static HTML with real <a> links into every city!)
+    # City Departure Board (pre-rendered in static HTML with real <a> links + explicit 3D preview buttons!)
     board_cards_html = ""
     for idx, c in enumerate(cities):
         trk = get_track(data, c["trackId"])
         c_href = f"{root_prefix}{url_lang}/{c['id']}/"
         status_cls = "is-active-status" if c["status"] == "active" else ("is-forming-status" if c["status"] == "forming" else "")
+        preview_btn = (
+            f'<button type="button" class="city-card__3d-btn" data-preview-3d="{esc(c["id"])}">3D →</button>'
+            if c.get("has3DMap")
+            else ""
+        )
         board_cards_html += f"""
               <div class="city-card city-card--hub {'is-active' if idx == 0 else ''}" style="--card-accent: {esc(c['accentColor'])}" data-select-city="{esc(c['id'])}" data-city-track="{esc(c['trackId'])}" tabindex="0">
                 <span class="city-card__issue">№{esc(c['issueNo'])}</span>
@@ -479,7 +497,10 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
                   <p class="city-card__theme">{esc(loc(c, 'title', lang))}</p>
                   <div class="city-card__foot">
                     <span class="city-card__status {status_cls}">{esc(loc(c, 'statusLabel', lang))}</span>
-                    <a href="{esc(c_href)}" class="city-card__enter-link" data-city-link>{esc(v3['enterCityBtn'])}</a>
+                    <div class="city-card__actions">
+                      {preview_btn}
+                      <a href="{esc(c_href)}" class="city-card__enter-link" data-city-link>{esc(v3['enterCityBtn'])}</a>
+                    </div>
                   </div>
                 </div>
               </div>"""
@@ -540,6 +561,7 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
         },
     ]
 
+    ver = esc(cfg.get("assetVersion", "18"))
     head = render_head(
         data=data,
         lang=lang,
@@ -551,7 +573,7 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
         page_subpath="",
         og_image=cities[0]["heroImage"],
         json_ld_objects=json_ld,
-        include_maplibre=True,
+        include_maplibre=False,
     )
 
     body = f"""
@@ -604,7 +626,7 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
           <h1 class="hero-title">{esc(tr['hero']['title'])}</h1>
           <p class="hero-subtitle hero-subtitle--home">{esc(v3['homeHeroLead'])}</p>
           <div class="hero-track-pills">
-            {''.join(f'<span class="track-pill" style="--pill-accent:{esc(t["accentColor"])}">{esc(t["symbol"])} {esc(loc(t, "name", lang))}</span>' for t in tracks)}
+            {''.join(f'<a href="#hub" class="track-pill track-pill--link" data-track-lens="{esc(t["id"])}" style="--pill-accent:{esc(t["accentColor"])}">{esc(t["symbol"])} {esc(loc(t, "name", lang))}</a>' for t in tracks)}
           </div>
           <div class="hero-actions">
             <a href="#hub" class="btn btn--primary" id="hero-cta-primary">{esc(v3['homeCtaPrimary'])}</a>
@@ -642,14 +664,11 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
           <span class="mono-label" id="track-future-note"></span>
         </div>
 
-        <!-- 12-Month Timeline Rail (Desktop) -->
-        <div class="timeline-rail" id="timeline-rail" aria-label="2027 schedule"></div>
-
         <!-- Mobile Horizontal City Tabs right above Map -->
         <div class="mobile-city-tabs" id="mobile-city-tabs" role="tablist" aria-label="2027 Cities"></div>
 
         <div class="hub-grid">
-          <div class="map-frame" id="map-frame">
+          <div class="map-frame map-frame--sticky" id="map-frame" data-lazy-map="1" data-asset-ver="{ver}">
             <div class="map-frame__meta">
               <span class="mono-label" id="map-meta-label">{esc(tr['hub']['mapMetaCountry'])}</span>
               <span class="mono-label" id="map-active-coords">{esc(cities[0]['coords'])}</span>
@@ -657,7 +676,7 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
 
             <div class="map3d-toolbar">
               <div class="map3d-toolbar__left">
-                <button type="button" class="pill-btn is-active" id="btn-back-country">← All Germany (16 States)</button>
+                <button type="button" class="pill-btn is-active" id="btn-back-country">{esc(tr['hub']['backToCountry'])}</button>
                 <button type="button" class="pill-btn" id="btn-zoom-city">{esc(loc(cities[0], 'name', lang))} 3D</button>
               </div>
               <div class="map3d-toolbar__right">
@@ -668,26 +687,21 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
 
             <div class="map3d-stage" id="map3d-stage">
               <div class="maplibre-canvas" id="maplibre-canvas" role="region" aria-label="Interactive Germany and 3D City Map"></div>
-              <aside class="map-landmark-overlay" id="map-landmark-overlay" hidden aria-live="polite">
-                <div class="map-overlay__top">
-                  <span class="mono-label" id="ov-day"></span>
-                  <div class="map-overlay__nav">
-                    <button type="button" class="dialog-icon-btn" id="ov-prev" aria-label="Previous">←</button>
-                    <button type="button" class="dialog-icon-btn" id="ov-next" aria-label="Next">→</button>
-                    <button type="button" class="dialog-icon-btn" id="ov-close" aria-label="Close">✕</button>
-                  </div>
-                </div>
-                <div class="map-overlay__body" id="map-overlay-body"></div>
-              </aside>
             </div>
 
-            <div class="landmarks-dock" id="hamburg-landmarks-dock" hidden aria-label="3D city stops"></div>
+            <div class="home-3d-bar" id="home-3d-preview-bar" hidden>
+              <span class="mono-label home-3d-bar__stop" id="home-3d-stop-label"></span>
+              <div class="home-3d-bar__actions">
+                <button type="button" class="pill-btn" id="home-3d-back-btn">{esc(tr['hub']['backToCountry'])}</button>
+                <a href="{esc(root_prefix)}{esc(url_lang)}/{esc(cities[0]['id'])}/" class="btn btn--primary home-3d-bar__link" id="home-3d-city-link">{esc(v3['enterCityBtn'])}</a>
+              </div>
+            </div>
 
             <div class="map-zoom-bar">
               <span class="map-legend">
                 <span class="legend-item"><i class="dot" style="background:#7A2E3A"></i> <span id="legend-active">{esc(loc(tracks[0], 'name', lang))}</span></span>
                 <span class="legend-item"><i class="dot" style="background:#C23B1A"></i> <span id="legend-forming">{esc(loc(tracks[1], 'name', lang))}</span></span>
-                <span class="legend-item"><i class="dot dot--wait"></i> <span id="legend-wait">3D: Stuttgart &amp; Hamburg</span></span>
+                <span class="legend-item"><i class="dot dot--wait"></i> <span id="legend-wait">{esc(tr['hub']['legend'][2])}</span></span>
               </span>
             </div>
           </div>
@@ -695,7 +709,7 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
           <!-- Mobile Live Active City Card directly under map -->
           <div class="mobile-active-city" id="mobile-active-city" aria-live="polite"></div>
 
-          <!-- Desktop 6-City Departure Board with direct links into each City Page -->
+          <!-- Desktop 7-City Departure Board with direct links into each City Page -->
           <div class="board-column">
             <div class="board-header">
               <span class="mono-label" id="board-title">{esc(tr['hub']['boardTitle'])}</span>
@@ -717,7 +731,7 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
           <h2 class="section-title" id="principles-title">{esc(tr['principles']['title'])}</h2>
         </div>
         <div class="principles-grid" id="principles-grid">{principles_html}</div>
-        <p class="marginalia-note" id="small-format-note">{esc(tr['principles']['smallFormatNote'])}</p>
+        <p class="guarantee-callout" id="small-format-note">{esc(tr['principles']['smallFormatNote'])}</p>
       </div>
     </section>
 
@@ -726,16 +740,9 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
       <div class="container speaker-grid">
         <div class="speaker-portrait-col">
           <figure class="speaker-frame">
-            <img src="{esc(root_prefix)}сергей/сергей.jpg" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
+            <img src="{esc(root_prefix)}media/sergii/sergii-portrait.jpg" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
             <figcaption class="mono-label" id="speaker-portrait-cap">{esc(tr['speaker']['portraitCap'])}</figcaption>
           </figure>
-          <div class="video-slot">
-            <div class="video-slot__play" aria-hidden="true">▶</div>
-            <div>
-              <strong id="video-title">{esc(tr['speaker']['videoTitle'])}</strong>
-              <span class="mono-label" id="video-status">{esc(tr['speaker']['videoStatus'])}</span>
-            </div>
-          </div>
         </div>
 
         <div class="speaker-copy-col">
@@ -751,8 +758,8 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
           </div>
           <div class="lecture-chronicle">
             <div class="lecture-chronicle__grid">
-              <img src="{esc(root_prefix)}сергей/лекция1.jpg?v={esc(data['siteConfig'].get('assetVersion', '15'))}" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
-              <img src="{esc(root_prefix)}сергей/лекция2.jpg?v={esc(data['siteConfig'].get('assetVersion', '15'))}" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
+              <img src="{esc(root_prefix)}media/sergii/sergii-studio-1.jpg?v={ver}" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
+              <img src="{esc(root_prefix)}media/sergii/sergii-studio-2.jpg?v={ver}" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
             </div>
             <span class="mono-label" id="lecture-caption">{esc(tr['speaker']['lectureCaption'])}</span>
           </div>
@@ -774,7 +781,7 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
       </div>
     </section>
   </main>
-{render_footer_and_chrome(data, lang, url_lang, root_prefix, cities[0], include_maplibre=True)}"""
+{render_footer_and_chrome(data, lang, url_lang, root_prefix, cities[0], include_maplibre=False, include_bundeslaender=True)}"""
 
     return head + body
 
@@ -836,9 +843,9 @@ def render_city_hero_visual(data: dict[str, Any], city: dict[str, Any], lang: st
         <div class="city-hero-visual">
           <div class="hero-mobile-reel hero-mobile-reel--city" id="hero-mobile-reel" aria-label="1840–1843 visual sequence">
             <div class="hero-reel__stage">
-              <img class="hero-reel__slide is-active" data-reel-idx="0" data-lightbox-id="art-6" src="{esc(root_prefix)}фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg" alt="1840 Painting" loading="eager" />
-              <img class="hero-reel__slide hero-reel__slide--fire" data-reel-idx="1" data-lightbox-id="art-10" src="{esc(root_prefix)}фото и картины/hamburg/photo_10_2026-11-18_13-34-16.jpg" alt="1842 Great Fire" loading="eager" />
-              <img class="hero-reel__slide hero-reel__slide--silver" data-reel-idx="2" data-lightbox-id="art-7" src="{esc(root_prefix)}фото и картины/hamburg/photo_7_2026-11-18_13-34-16.jpg" alt="1843 Daguerreotype" loading="eager" />
+              <img class="hero-reel__slide is-active" data-reel-idx="0" data-lightbox-id="art-6" src="{esc(root_prefix)}media/hamburg/photo_6_2026-11-18_13-34-16.jpg" alt="1840 Painting" loading="eager" />
+              <img class="hero-reel__slide hero-reel__slide--fire" data-reel-idx="1" data-lightbox-id="art-10" src="{esc(root_prefix)}media/hamburg/photo_10_2026-11-18_13-34-16.jpg" alt="1842 Great Fire" loading="eager" />
+              <img class="hero-reel__slide hero-reel__slide--silver" data-reel-idx="2" data-lightbox-id="art-7" src="{esc(root_prefix)}media/hamburg/photo_7_2026-11-18_13-34-16.jpg" alt="1843 Daguerreotype" loading="eager" />
               <div class="hero-reel__scrim"></div>
               <div class="hero-reel__top">
                 <span class="mono-label hero-reel__badge" id="reel-badge-dates">{esc(loc(city, 'name', lang).upper())} · {esc(loc(city, 'dates', lang).upper())}</span>
@@ -864,15 +871,15 @@ def render_city_hero_visual(data: dict[str, Any], city: dict[str, Any], lang: st
             </div>
             <div class="triptych">
               <figure class="triptych__item" data-lightbox-id="art-6">
-                <img src="{esc(root_prefix)}фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg" alt="1840 Painting" loading="eager" />
+                <img src="{esc(root_prefix)}media/hamburg/photo_6_2026-11-18_13-34-16.jpg" alt="1840 Painting" loading="eager" />
                 <figcaption><span>1840</span> <em>{esc(caps[0])}</em></figcaption>
               </figure>
               <figure class="triptych__item triptych__item--fire" data-lightbox-id="art-10">
-                <img src="{esc(root_prefix)}фото и картины/hamburg/photo_10_2026-11-18_13-34-16.jpg" alt="1842 Fire" loading="eager" />
+                <img src="{esc(root_prefix)}media/hamburg/photo_10_2026-11-18_13-34-16.jpg" alt="1842 Fire" loading="eager" />
                 <figcaption><span>1842</span> <em>{esc(caps[1])}</em></figcaption>
               </figure>
               <figure class="triptych__item triptych__item--silver" data-lightbox-id="art-7">
-                <img src="{esc(root_prefix)}фото и картины/hamburg/photo_7_2026-11-18_13-34-16.jpg" alt="1843 Daguerreotype" loading="eager" />
+                <img src="{esc(root_prefix)}media/hamburg/photo_7_2026-11-18_13-34-16.jpg" alt="1843 Daguerreotype" loading="eager" />
                 <figcaption><span>1843</span> <em>{esc(caps[2])}</em></figcaption>
               </figure>
             </div>
@@ -891,10 +898,10 @@ def render_city_hero_visual(data: dict[str, Any], city: dict[str, Any], lang: st
             "ua": ["1738–1787 · Тиранія", "1782–1827 · Романтизм", "1839–1848 · Барикади", "1770–1855 · Гегель і петля"],
         }[lang]
         imgs_st = [
-            ("st-art-1", "фото и картины/stuttgart/web/st-01-oppenheimer-triptych.jpg", "1738"),
-            ("st-art-7", "фото и картины/stuttgart/web/st-07-schiller-flight.jpg", "1782"),
-            ("st-art-9", "фото и картины/stuttgart/web/st-09-thorvaldsen-monument.jpg", "1839"),
-            ("st-art-14", "фото и картины/stuttgart/web/st-14-moerike-portrait.jpg", "1855"),
+            ("st-art-1", "media/stuttgart/st-01-oppenheimer-triptych.jpg", "1738"),
+            ("st-art-7", "media/stuttgart/st-07-schiller-flight.jpg", "1782"),
+            ("st-art-9", "media/stuttgart/st-09-thorvaldsen-monument.jpg", "1839"),
+            ("st-art-14", "media/stuttgart/st-14-moerike-portrait.jpg", "1855"),
         ]
         return _render_quad_hero(city, lang, root_prefix, caps_st, imgs_st)
 
@@ -906,10 +913,10 @@ def render_city_hero_visual(data: dict[str, Any], city: dict[str, Any], lang: st
             "ua": ["1813 · Шинкель", "1831 · Гранітна чаша", "1834 · Панорама Гертнера", "1846–1900 · Десакралізація"],
         }[lang]
         imgs_bln = [
-            ("bln-art-1", "фото и картины/berlin/web/bln-01-schinkel-dom.jpg", "1813"),
-            ("bln-art-8", "фото и картины/berlin/web/bln-08-hummel-bowl.jpg", "1831"),
-            ("bln-art-10", "фото и картины/berlin/web/bln-10-gaertner-panorama.jpg", "1834"),
-            ("bln-art-13", "фото и картины/berlin/web/bln-13-lustgarten-photo.jpg", "1846"),
+            ("bln-art-1", "media/berlin/bln-01-schinkel-dom.jpg", "1813"),
+            ("bln-art-8", "media/berlin/bln-08-hummel-bowl.jpg", "1831"),
+            ("bln-art-10", "media/berlin/bln-10-gaertner-panorama.jpg", "1834"),
+            ("bln-art-13", "media/berlin/bln-13-lustgarten-photo.jpg", "1846"),
         ]
         return _render_quad_hero(city, lang, root_prefix, caps_bln, imgs_bln)
 
@@ -941,10 +948,10 @@ def render_stuttgart_interactive(data: dict[str, Any], lang: str, root_prefix: s
         "ua": "▶ Авто-прогулянка петлею (7 вузлів)",
     }[lang]
     btn_map = {
-        "en": "Show on 3D Map ↑",
-        "de": "Auf der 3D-Karte zeigen ↑",
-        "ru": "Показать точку на 3D-карте ↑",
-        "ua": "Показати на 3D-карті ↑",
+        "en": "Show on 3D Map ↓",
+        "de": "Auf der 3D-Karte zeigen ↓",
+        "ru": "Показать точку на 3D-карте ↓",
+        "ua": "Показати на 3D-карті ↓",
     }[lang]
 
     rail = "".join(
@@ -1000,64 +1007,52 @@ def render_berlin_interactive(data: dict[str, Any], lang: str, root_prefix: str)
 
     ui = {
         "en": {
-            "preset100L": "100% Painting",
-            "preset50": "50 / 50",
-            "preset100R": "100% Camera",
-            "btnMenzel": "⚡ Vortex → Menzel",
             "btnBack": "← Back to Curtain",
-            "jumpMap": "Show Stop on 3D Map ↑",
+            "jumpMap": "Show Stop on 3D Map ↓",
             "nextMenzel": "Enter Photography’s Vortex (Menzel) →",
             "readoutPrefix": "Painting Veil",
             "rangeAria": "Reveal painting vs. photograph comparison",
             "lossPrefix": "WHAT WAS LOST:",
+            "dragHint": "Drag slider ↔",
         },
         "de": {
-            "preset100L": "100% Gemälde",
-            "preset50": "50 / 50",
-            "preset100R": "100% Kamera",
-            "btnMenzel": "⚡ Sog → Menzel",
             "btnBack": "← Zurück zum Vorhang",
-            "jumpMap": "Station auf 3D-Karte ↑",
+            "jumpMap": "Station auf 3D-Karte ↓",
             "nextMenzel": "In den Sog der Fotografie (Menzel) →",
             "readoutPrefix": "Gemälde-Schleier",
             "rangeAria": "Vergleichsregler Gemälde gegen Fotografie",
             "lossPrefix": "VERLORENE DIMENSION:",
+            "dragHint": "Regler ziehen ↔",
         },
         "ru": {
-            "preset100L": "100% Холст",
-            "preset50": "50 / 50",
-            "preset100R": "100% Камера",
-            "btnMenzel": "⚡ Воронка → Менцель",
             "btnBack": "← Вернуться к шторке",
-            "jumpMap": "Показать точку на 3D-карте ↑",
+            "jumpMap": "Показать точку на 3D-карте ↓",
             "nextMenzel": "Войти в воронку фотографии (Менцель) →",
             "readoutPrefix": "Покров живописи",
             "rangeAria": "Сравнение живописи и архивной фотографии",
             "lossPrefix": "ЧТО БЫЛО УТРАЧЕНО:",
+            "dragHint": "Тяните шторку ↔",
         },
         "ua": {
-            "preset100L": "100% Полотно",
-            "preset50": "50 / 50",
-            "preset100R": "100% Камера",
-            "btnMenzel": "⚡ Воронка → Менцель",
             "btnBack": "← Повернутися до шторки",
-            "jumpMap": "Показати на 3D-карті ↑",
+            "jumpMap": "Показати на 3D-карті ↓",
             "nextMenzel": "Увійти у воронку фотографії (Менцель) →",
             "readoutPrefix": "Покров живопису",
             "rangeAria": "Порівняння живопису й архівної фотографії",
             "lossPrefix": "ЩО БУЛО ВТРАЧЕНО:",
+            "dragHint": "Тягніть шторку ↔",
         },
     }[lang]
 
     rail_buttons = "".join(
         f"""
-          <button type="button" class="timeloop-node{' is-active' if i == 0 else ''}" data-veil-layer="{esc(l['id'])}" role="tab" aria-selected="{'true' if i == 0 else 'false'}">
+          <button type="button" class="timeloop-node{' is-active' if i == 0 else ''}" data-veil-layer="{esc(l['id'])}" role="radio" aria-checked="{'true' if i == 0 else 'false'}">
             <span class="timeloop-node__year">{esc(l['num'])} · {esc(l['year'])}</span>
             <strong class="timeloop-node__name">{esc(loc(l, 'short', lang))}</strong>
           </button>"""
         for i, l in enumerate(layers)
     ) + f"""
-          <button type="button" class="timeloop-node veil-node--menzel" data-veil-layer="menzel" role="tab" aria-selected="false">
+          <button type="button" class="timeloop-node veil-node--menzel" data-veil-layer="menzel" role="radio" aria-checked="false">
             <span class="timeloop-node__year">{esc(menzel['num'])} · {esc(menzel['year'])}</span>
             <strong class="timeloop-node__name">{esc(loc(menzel, 'short', lang))}</strong>
           </button>"""
@@ -1068,21 +1063,13 @@ def render_berlin_interactive(data: dict[str, Any], lang: str, root_prefix: str)
     return f"""
     <section class="compare-section veil-section" id="berlin-veil">
       <div class="container">
-        <div class="section-head section-head--split">
-          <div>
-            <p class="eyebrow">{esc(loc(bi, 'eyebrow', lang))}</p>
-            <h2 class="section-title">{esc(loc(bi, 'title', lang))}</h2>
-            <p class="section-lead">{esc(loc(bi, 'lead', lang))}</p>
-          </div>
-          <div class="compare-mode-switch veil-presets" role="group" aria-label="Veil position controls">
-            <button type="button" class="pill-btn" data-veil-preset="94">{esc(ui['preset100L'])}</button>
-            <button type="button" class="pill-btn is-active" data-veil-preset="50">{esc(ui['preset50'])}</button>
-            <button type="button" class="pill-btn" data-veil-preset="6">{esc(ui['preset100R'])}</button>
-            <button type="button" class="pill-btn veil-vortex-btn" id="btn-veil-menzel">{esc(ui['btnMenzel'])}</button>
-          </div>
+        <div class="section-head">
+          <p class="eyebrow">{esc(loc(bi, 'eyebrow', lang))}</p>
+          <h2 class="section-title">{esc(loc(bi, 'title', lang))}</h2>
+          <p class="section-lead">{esc(loc(bi, 'lead', lang))}</p>
         </div>
 
-        <div class="veil-rail" id="berlin-veil-rail" role="tablist" aria-label="Berlin optical desacralization stages">{rail_buttons}
+        <div class="veil-rail" id="berlin-veil-rail" role="radiogroup" aria-label="Berlin optical desacralization stages">{rail_buttons}
         </div>
 
         <div class="veil-layout" id="berlin-curtain-panel">
@@ -1092,6 +1079,7 @@ def render_berlin_interactive(data: dict[str, Any], lang: str, root_prefix: str)
             <span class="plate-year-badge veil-badge veil-badge--left" id="veil-left-badge">{esc(loc(first, 'leftBadge', lang))}</span>
             <span class="plate-year-badge plate-year-badge--silver veil-badge veil-badge--right" id="veil-right-badge">{esc(loc(first, 'rightBadge', lang))}</span>
             <span class="mono-label veil-readout" id="veil-readout">{esc(ui['readoutPrefix'])}: 52%</span>
+            <span class="mono-label veil-drag-hint" id="veil-drag-hint">{esc(ui['dragHint'])}</span>
             <div class="veil-divider" aria-hidden="true">
               <span class="veil-handle">↔</span>
             </div>
@@ -1149,10 +1137,10 @@ def render_berlin_interactive(data: dict[str, Any], lang: str, root_prefix: str)
 def render_hamburg_interactive(data: dict[str, Any], lang: str, root_prefix: str) -> str:
     tr = data["i18n"][lang]["compare"]
     cmp_labels = {
-        "en": ("Close-Up: 1840 ↔ 1843", "Full Canvas (Pins)", "⏸ Auto-Tour", "1840 · PAINTING", "1843 · DAGUERREOTYPE"),
-        "de": ("Nahaufnahme: 1840 ↔ 1843", "Gesamtansicht (Pins)", "⏸ Auto-Tour", "1840 · GEMÄLDE", "1843 · DAGUERREOTYPIE"),
-        "ru": ("Крупный план: 1840 ↔ 1843", "Общий план (пины)", "⏸ Авто-обход", "1840 · ХОЛСТ", "1843 · ДАГЕРОТИП"),
-        "ua": ("Крупний план: 1840 ↔ 1843", "Загальний план (піни)", "⏸ Авто-огляд", "1840 · ПОЛОТНО", "1843 · ДАГЕРОТИП"),
+        "en": ("▶ Play Spotlight Tour", "1840 · PAINTING", "1843 · DAGUERREOTYPE", "1840 Painting", "1843 Daguerreotype"),
+        "de": ("▶ Spotlight-Tour starten", "1840 · GEMÄLDE", "1843 · DAGUERREOTYPIE", "1840 Gemälde", "1843 Daguerreotypie"),
+        "ru": ("▶ Кино-обход прожектором", "1840 · ХОЛСТ", "1843 · ДАГЕРОТИП", "1840 Холст", "1843 Дагеротип"),
+        "ua": ("▶ Огляд прожектором", "1840 · ПОЛОТНО", "1843 · ДАГЕРОТИП", "1840 Полотно", "1843 Дагеротип"),
     }[lang]
 
     return f"""
@@ -1164,29 +1152,40 @@ def render_hamburg_interactive(data: dict[str, Any], lang: str, root_prefix: str
             <h2 class="section-title" id="compare-title">{esc(tr['title'])}</h2>
             <p class="section-lead" id="compare-lead">{esc(tr['lead'])}</p>
           </div>
-          <div class="compare-mode-switch" role="group" aria-label="Face study controls">
-            <button type="button" class="pill-btn is-active" id="btn-compare-closeup" data-compare-view="closeup">{esc(cmp_labels[0])}</button>
-            <button type="button" class="pill-btn" id="btn-compare-full" data-compare-view="full">{esc(cmp_labels[1])}</button>
-            <button type="button" class="pill-btn is-active" id="btn-compare-autoplay" aria-pressed="true">{esc(cmp_labels[2])}</button>
+          <div class="compare-mode-switch" role="group" aria-label="Spotlight tour control">
+            <button type="button" class="pill-btn" id="btn-compare-autoplay" aria-pressed="false">{esc(cmp_labels[0])}</button>
+            <div class="tour-progress" aria-hidden="true"><span id="compare-tour-bar"></span></div>
           </div>
         </div>
 
-        <div id="compare-pins-view" class="compare-pins-view is-closeup">
+        <div id="compare-pins-view" class="compare-pins-view is-show-1840">
+          <div class="compare-mobile-toggle" id="compare-mobile-toggle" role="tablist" aria-label="Switch 1840 painting vs 1843 plate">
+            <button type="button" class="pill-btn is-active" data-compare-year="1840" role="tab" aria-selected="true">{esc(cmp_labels[3])}</button>
+            <button type="button" class="pill-btn" data-compare-year="1843" role="tab" aria-selected="false">{esc(cmp_labels[4])}</button>
+          </div>
+
           <div class="compare-dual-grid">
-            <figure class="compare-plate">
+            <figure class="compare-plate" data-year="1840">
               <div class="plate-stage" id="plate-1840-stage">
-                <img id="compare-1840-img" src="{esc(root_prefix)}фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg" alt="1840 Painting" loading="lazy" />
-                <span class="plate-year-badge" id="badge-1840">{esc(cmp_labels[3])}</span>
-                <div class="hotspot-layer" id="hotspots-1840"></div>
+                <div class="plate-zoom-wrap" id="zoom-1840">
+                  <img id="compare-1840-img" src="{esc(root_prefix)}media/hamburg/photo_6_2026-11-18_13-34-16.jpg" alt="1840 Painting" loading="lazy" />
+                  <svg class="spotlight-svg" id="spotlight-1840" viewBox="0 0 1215 1000" preserveAspectRatio="none" aria-hidden="true"></svg>
+                  <div class="hotspot-layer" id="hotspots-1840"></div>
+                </div>
+                <span class="plate-year-badge" id="badge-1840">{esc(cmp_labels[1])}</span>
               </div>
               <figcaption class="museum-caption" id="cap-1840">{esc(tr['caption1840'])}</figcaption>
             </figure>
 
-            <figure class="compare-plate">
+            <figure class="compare-plate" data-year="1843">
               <div class="plate-stage" id="plate-1843-stage">
-                <img id="compare-1843-img" src="{esc(root_prefix)}фото и картины/hamburg/photo_7_2026-11-18_13-34-16.jpg" alt="1843 Daguerreotype" loading="lazy" />
-                <span class="plate-year-badge plate-year-badge--silver" id="badge-1843">{esc(cmp_labels[4])}</span>
-                <div class="hotspot-layer" id="hotspots-1843"></div>
+                <div class="plate-zoom-wrap" id="zoom-1843">
+                  <img id="compare-1843-img" src="{esc(root_prefix)}media/hamburg/photo_7_2026-11-18_13-34-16.jpg" alt="1843 Daguerreotype" loading="lazy" />
+                  <svg class="spotlight-svg" id="spotlight-1843" viewBox="0 0 1215 1000" preserveAspectRatio="none" aria-hidden="true"></svg>
+                  <div class="hotspot-layer" id="hotspots-1843"></div>
+                </div>
+                <span class="plate-year-badge plate-year-badge--silver" id="badge-1843">{esc(cmp_labels[2])}</span>
+                <span class="plate-unannotated-note" id="plate-1843-note" hidden></span>
               </div>
               <figcaption class="museum-caption" id="cap-1843">{esc(tr['caption1843'])}</figcaption>
             </figure>
@@ -1207,7 +1206,7 @@ def render_static_dossier(data: dict[str, Any], city: dict[str, Any], lang: str,
         clues_html = "".join(
             f"""
             <article class="lab-clue-card">
-              <span class="mono-label">{esc(clue['code'])}</span>
+              <span class="mono-label">{esc(loc(clue, 'code', lang))}</span>
               <h4>{esc(loc(clue, 'title', lang))}</h4>
               <p>{esc(loc(clue, 'desc', lang))}</p>
             </article>"""
@@ -1228,10 +1227,13 @@ def render_static_dossier(data: dict[str, Any], city: dict[str, Any], lang: str,
           </div>
         </div>"""
 
-    # Full city: pre-render all 4 Acts right in HTML for SEO & AI crawlers!
+    # Full city: pre-render all Acts right in HTML for SEO & AI crawlers!
     story_lbl = (city.get("dossierTabs") and loc(city["dossierTabs"], "story", lang)) or tr["tabs"]["story"]
     sched_lbl = (city.get("dossierTabs") and loc(city["dossierTabs"], "schedule", lang)) or tr["tabs"]["schedule"]
     arch_lbl = (city.get("dossierTabs") and loc(city["dossierTabs"], "archive", lang)) or tr["tabs"]["archive"]
+    art_count = len(city.get("artifacts") or [])
+    if "(" not in arch_lbl and art_count:
+        arch_lbl = f"{arch_lbl} ({art_count})"
 
     acts_html = ""
     for idx, act in enumerate(city.get("acts", [])):
@@ -1271,6 +1273,7 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
     tr = data["i18n"][lang]
     v3 = tr["v3"]
     cfg = data["siteConfig"]
+    ver = esc(cfg.get("assetVersion", "18"))
     base_url = cfg["baseUrl"].rstrip("/")
     page_subpath = f"{city['id']}/"
     canonical = f"{base_url}/{url_lang}/{page_subpath}"
@@ -1342,7 +1345,7 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
         page_subpath=page_subpath,
         og_image=city.get("heroImage", ""),
         json_ld_objects=json_ld,
-        include_maplibre=has_3d,
+        include_maplibre=False,
     )
 
     hook_text = loc(city, "heroHook", lang)
@@ -1356,6 +1359,52 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
             "hamburg": {"ru": "Пожар 1842", "ua": "Пожежа 1842", "de": "Brand 1842", "en": "1842 Fire"},
         }
         zone_btn_lbl = zone_labels_map.get(city["id"], zone_labels_map["hamburg"])[lang]
+        stops_word = {"en": "Stops", "de": "Stationen", "ru": "точек", "ua": "точок"}[lang]
+
+        sec_titles = {
+            "ru": ["Архитектура и история места", "Философская практика на месте", "Ключевые артефакты локации"],
+            "ua": ["Архітектура та історія місця", "Філософська практика на місці", "Ключові артефакти локації"],
+            "de": ["Architektur & Ortsgeschichte", "Philosophische Praxis vor Ort", "Zentrale Artefakte"],
+            "en": ["Architecture & Site History", "On-Site Philosophical Practice", "Key Site Artifacts"],
+        }[lang]
+        legend_copy = {
+            "en": ["Route Stops", "Historical Zone", "Right-drag / Ctrl — Orbit 3D"],
+            "de": ["Stationen der Route", "Historische Zone", "Rechtsklick / Strg — 3D-Orbit"],
+            "ru": ["Точки маршрута", "Историческая зона", "ПКМ / Ctrl — вращать 3D"],
+            "ua": ["Точки маршруту", "Історична зона", "ПКМ / Ctrl — обертати 3D"],
+        }[lang]
+
+        stop_pills_html = "".join(
+            f'<button type="button" class="dock-chip{" is-active" if i == 0 else ""}" data-dock-landmark="{esc(lm["id"])}"><span>{esc(lm["num"])}</span> {esc(loc(lm, "name", lang).split("(")[0].strip())}</button>'
+            for i, lm in enumerate(landmarks)
+        )
+        first_lm = landmarks[0] if landmarks else None
+        initial_day = f"{first_lm['num']} · {loc(first_lm, 'day', lang).upper()}" if first_lm else ""
+        initial_inspector_html = (
+            f"""
+              <div class="map-overlay__hero">
+                <img src="{esc(root_prefix + first_lm['img'])}" alt="{esc(loc(first_lm, 'name', lang))}" data-lightbox-src="{esc(first_lm['img'])}" />
+                <div>
+                  <h4 class="map-overlay__title">{esc(loc(first_lm, 'name', lang))}</h4>
+                  <span class="map-overlay__addr">{esc(first_lm.get('address', ''))}</span>
+                </div>
+              </div>
+              <div class="map-overlay__section">
+                <h5>{esc(sec_titles[0])}</h5>
+                <p>{esc(loc(first_lm, 'history', lang) or loc(first_lm, 'concept', lang))}</p>
+              </div>
+              <div class="map-overlay__section">
+                <h5>{esc(sec_titles[1])}</h5>
+                <p>{esc(loc(first_lm, 'practice', lang) or loc(first_lm, 'concept', lang))}</p>
+              </div>
+              <div class="map-overlay__artifacts">
+                <strong>{esc(sec_titles[2])}:</strong><br/>
+                {esc(loc(first_lm, 'artifacts', lang))}
+              </div>"""
+            if first_lm
+            else ""
+        )
+
         map_section_html = f"""
     <section class="hub-section city-map-section" id="city-map">
       <div class="container">
@@ -1364,43 +1413,44 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
           <h2 class="section-title">{esc(loc(city, 'name', lang))} 3D · {esc(tr['hub']['mapMetaCity'])}</h2>
         </div>
 
-        <div class="map-frame" id="map-frame">
-          <div class="map-frame__meta">
-            <span class="mono-label" id="map-meta-label">{esc(tr['hub']['mapMetaCity'])}</span>
-            <span class="mono-label" id="map-active-coords">{esc(city['coords'])}</span>
-          </div>
-          <div class="map3d-toolbar">
-            <div class="map3d-toolbar__left">
-              <button type="button" class="pill-btn" id="btn-back-country">← Germany</button>
-              <button type="button" class="pill-btn is-active" id="btn-zoom-city">{esc(loc(city, 'name', lang))} 3D</button>
+        <div class="city-map-split">
+          <div class="map-frame city-map-split__canvas" id="map-frame" data-lazy-map="1" data-asset-ver="{ver}">
+            <div class="map-frame__meta">
+              <span class="mono-label" id="map-meta-label">{esc(tr['hub']['mapMetaCity'])}</span>
+              <span class="mono-label" id="map-active-coords">{esc(city['coords'])}</span>
             </div>
-            <div class="map3d-toolbar__right">
-              <button type="button" class="pill-btn is-active" id="btn-toggle-fire">{esc(zone_btn_lbl)}</button>
-              <button type="button" class="pill-btn" id="btn-orbit-3d">↻ Orbit</button>
-            </div>
-          </div>
-          <div class="map3d-stage" id="map3d-stage">
-            <div class="maplibre-canvas" id="maplibre-canvas" role="region" aria-label="{esc(loc(city, 'name', lang))} 3D Map"></div>
-            <aside class="map-landmark-overlay" id="map-landmark-overlay" hidden aria-live="polite">
-              <div class="map-overlay__top">
-                <span class="mono-label" id="ov-day"></span>
-                <div class="map-overlay__nav">
-                  <button type="button" class="dialog-icon-btn" id="ov-prev" aria-label="Previous">←</button>
-                  <button type="button" class="dialog-icon-btn" id="ov-next" aria-label="Next">→</button>
-                  <button type="button" class="dialog-icon-btn" id="ov-close" aria-label="Close">✕</button>
-                </div>
+            <div class="map3d-toolbar">
+              <div class="map3d-toolbar__left">
+                <span class="mono-label city-map-badge">{esc(loc(city, 'name', lang))} 3D · {len(landmarks)} {esc(stops_word)}</span>
               </div>
-              <div class="map-overlay__body" id="map-overlay-body"></div>
-            </aside>
+              <div class="map3d-toolbar__right">
+                <button type="button" class="pill-btn is-active" id="btn-toggle-fire">{esc(zone_btn_lbl)}</button>
+                <button type="button" class="pill-btn" id="btn-orbit-3d">↻ Orbit</button>
+              </div>
+            </div>
+            <div class="map3d-stage map3d-stage--city" id="map3d-stage">
+              <div class="maplibre-canvas" id="maplibre-canvas" role="region" aria-label="{esc(loc(city, 'name', lang))} 3D Map"></div>
+            </div>
+            <div class="map-zoom-bar">
+              <span class="map-legend">
+                <span class="legend-item"><i class="dot dot--active"></i> <span id="legend-active">{esc(legend_copy[0])}</span></span>
+                <span class="legend-item"><i class="dot dot--forming"></i> <span id="legend-forming">{esc(legend_copy[1])}</span></span>
+                <span class="legend-item"><i class="dot dot--wait"></i> <span id="legend-wait">{esc(legend_copy[2])}</span></span>
+              </span>
+            </div>
           </div>
-          <div class="landmarks-dock" id="hamburg-landmarks-dock" aria-label="City landmarks"></div>
-          <div class="map-zoom-bar">
-            <span class="map-legend">
-              <span class="legend-item"><i class="dot dot--active"></i> <span id="legend-active">Route Stops</span></span>
-              <span class="legend-item"><i class="dot dot--forming"></i> <span id="legend-forming">Historical Zone</span></span>
-              <span class="legend-item"><i class="dot dot--wait"></i> <span id="legend-wait">Right-drag / Ctrl — Orbit 3D</span></span>
-            </span>
-          </div>
+
+          <aside class="city-map-inspector" id="city-map-inspector" aria-live="polite">
+            <div class="inspector-top">
+              <span class="mono-label" id="ins-day">{esc(initial_day)}</span>
+              <div class="inspector-nav">
+                <button type="button" class="dialog-icon-btn" id="ov-prev" aria-label="Previous stop">←</button>
+                <button type="button" class="dialog-icon-btn" id="ov-next" aria-label="Next stop">→</button>
+              </div>
+            </div>
+            <div class="inspector-stops" id="hamburg-landmarks-dock" role="tablist" aria-label="City route stops">{stop_pills_html}</div>
+            <div class="inspector-body" id="map-overlay-body">{initial_inspector_html}</div>
+          </aside>
         </div>
       </div>
     </section>"""
@@ -1415,17 +1465,46 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
 
     nav_trial_link = ""
     if city["id"] == "stuttgart":
-        nav_trial_link = f'<a href="#city-trial">1738 ↺ 1855</a>'
+        nav_trial_link = '<a href="#city-trial">1738 ↺ 1855</a>'
     elif city["id"] == "berlin":
-        nav_trial_link = f'<a href="#berlin-veil">1831 ↔ 1900</a>'
+        nav_trial_link = '<a href="#berlin-veil">1831 ↔ 1900</a>'
     elif city["id"] == "hamburg":
-        nav_trial_link = f'<a href="#compare">1840 ↔ 1843</a>'
+        nav_trial_link = '<a href="#compare">1840 ↔ 1843</a>'
 
     nav_map_link = f'<a href="#city-map">{esc(tr["nav"]["map"])}</a>' if has_3d else ""
-    cta_primary_href = "#city-map" if has_3d else "#dossier"
-    cta_primary_lbl = (
-        f"{loc(city, 'name', lang)} 3D ↓" if has_3d else tr["nav"]["dossier"] + " ↓"
-    )
+
+    trial_cta_labels = {
+        "stuttgart": {
+            "en": "Try 1738 ↺ 1855 Preview ↓",
+            "de": "1738 ↺ 1855 Kostprobe ↓",
+            "ru": "Интерактив 1738 ↺ 1855 ↓",
+            "ua": "Інтерактив 1738 ↺ 1855 ↓",
+        },
+        "hamburg": {
+            "en": "Try 1840 ↔ 1843 Study ↓",
+            "de": "1840 ↔ 1843 Vergleich ↓",
+            "ru": "Сравнение 1840 ↔ 1843 ↓",
+            "ua": "Порівняння 1840 ↔ 1843 ↓",
+        },
+        "berlin": {
+            "en": "Try 1831 ↔ 1900 Curtain ↓",
+            "de": "1831 ↔ 1900 Bild-Schnitt ↓",
+            "ru": "Шторка 1831 ↔ 1900 ↓",
+            "ua": "Шторка 1831 ↔ 1900 ↓",
+        },
+    }
+    if city["id"] == "stuttgart":
+        cta_primary_href = "#city-trial"
+        cta_primary_lbl = trial_cta_labels["stuttgart"][lang]
+    elif city["id"] == "hamburg":
+        cta_primary_href = "#compare"
+        cta_primary_lbl = trial_cta_labels["hamburg"][lang]
+    elif city["id"] == "berlin":
+        cta_primary_href = "#berlin-veil"
+        cta_primary_lbl = trial_cta_labels["berlin"][lang]
+    else:
+        cta_primary_href = "#dossier"
+        cta_primary_lbl = tr["nav"]["dossier"] + " ↓"
 
     city_name = loc(city, "name", lang)
     city_title = loc(city, "title", lang)
@@ -1458,8 +1537,8 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
 
       <nav class="main-nav" aria-label="City navigation">
         <a href="{esc(home_href)}">{esc(v3['backToAllRoutes'])}</a>
-        {nav_map_link}
         {nav_trial_link}
+        {nav_map_link}
         <a href="#dossier">{esc(tr['nav']['dossier'])}</a>
         <a href="#ticket-section" class="nav-cta">{esc(tr['nav']['ticket'])}</a>
       </nav>
@@ -1473,8 +1552,8 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
     </div>
     <div class="mobile-drawer" id="mobile-drawer" hidden>
       <a href="{esc(home_href)}">{esc(v3['backToAllRoutes'])}</a>
-      {nav_map_link}
       {nav_trial_link}
+      {nav_map_link}
       <a href="#dossier">{esc(tr['nav']['dossier'])}</a>
       <a href="#ticket-section">{esc(tr['nav']['ticket'])}</a>
     </div>
@@ -1502,11 +1581,11 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
       </div>
     </section>
 
-    <!-- 2. CITY 3D MAP (Stuttgart / Hamburg) -->
-{map_section_html}
-
-    <!-- 3. BESPOKE CITY SIGNATURE INTERACTIVE -->
+    <!-- 2. BESPOKE CITY SIGNATURE INTERACTIVE (Live Lecture Preview First!) -->
 {interactive_html}
+
+    <!-- 3. COMPACT 56/44 EDITORIAL SPLIT 3D MAP & STOP INSPECTOR -->
+{map_section_html}
 
     <!-- 4. FULL CITY PROGRAM DOSSIER -->
     <section class="dossier-section" id="dossier">
@@ -1519,7 +1598,7 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
     <section class="author-strip-section">
       <div class="container">
         <div class="author-strip">
-          <img src="{esc(root_prefix)}сергей/сергей.jpg" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
+          <img src="{esc(root_prefix)}media/sergii/sergii-portrait.jpg" alt="{esc(tr['speaker']['name'])}" loading="lazy" />
           <div class="author-strip__text">
             <span class="mono-label">{esc(tr['speaker']['eyebrow'])}</span>
             <strong>{esc(tr['speaker']['name'])}</strong>
@@ -1547,7 +1626,7 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
       </div>
     </section>
   </main>
-{render_footer_and_chrome(data, lang, url_lang, root_prefix, city, include_maplibre=has_3d)}"""
+{render_footer_and_chrome(data, lang, url_lang, root_prefix, city, include_maplibre=False, include_bundeslaender=False)}"""
 
     return head + body
 
@@ -2185,12 +2264,12 @@ Sitemap: {base}/sitemap.xml
 def write_llms_txt(data: dict[str, Any]) -> None:
     base = data["siteConfig"]["baseUrl"].rstrip("/")
     lines = [
-        "# Sergii Grygoryshyn — Philosophical & Cultural Expeditions in Germany (2027)",
+        "# Sergii Grygoryshyn — Philosophical & Cultural Expeditions in Germany & Vienna (2027)",
         "",
-        "> Intimate 4-day / 3-night philosophical, literary, and art-historical expeditions across Germany led by PhD philosopher Sergii Grygoryshyn. Private central conference hall for morning and evening lectures, officially registered museum visits, and independent hotel booking by participants. Available in English, German, Russian, and Ukrainian.",
+        "> Intimate 4–5-day philosophical, literary, and art-historical expeditions across Germany and Vienna led by PhD philosopher Sergii Grygoryshyn. Private central conference hall for morning and evening lectures, officially registered museum visits, and independent hotel booking by participants. Available in English, German, Russian, and Ukrainian.",
         "",
         f"- Author & Scholar: Sergii Grygoryshyn, PhD ({data['meta']['publicationsUrl']})",
-        "- Format: 4 days / 3 nights, small group of 4–10 guests, pre-registration without upfront payment",
+        "- Format: 4 days (Thu–Sun / Fri–Mon) or 5 days (Fri–Tue), small group of 4–10 guests, pre-registration without upfront payment",
         "- Telegram Organizer: @Grygoryshyn",
         "",
         "## Curatorial Lines (Series)",

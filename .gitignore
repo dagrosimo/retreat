@@ -5,11 +5,9 @@
 *.md
 Планы на города/
 
-# Raw museum source archives (keep only web-optimized plates)
-фото и картины/berlin/*
-!фото и картины/berlin/web/
-фото и картины/stuttgart/*
-!фото и картины/stuttgart/web/
+# Original unindexed archive folders (clean web assets live in media/)
+фото и картины/
+сергей/
 
 # Local agent skills, backend drafts & helper scripts
 .agents/

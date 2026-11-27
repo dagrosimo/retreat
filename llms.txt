@@ -1,9 +1,9 @@
-# Sergii Grygoryshyn — Philosophical & Cultural Expeditions in Germany (2027)
+# Sergii Grygoryshyn — Philosophical & Cultural Expeditions in Germany & Vienna (2027)
 
-> Intimate 4-day / 3-night philosophical, literary, and art-historical expeditions across Germany led by PhD philosopher Sergii Grygoryshyn. Private central conference hall for morning and evening lectures, officially registered museum visits, and independent hotel booking by participants. Available in English, German, Russian, and Ukrainian.
+> Intimate 4–5-day philosophical, literary, and art-historical expeditions across Germany and Vienna led by PhD philosopher Sergii Grygoryshyn. Private central conference hall for morning and evening lectures, officially registered museum visits, and independent hotel booking by participants. Available in English, German, Russian, and Ukrainian.
 
 - Author & Scholar: Sergii Grygoryshyn, PhD (https://grygoryshyn.com/publications)
-- Format: 4 days / 3 nights, small group of 4–10 guests, pre-registration without upfront payment
+- Format: 4 days (Thu–Sun / Fri–Mon) or 5 days (Fri–Tue), small group of 4–10 guests, pre-registration without upfront payment
 - Telegram Organizer: @Grygoryshyn
 
 ## Curatorial Lines (Series)
@@ -39,21 +39,21 @@
 - URLs: [EN](https://dagrosimo.github.io/retreat/en/berlin/) · [DE](https://dagrosimo.github.io/retreat/de/berlin/) · [RU](https://dagrosimo.github.io/retreat/ru/berlin/) · [UK](https://dagrosimo.github.io/retreat/uk/berlin/)
 - Key Landmarks & Museums: The Granite Bowl in the Lustgarten; Alte Nationalgalerie; Friedrichswerder Church (Gaertner’s Viewpoint); Opernplatz — Franz Krüger’s Parade Stage; Schinkelplatz & Site of the Bauakademie; Schloßplatz & Breite Straße (Schwartz & 1848); Parochialstraße Quarter & Central Seminar Hall
 
-### №05 Frankfurt (Франкфурт / Frankfurt am Main) — May 28–31, 2027 (Fri–Mon)
+### №05 Frankfurt (Франкфурт / Frankfurt am Main) — May 28 – Jun 1, 2027 (Fri–Tue · 5 Days)
 - Track: Artists & Photographers
-- Theme: Städel Museum & the Dialectic of Enlightenment / Штедель, бюргеры и диалектика Просвещения
-- Summary: How a banking capital gave rise to Critical Theory
+- Theme: Nazarenes, Biedermeier & Rothschilds: 1848 on the Horizon / Назарейцы, бидермайер и Ротшильды: Франкфурт перед 1848 годом
+- Summary: Two religious worlds on the brink of 1848—Oppenheim’s Jewish Biedermeier, Veit & Steinle’s Nazarenes, Morgenstern’s Main landscapes, and Rethel’s Dance of Death
 - URLs: [EN](https://dagrosimo.github.io/retreat/en/frankfurt/) · [DE](https://dagrosimo.github.io/retreat/de/frankfurt/) · [RU](https://dagrosimo.github.io/retreat/ru/frankfurt/) · [UK](https://dagrosimo.github.io/retreat/uk/frankfurt/)
 - Key Landmarks & Museums: Städel Museum; Institute for Social Research & Seminar Hall; Goethe House & Römerberg
 
-### №06 Munich (Мюнхен / München) — Jun 25–28, 2027 (Fri–Mon)
+### №06 Munich (Мюнхен / München) — Jun 25–29, 2027 (Fri–Tue · 5 Days)
 - Track: Artists & Photographers
-- Theme: Dürer’s Alchemy & the Blue Rider / Алхимия Дюрера и тень «Синего всадника»
-- Summary: Alte Pinakothek, Altdorfer, and Kandinsky’s leap into abstraction
+- Theme: Munich in Three Realities: Ludwig I, the Nazarenes & Spitzweg / Мюнхен в трёх реальностях: Людвиг I, назарейцы и бидермайер
+- Summary: From Ludwig I’s monumental “Athens on the Isar” and Nazarene frescoes under Cornelius to Ludwig II’s dream myth and Carl Spitzweg’s quiet Biedermeier rebellion
 - URLs: [EN](https://dagrosimo.github.io/retreat/en/munich/) · [DE](https://dagrosimo.github.io/retreat/de/munich/) · [RU](https://dagrosimo.github.io/retreat/ru/munich/) · [UK](https://dagrosimo.github.io/retreat/uk/munich/)
 - Key Landmarks & Museums: Alte Pinakothek; Lenbachhaus (Der Blaue Reiter); Conference Hall & Schwabing
 
-### №07 Vienna (Вена / Wien) — Jul 23–27, 2027 (Fri–Tue)
+### №07 Vienna (Вена / Wien) — Jul 23–27, 2027 (Fri–Tue · 5 Days)
 - Track: Artists & Photographers
 - Theme: Hypnosis and Order: Secrets of Viennese Biedermeier / Гипноз и порядок: тайны венского бидермайера
 - Summary: Portraiture as purchasing eternity, hidden revolt inside genre painting, the biopolitics of early artist deaths, and Waldmüller’s rupture from imperial hypnosis.

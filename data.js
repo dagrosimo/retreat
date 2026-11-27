@@ -46,7 +46,7 @@ window.EXPEDITIONS_DATA = {
         "eyebrow": "КАТАЛОГ ЭКСПЕДИЦИЙ · ВЫПУСК №01 · 2027",
         "storyHook": "«В 1840 году они позировали в мастерской, уверенные, что их мир вечен. Через два года город сгорел — а выживших запечатлела уже не кисть, а серебряная пластина дагеротипа».",
         "title": "Камерные философские экспедиции по Германии",
-        "subtitle": "Неделимые 4-дневные интеллектуальные погружения по личному графику к.ф.н. Сергея Григоришина. Лекции в арендованном конференц-зале в центре города и организованные визиты в музеи (группа 4–10 человек).",
+        "subtitle": "Неделимые 4–5-дневные интеллектуальные погружения по личному графику к.ф.н. Сергея Григоришина. Лекции в арендованном конференц-зале в центре города и организованные визиты в музеи (группа 4–10 человек).",
         "ctaPrimary": "Карта земель и городов 2027",
         "ctaSecondary": "Открыть маршрут №1: Штутгарт (28–31 янв)",
         "badgeTitle": "ИЗБРАННЫЙ АРХИВ · ГАМБУРГ (№02)",
@@ -60,12 +60,12 @@ window.EXPEDITIONS_DATA = {
       },
       "principles": {
         "eyebrow": "АРХИТЕКТУРА ЭКСПЕДИЦИИ · 4 ОПОРЫ",
-        "title": "Цельный 4-дневный формат без суеты",
+        "title": "Цельный 4–5-дневный формат без суеты",
         "items": [
           {
             "num": "01",
-            "head": "Неделимый 4-дневный продукт",
-            "body": "Участие возможно только на все 4 дня целиком. Философский сюжет выстроен как единая драма от вводного вечера до финального итога — его нельзя дробить на фрагменты."
+            "head": "Неделимый 4–5-дневный продукт",
+            "body": "Участие возможно только на весь маршрут целиком (4 дня Чт–Вс/Пт–Пн или 5 дней Пт–Вт с закрытым собранием в утро 5-го дня) — от вводного вечера до финальной сборки смысла."
           },
           {
             "num": "02",
@@ -83,12 +83,12 @@ window.EXPEDITIONS_DATA = {
             "body": "Сейчас открыт сбор предварительных заявок. Оплата на сайте не взимается: стоимость программы, расписание зала и рекомендацию отеля мы направляем после набора минимальной четвёрки."
           }
         ],
-        "smallFormatNote": "* Примечание: если в одном из городов вместо минимальной группы 4–10 человек соберутся только 1–2 участника, визит Сергея по его личному графику не отменяется — мы сможем предложить камерную 3-часовую музейную встречу и разговор за кофе."
+        "smallFormatNote": "Гарантия встречи даже для 1–2 участников: если в городе вместо группы 4–10 человек соберутся 1–2 гостя, поездка Сергея по личному графику не отменяется — мы предложим камерную 3-часовую музейную встречу и беседу за кофе."
       },
       "hub": {
         "eyebrow": "КАРТОГРАФИЯ МАРШРУТОВ · 2027",
-        "title": "Земли Германии и план ключевых точек",
-        "lead": "Нажмите на любой город на карте федеральных земель или в табло справа — карта приблизится в исторический центр, чтобы показать точки концепции экспедиции.",
+        "title": "Атлас маршрутов 2027 и 3D-превью городов",
+        "lead": "Спокойно сравнивайте все 7 городов на карте и в расписании справа. Для Штутгарта, Гамбурга и Берлина можно сразу открыть объёмное 3D-превью центра или перейти на полную страницу программы.",
         "filters": {
           "all": "Все города (7)",
           "active": "Открыт набор",
@@ -172,12 +172,12 @@ window.EXPEDITIONS_DATA = {
         "mapMetaCity": "ЗУМ ЦЕНТРА ГОРОДА · КОНЦЕПТУАЛЬНЫЕ ТОЧКИ",
         "backToCountry": "← К карте Германии и Австрии",
         "zoomToCity": "Приблизить карту центра →",
-        "boardTitle": "ABFAHRTSTAFEL · ГРАФИК ПОЕЗДОК НА 2027",
+        "boardTitle": "ТАБЛО ОТПРАВЛЕНИЙ · ABFAHRTSTAFEL 2027",
         "boardThreshold": "ГРУППА: 4–10 ЧЕЛ.",
         "legend": [
           "Идёт предзапись (январь)",
           "Формирование группы",
-          "Лист ожидания (Пт–Пн)"
+          "3D-обзор: Штутгарт · Гамбург · Берлин"
         ],
         "landmarkHint": "Нажмите на любую цифровую точку на карте города, чтобы прочесть её роль в экспедиции.",
         "reserveBtn": "Записаться предварительно"
@@ -207,13 +207,13 @@ window.EXPEDITIONS_DATA = {
       "compare": {
         "eyebrow": "TRIAL-ВЕРСИЯ ЭКСКУРСИИ · 1808–1843",
         "title": "Герои, их полотна и живой кино-разбор: 1840 против 1843",
-        "lead": "Почувствуйте формат лекции Сергея на практике: нажмите на любого из художников (метки вынесены ниже лиц на лацканы, чтобы не закрывать черты), изучите их главные работы или запустите плавный видео-обход камеры по лицам.",
+        "lead": "Почувствуйте формат лекции Сергея на практике: выберите любого художника ниже (боковые выноски оставляют лица полностью открытыми) — на полотне 1840 года и дагеротипе 1843 года одновременно вспыхнет прожектор сравнения.",
         "modePins": "Интерактив: Личности и работы (6 героев)",
         "modeCinema": "🎥 Кино-камера: Живой зум по лицам",
         "plateButtons": {
           "plate1843a": "Дагеротип Штельцнера I (13 мастеров, 6 мая 1843)",
-          "plate1843b": "Дагеротип Штельцнера II (19 мастеров, 6 мая 1843)",
-          "plate1842ruins": "Дагеротип руин Биова (май 1842)"
+          "plate1843b": "Дагеротип Штельцнера II (вариант · без разметки лиц)",
+          "plate1842ruins": "Дагеротип руин Биова (май 1842 · без разметки лиц)"
         },
         "caption1840": "1840 · Масло, холст · «Члены Гамбургского общества художников» (Гюнтер Генслер, Kunsthalle)",
         "caption1843": "6 мая 1843 · Дагеротип · «Гамбургский союз художников в саду» (Карл Фердинанд Штельцнер)",
@@ -254,18 +254,18 @@ window.EXPEDITIONS_DATA = {
         "pubBtn": "Список научных публикаций (grygoryshyn.com)",
         "videoTitle": "Видео-приглашение Сергея Григоришина",
         "videoStatus": "Слот подготовлен под видео-обращение (01:15) · запишем перед релизом",
-        "lectureCaption": "Временные кадры с живых камерных чтений (будут заменены профессиональной съёмкой)"
+        "lectureCaption": "Сергей Григоришин · автор и ведущий философских экспедиций 2027"
       },
       "tariffs": {
         "eyebrow": "ПРЕДВАРИТЕЛЬНАЯ ЗАПИСЬ · БЕЗ ОПЛАТЫ НА САЙТЕ",
-        "title": "Единый формат и запись через Telegram-бот",
+        "title": "Формат участия и предварительная запись",
         "cards": [
           {
             "id": "full",
-            "tag": "ЕДИНЫЙ ФОРМАТ · 4 ДНЯ / 3 НОЧИ",
-            "name": "Полная 4-дневная экспедиция (Штутгарт · Янв / Гамбург · Фев)",
+            "tag": "ОТКРЫТА ПРЕДЗАПИСЬ · 4–5 ДНЕЙ",
+            "name": "Активные города: Штутгарт (янв) · Гамбург (фев) · Берлин (апр)",
             "priceMain": "Предзапись",
-            "priceNote": "Группа от 4 до 10 чел. · стоимость программы подтверждается при наборе группы",
+            "priceNote": "Группа 4–10 чел. · 4 дня (Чт–Вс) или 5 дней (Пт–Вт) · стоимость при наборе группы",
             "features": [
               "Арендованный конференц-зал в центре города для утренних и вечерних сессий",
               "Авторские лекции, разбор первоисточников и рабочая тетрадь маршрута",
@@ -276,10 +276,10 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "id": "waitlist",
-            "tag": "СЛЕДУЮЩИЕ ГОРОДА · ПТ–ПН · 2027",
-            "name": "Ранний список: Дрезден, Берлин, Франкфурт, Мюнхен",
+            "tag": "СЛЕДУЮЩИЕ МАРШРУТЫ · МАРТ – ИЮЛЬ 2027",
+            "name": "Ранний список: Дрезден · Франкфурт · Мюнхен · Вена",
             "priceMain": "Без оплаты",
-            "priceNote": "Последние выходные месяца (Пт–Пн) · март – июнь 2027",
+            "priceNote": "4 дня (Дрезден) и 5 дней (Франкфурт, Мюнхен, Вена) · март – июль 2027",
             "features": [
               "Фиксация вашего интереса к одному или нескольким городам маршрута",
               "Первое персональное уведомление, когда откроется набор в выбранный город",
@@ -289,38 +289,38 @@ window.EXPEDITIONS_DATA = {
             "cta": "Выбрать город в форме ниже"
           }
         ],
-        "includedNote": "Оплата на сайте сейчас не взимается. Когда соберётся минимальная группа от 4 человек, организатор (Сергей Григоришин) свяжется с вами, подтвердит стоимость 4-дневной программы (лекции, аренда зала, музейные маршруты) и поделится рекомендацией отеля для самостоятельного бронирования.",
+        "includedNote": "Оплата на сайте сейчас не взимается. Когда соберётся минимальная группа от 4 человек, организатор (Сергей Григоришин) свяжется с вами, подтвердит стоимость 4–5-дневной программы (лекции, аренда зала, музейные маршруты) и поделится рекомендацией отеля для самостоятельного бронирования.",
         "ticketTitle": "Предварительная заявка-билет (Fahrkarte)",
-        "ticketSubtitle": "Заполните поля — заявка напрямую уйдёт в Telegram-бот организатора (@Grygoryshyn) для фиксации вашего места.",
+        "ticketSubtitle": "Заполните билет ниже — мы лично свяжемся с вами в Telegram (@Grygoryshyn) или по E-mail для подтверждения места.",
         "badgeText": "ПРЕДЗАПИСЬ · ОПЛАТА НЕ ТРЕБУЕТСЯ",
         "form": {
           "cityLabel": "Город и даты из графика (2027)",
           "seatsLabel": "Количество мест",
           "langLabel": "Удобный язык группы",
-          "nameLabel": "Ваше имя",
+          "nameLabel": "Ваше имя *",
           "namePlaceholder": "Например, Алексей",
-          "contactLabel": "Ваш Telegram (@username) или телефон",
-          "contactPlaceholder": "@username",
+          "contactLabel": "Telegram (@username) или E-mail *",
+          "contactPlaceholder": "@username или name@email.com",
           "commentLabel": "Комментарий (пожелания, вопросы)",
           "commentPlaceholder": "Например: хочу в Штутгарт на январь, интересует вечерняя программа",
-          "sendBotBtn": "Отправить заявку в Telegram-бот",
+          "sendBotBtn": "Зафиксировать место в билете",
           "openDirectBtn": "Написать напрямую (@Grygoryshyn)",
           "copyBtn": "Скопировать текст",
           "copied": "Текст заявки скопирован в буфер!",
-          "sending": "Отправка заявки в Telegram-бот...",
-          "sentOk": "✓ Заявка доставлена в Telegram-бот организаторам!",
-          "sentWarn": "Не удалось автоматически доставить заявку в бот. Напишите нам напрямую на grigorishinsv@gmail.com, по тел. +49 151 428 128 14 или в Telegram @Grygoryshyn."
+          "sending": "Отправка заявки...",
+          "sentOk": "✓ Заявка принята! Ваш билет прокомпостирован ниже.",
+          "sentWarn": "Автоотправка сейчас не настроена — билет готов ниже: отправьте в Telegram, на E-mail или скопируйте в один клик."
         },
         "ticketLabels": {
           "route": "НАПРАВЛЕНИЕ",
           "format": "ФОРМАТ",
-          "formatValue": "4 дня / 3 ночи · зал и музеи",
+          "formatValue": "4–5 дней · зал и музеи",
           "status": "СТАТУС ЗАЯВКИ",
           "statusValue": "ПРЕДВАРИТЕЛЬНАЯ ЗАПИСЬ",
           "group": "РАЗМЕР ГРУППЫ",
           "groupValue": "4–10 участников",
           "person": "УЧАСТНИК / МЕСТ / ЯЗЫК",
-          "msg": "ТЕКСТ ДЛЯ TELEGRAM-БОТА"
+          "msg": "СВОДКА БИЛЕТА"
         }
       },
       "faq": {
@@ -333,7 +333,7 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "q": "Как организованы проживание и питание?",
-            "a": "Стоимость участия включает только 4-дневную программу: авторские лекции, арендованный конференц-зал в центре города, рабочие тетради и официальные визиты в музеи. Проживание и питание каждый участник бронирует и оплачивает самостоятельно напрямую отелю — мы заранее делимся рекомендацией отеля, где расположен наш конференц-зал, чтобы при желании вся группа могла остановиться под одной крышей."
+            "a": "Стоимость участия включает только 4- или 5-дневную программу: авторские лекции, арендованный конференц-зал в центре города, рабочие тетради и официальные визиты в музеи. Проживание и питание каждый участник бронирует и оплачивает самостоятельно напрямую отелю — мы заранее делимся рекомендацией отеля, где расположен наш конференц-зал, чтобы при желании вся группа могла остановиться под одной крышей."
           },
           {
             "q": "Что происходит после отправки предварительной заявки?",
@@ -341,25 +341,25 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "q": "Нужно ли специальное философское образование?",
-            "a": "Нет. Весь материал построен как живой рассказ-расследование. Попробуйте наш интерактив «1840 ↔ 1843» выше — именно в таком ключе, только глубже и у оригинальных полотен в музее, проходят все 4 дня."
+            "a": "Нет. Весь материал построен как живой рассказ-расследование. Попробуйте интерактивы прямо на страницах Штутгарта (1738 ↺ 1855), Гамбурга (1840 ↔ 1843) и Берлина (1831 ↔ 1900) — именно в таком ключе, только глубже и у оригинальных полотен в музее, проходит вся программа."
           }
         ]
       },
       "footer": {
         "legalNotice": "Информационная платформа философских экспедиций. Окончательные условия участия направляются после подтверждения группы.",
-        "impressum": "Контакты организатора в Telegram: @Grygoryshyn · Интеграция с приёмом заявок активна.",
+        "impressum": "Координация напрямую: @Grygoryshyn (Telegram) и grigorishinsv@gmail.com.",
         "archiveCredit": "Исторические полотна, литографии и дагеротипы XIX века (Ф. О. Рунге, братья Генслер, Г. Биов, К. Ф. Штельцнер, П. Зур) относятся к общественному достоянию (Public Domain)."
       },
       "v3": {
         "seoTitle": "Авторские философские и культурные экскурсии по Германии (2027) — Сергей Григоришин",
-        "seoDescription": "Камерные 4-дневные философские, литературные и искусствоведческие экспедиции по Германии (Штутгарт, Гамбург, Дрезден, Берлин, Франкфурт, Мюнхен). Арендованный конференц-зал, музеи, 4–10 человек.",
+        "seoDescription": "Камерные 4–5-дневные философские, литературные и искусствоведческие экспедиции по Германии и Вене (Штутгарт, Гамбург, Дрезден, Берлин, Франкфурт, Мюнхен, Вена). Арендованный конференц-зал, музеи, 4–10 человек.",
         "homeHeroEyebrow": "АТЛАС ЭКСПЕДИЦИЙ ПО ГЕРМАНИИ · 2027",
-        "homeHeroLead": "Две самостоятельные серии — «Писатели и философы» и «Художники и фотографы». Выберите город на карте, чтобы провалиться на его отдельную страницу с 3D-маршрутом, интерактивом и программой — или сразу запишитесь.",
-        "homeCtaPrimary": "Карта и серии 2027",
+        "homeHeroLead": "Две самостоятельные серии — «Писатели и философы» и «Художники и фотографы». Выберите город, чтобы перейти на его страницу с 3D-маршрутом, интерактивом и программой — или сразу запишитесь.",
+        "homeCtaPrimary": "Выбрать маршрут 2027",
         "homeCtaSecondary": "Быстрая предзапись",
         "nextDeparturesLabel": "БЛИЖАЙШИЕ ДВА ВЫЕЗДА · 2027",
         "enterCityBtn": "Открыть страницу города →",
-        "allTracksBtn": "Все маршруты · 2027 (6)",
+        "allTracksBtn": "Все маршруты · 2027",
         "backToAllRoutes": "← Все маршруты 2027",
         "authorStripCta": "О ведущем и методе →",
         "nextInTrack": "СЛЕДУЮЩИЙ ГОРОД ЭТОЙ СЕРИИ →",
@@ -383,7 +383,7 @@ window.EXPEDITIONS_DATA = {
         "eyebrow": "КАТАЛОГ ЕКСПЕДИЦІЙ · ВИПУСК №01 · 2027",
         "storyHook": "«У 1840 році вони позували в майстерні, впевнені, що їхній світ вічний. За два роки місто згоріло — а вцілілих зафіксував уже не пензель, а срібна пластина дагеротипа».",
         "title": "Камерні філософські експедиції Німеччиною",
-        "subtitle": "Неподільні 4-денні інтелектуальні занурення за особистим графіком к.ф.н. Сергія Григоришина. Лекції в орендованому конференц-залі в центрі міста та організовані візити до музеїв (група 4–10 осіб).",
+        "subtitle": "Неподільні 4–5-денні інтелектуальні занурення за особистим графіком к.ф.н. Сергія Григоришина. Лекції в орендованому конференц-залі в центрі міста та організовані візити до музеїв (група 4–10 осіб).",
         "ctaPrimary": "Карта земель і міст 2027",
         "ctaSecondary": "Відкрити маршрут №1: Штутгарт (28–31 січ)",
         "badgeTitle": "ВИБРАНИЙ АРХІВ · ГАМБУРГ (№02)",
@@ -397,12 +397,12 @@ window.EXPEDITIONS_DATA = {
       },
       "principles": {
         "eyebrow": "АРХІТЕКТУРА ЕКСПЕДИЦІЇ · 4 ОПОРИ",
-        "title": "Цілісний 4-денний формат без метушні",
+        "title": "Цілісний 4–5-денний формат без метушні",
         "items": [
           {
             "num": "01",
-            "head": "Неподільний 4-денний продукт",
-            "body": "Участь можлива лише на всі 4 дні разом. Філософський сюжет вибудуваний як цілісна драма від вступного вечора до фінального підсумку — його не можна дробити."
+            "head": "Неподільний 4–5-денний продукт",
+            "body": "Участь можлива лише на весь маршрут загалом (4 дні Чт–Нд/Пт–Пн або 5 днів Пт–Вт із закритою ранковою сесією 5-го дня) — від вступного вечора до фінального підсумку."
           },
           {
             "num": "02",
@@ -420,12 +420,12 @@ window.EXPEDITIONS_DATA = {
             "body": "Зараз відкрито збір попередніх заявок. Оплата на сайті не стягується: вартість програми, розклад залу та рекомендацію готелю ми надсилаємо після формування мінімальної четвірки."
           }
         ],
-        "smallFormatNote": "* Примітка: якщо у якомусь місті замість мінімальної групи 4–10 людей зберуться лише 1–2 учасники, візит Сергія за його графіком не скасовується — ми запропонуємо камерну 3-годинну музейну зустріч та бесіду за кавою."
+        "smallFormatNote": "Гарантія зустрічі навіть для 1–2 учасників: якщо в місті замість групи 4–10 осіб зберуться 1–2 гості, поїздка Сергія за графіком не скасовується — ми запропонуємо камерну 3-годинну музейну зустріч та бесіду за кавою."
       },
       "hub": {
         "eyebrow": "КАРТОГРАФІЯ МАРШРУТІВ · 2027",
-        "title": "Землі Німеччини та план ключових точок",
-        "lead": "Натисніть на будь-яке місто на карті федеральних земель або у табло праворуч — карта наблизиться до історичного центру, щоб показати концептуальні локації експедиції.",
+        "title": "Атлас маршрутів 2027 і 3D-прев’ю міст",
+        "lead": "Спокійно порівнюйте всі 7 міст на карті та у розкладі праворуч. Для Штутгарта, Гамбурга і Берліна можна одразу відкрити 3D-перегляд центру або перейти на повну сторінку програми.",
         "filters": {
           "all": "Усі міста (7)",
           "active": "Відкрито набір",
@@ -509,12 +509,12 @@ window.EXPEDITIONS_DATA = {
         "mapMetaCity": "ЗУМ ЦЕНТРУ МІСТА · КОНЦЕПТУАЛЬНІ ТОЧКИ",
         "backToCountry": "← До карти Німеччини та Австрії",
         "zoomToCity": "Наблизити карту центру →",
-        "boardTitle": "ABFAHRTSTAFEL · ГРАФІК ПОЇЗДОК НА 2027",
+        "boardTitle": "ТАБЛО ВІДПРАВЛЕНЬ · ABFAHRTSTAFEL 2027",
         "boardThreshold": "ГРУПА: 4–10 ОСІБ",
         "legend": [
           "Триває передзапис (січень)",
           "Формування групи",
-          "Лист очікування (Пт–Пн)"
+          "3D-огляд: Штутгарт · Гамбург · Берлін"
         ],
         "landmarkHint": "Натисніть на будь-яку цифрову точку на карті міста, щоб прочитати її роль в експедиції.",
         "reserveBtn": "Записатися попередньо"
@@ -544,13 +544,13 @@ window.EXPEDITIONS_DATA = {
       "compare": {
         "eyebrow": "TRIAL-ВЕРСІЯ ЕКСКУРСІЇ · 1808–1843",
         "title": "Герої, їхні полотна та живий кіно-розбір: 1840 проти 1843",
-        "lead": "Відчуйте формат лекції Сергія на практиці: натисніть на будь-якого з художників (позначки винесено нижче облич на лацкани, щоб не закривати риси), вивчіть їхні головні роботи або запустіть плавний відео-обхід камери по обличчях.",
+        "lead": "Відчуйте формат лекції Сергія на практиці: натисніть на будь-якого художника нижче (бічні виноски залишають обличчя вільними) — на полотні 1840 року та дагеротипі 1843 року одночасно спалахне фокус порівняння.",
         "modePins": "Інтерактив: Постаті й роботи (6 героїв)",
         "modeCinema": "🎥 Кіно-камера: Живий зум по обличчях",
         "plateButtons": {
           "plate1843a": "Дагеротип Штельцнера I (13 майстрів, 6 травня 1843)",
-          "plate1843b": "Дагеротип Штельцнера II (19 майстрів, 6 травня 1843)",
-          "plate1842ruins": "Дагеротип руїн Біова (травень 1842)"
+          "plate1843b": "Дагеротип Штельцнера II (варіант · без розмітки облич)",
+          "plate1842ruins": "Дагеротип руїн Біова (травень 1842 · без розмітки облич)"
         },
         "caption1840": "1840 · Олія, полотно · «Члени Гамбурзького товариства художників» (Гюнтер Генслер, Kunsthalle)",
         "caption1843": "6 травня 1843 · Дагеротип · «Гамбурзька спілка художників у саду» (Карл Фердинанд Штельцнер)",
@@ -591,18 +591,18 @@ window.EXPEDITIONS_DATA = {
         "pubBtn": "Список наукових публікацій (grygoryshyn.com)",
         "videoTitle": "Відео-запрошення Сергія Григоришина",
         "videoStatus": "Слот підготовлено під відео-звернення (01:15) · з’явиться перед релізом",
-        "lectureCaption": "Тимчасові кадри з живих камерних читань (будуть замінені професійною зйомкою)"
+        "lectureCaption": "Сергій Григоришин · автор і ведучий філософських експедицій 2027"
       },
       "tariffs": {
         "eyebrow": "ПОПЕРЕДНІЙ ЗАПИС · БЕЗ ОПЛАТИ НА САЙТІ",
-        "title": "Єдиний формат і запис через Telegram-бота",
+        "title": "Формат участі та попередній запис",
         "cards": [
           {
             "id": "full",
-            "tag": "ЄДИНИЙ ФОРМАТ · 4 ДНІ / 3 НОЧІ",
-            "name": "Повна 4-денна експедиція (Штутгарт · Січ / Гамбург · Лют)",
+            "tag": "ВІДКРИТО ПЕРЕДЗАПИС · 4–5 ДНІВ",
+            "name": "Активні маршрути: Штутгарт (січ) · Гамбург (лют) · Берлін (кві)",
             "priceMain": "Передзапис",
-            "priceNote": "Група від 4 до 10 осіб · вартість програми підтверджується при наборі групи",
+            "priceNote": "Група 4–10 осіб · 4 дні (Чт–Нд) або 5 днів (Пт–Вт) · вартість при наборі групи",
             "features": [
               "Орендований конференц-зал у центрі міста для ранкових і вечірніх сесій",
               "Авторські лекції, розбір першоджерел та робочий зошит маршруту",
@@ -613,10 +613,10 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "id": "waitlist",
-            "tag": "НАСТУПНІ МІСТА · ПТ–ПН · 2027",
-            "name": "Ранній список: Дрезден, Берлін, Франкфурт, Мюнхен",
+            "tag": "НАСТУПНІ МАРШРУТИ · БЕРЕЗЕНЬ – ЛИПЕНЬ 2027",
+            "name": "Ранній список: Дрезден · Франкфурт · Мюнхен · Відень",
             "priceMain": "Без оплати",
-            "priceNote": "Останні вихідні місяця (Пт–Пн) · березень – червень 2027",
+            "priceNote": "4 дні (Дрезден) і 5 днів (Франкфурт, Мюнхен, Відень) · березень – липень 2027",
             "features": [
               "Фіксація вашого інтересу до одного або кількох міст маршруту",
               "Перше персональне сповіщення, коли відкриється набір у обране місто",
@@ -626,38 +626,38 @@ window.EXPEDITIONS_DATA = {
             "cta": "Обрати місто у формі нижче"
           }
         ],
-        "includedNote": "Оплата на сайті зараз не стягується. Коли збереться мінімальна група від 4 осіб, організатор (Сергій Григоришин) зв’яжеться з вами, підтвердить вартість 4-денної програми (лекції, оренда залу, музейні маршрути) та надішле рекомендацію готелю для самостійного бронювання.",
+        "includedNote": "Оплата на сайті зараз не стягується. Коли збереться мінімальна група від 4 осіб, організатор (Сергій Григоришин) зв’яжеться з вами, підтвердить вартість 4–5-денної програми (лекції, оренда залу, музейні маршрути) та надішле рекомендацію готелю для самостійного бронювання.",
         "ticketTitle": "Попередня заявка-квиток (Fahrkarte)",
-        "ticketSubtitle": "Заповніть поля — заявка напряму надійде у Telegram-бота організатора (@Grygoryshyn) для фіксації вашого місця.",
+        "ticketSubtitle": "Заповніть квиток нижче — ми особисто зв’яжемося з вами в Telegram (@Grygoryshyn) або через E-mail.",
         "badgeText": "ПЕРЕДЗАПИС · ОПЛАТА НЕ ПОТРІБНА",
         "form": {
           "cityLabel": "Місто та дати з графіка (2027)",
           "seatsLabel": "Кількість місць",
           "langLabel": "Зручна мова групи",
-          "nameLabel": "Ваше ім’я",
+          "nameLabel": "Ваше ім’я *",
           "namePlaceholder": "Наприклад, Олексій",
-          "contactLabel": "Ваш Telegram (@username) або телефон",
-          "contactPlaceholder": "@username",
+          "contactLabel": "Telegram (@username) або E-mail *",
+          "contactPlaceholder": "@username або name@email.com",
           "commentLabel": "Коментар (побажання, запитання)",
           "commentPlaceholder": "Наприклад: хочу в Штутгарт на січень, цікавить вечірня програма",
-          "sendBotBtn": "Надіслати заявку в Telegram-бот",
+          "sendBotBtn": "Зафіксувати місце у квитку",
           "openDirectBtn": "Написати напряму (@Grygoryshyn)",
           "copyBtn": "Скопіювати текст",
           "copied": "Текст заявки скопійовано!",
-          "sending": "Надсилання заявки у Telegram-бот...",
-          "sentOk": "✓ Заявку доставлено в Telegram-бот організаторам!",
-          "sentWarn": "Не вдалося автоматично доставити заявку в бот. Напишіть нам напряму на grigorishinsv@gmail.com, за тел. +49 151 428 128 14 або в Telegram @Grygoryshyn."
+          "sending": "Надсилання заявки...",
+          "sentOk": "✓ Заявку прийнято! Ваш квиток прокомпостовано нижче.",
+          "sentWarn": "Автовідправлення зараз вимкнене — квиток готовий нижче: надішліть у Telegram, на E-mail або скопіюйте в один клік."
         },
         "ticketLabels": {
           "route": "НАПРЯМОК",
           "format": "ФОРМАТ",
-          "formatValue": "4 дні / 3 ночі · зал і музеї",
+          "formatValue": "4–5 днів · зал і музеї",
           "status": "СТАТУС ЗАЯВКИ",
           "statusValue": "ПОПЕРЕДНІЙ ЗАПИС",
           "group": "РОЗМІР ГРУПИ",
           "groupValue": "4–10 учасників",
           "person": "УЧАСНИК / МІСЦЬ / МОВА",
-          "msg": "ТЕКСТ ДЛЯ TELEGRAM-БОТА"
+          "msg": "ЗВЕДЕННЯ КВИТКА"
         }
       },
       "faq": {
@@ -670,7 +670,7 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "q": "Як організовані проживання та харчування?",
-            "a": "Вартість участі охоплює лише 4-денну програму: авторські лекції, орендований конференц-зал у центрі міста, робочі зошити та офіційні візити до музеїв. Проживання й харчування кожен учасник бронює та оплачує самостійно напряму готелю — ми заздалегідь надсилаємо рекомендацію готелю з нашим конференц-залом, щоб охочі могли зупинитися під одним дахом."
+            "a": "Вартість участі охоплює лише 4- або 5-денну програму: авторські лекції, орендований конференц-зал у центрі міста, робочі зошити та офіційні візити до музеїв. Проживання й харчування кожен учасник бронює та оплачує самостійно напряму готелю — ми заздалегідь надсилаємо рекомендацію готелю з нашим конференц-залом, щоб охочі могли зупинитися під одним дахом."
           },
           {
             "q": "Що відбувається після надсилання попередньої заявки?",
@@ -678,25 +678,25 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "q": "Чи потрібна спеціальна філософська освіта?",
-            "a": "Ні. Увесь матеріал побудовано як живу оповідь-розслідування. Спробуйте наш інтерактив «1840 ↔ 1843» вище — саме у такому ключі проходять усі 4 дні."
+            "a": "Ні. Увесь матеріал побудовано як живу оповідь-розслідування. Спробуйте інтерактиви на сторінках Штутгарта (1738 ↺ 1855), Гамбурга (1840 ↔ 1843) і Берліна (1831 ↔ 1900) — саме у такому ключі проходить уся програма."
           }
         ]
       },
       "footer": {
         "legalNotice": "Інформаційна платформа філософських експедицій. Остаточні умови участі надсилаються після підтвердження групи.",
-        "impressum": "Контакти організатора у Telegram: @Grygoryshyn · Інтеграція прийому заявок активна.",
+        "impressum": "Координація напряму: @Grygoryshyn (Telegram) та grigorishinsv@gmail.com.",
         "archiveCredit": "Історичні полотна, літографії та дагеротипи XIX століття належать до суспільного надбання (Public Domain)."
       },
       "v3": {
         "seoTitle": "Авторські філософські та культурні екскурсії Німеччиною (2027) — Сергій Григоришин",
-        "seoDescription": "Камерні 4-денні філософські, літературні та мистецтвознавчі експедиції Німеччиною (Штутгарт, Гамбург, Дрезден, Берлін, Франкфурт, Мюнхен). Орендований конференц-зал, музеї, 4–10 осіб.",
+        "seoDescription": "Камерні 4–5-денні філософські, літературні та мистецтвознавчі експедиції Німеччиною й Віднем (Штутгарт, Гамбург, Дрезден, Берлін, Франкфурт, Мюнхен, Відень). Орендований конференц-зал, музеї, 4–10 осіб.",
         "homeHeroEyebrow": "АТЛАС ЕКСПЕДИЦІЙ НІМЕЧЧИНОЮ · 2027",
         "homeHeroLead": "Дві самостійні серії — «Письменники та філософи» і «Художники та фотографи». Оберіть місто на карті, щоб перейти на його сторінку з 3D-маршрутом та інтерактивом — або запишіться одразу.",
-        "homeCtaPrimary": "Карта та серії 2027",
+        "homeCtaPrimary": "Обрати маршрут 2027",
         "homeCtaSecondary": "Швидкий передзапис",
         "nextDeparturesLabel": "НАЙБЛИЖЧІ ДВА ВИЇЗДИ · 2027",
         "enterCityBtn": "Відкрити сторінку міста →",
-        "allTracksBtn": "Усі маршрути · 2027 (6)",
+        "allTracksBtn": "Усі маршрути · 2027",
         "backToAllRoutes": "← Усі маршрути 2027",
         "authorStripCta": "Про ведучого і метод →",
         "nextInTrack": "НАСТУПНЕ МІСТО ЦІЄЇ СЕРІЇ →",
@@ -720,7 +720,7 @@ window.EXPEDITIONS_DATA = {
         "eyebrow": "EXPEDITIONSKATALOG · AUSGABE №01 · 2027",
         "storyHook": "„1840 posierten sie im Atelier, überzeugt von der Ewigkeit ihrer bürgerlichen Welt. Zwei Jahre später brannte die Stadt nieder — und die Überlebenden hielt kein Pinsel mehr fest, sondern die Silberplatte des Daguerreotyps.“",
         "title": "Kuratierte Philosophie-Expeditionen in Deutschland",
-        "subtitle": "Ein unteilbares 4-Tage-Studium nach dem persönlichen Forschungsplan von Dr. Sergii Grygoryshyn. Vorträge im zentral angemieteten Konferenzraum und offiziell angemeldete Museumsbesuche (4–10 Gäste).",
+        "subtitle": "Ein unteilbares 4- bis 5-Tage-Studium nach dem persönlichen Forschungsplan von Dr. Sergii Grygoryshyn. Vorträge im zentral angemieteten Konferenzraum und offiziell angemeldete Museumsbesuche (4–10 Gäste).",
         "ctaPrimary": "Länderkarte & Termine 2027",
         "ctaSecondary": "Route №1: Stuttgart (28.–31. Jan)",
         "badgeTitle": "AUSGEWÄHLTES ARCHIV · HAMBURG (№02)",
@@ -734,12 +734,12 @@ window.EXPEDITIONS_DATA = {
       },
       "principles": {
         "eyebrow": "KONZEPT & STRUKTUR · 4 SÄULEN",
-        "title": "Ein geschlossener 4-tägiger Denkraum",
+        "title": "Ein geschlossener 4–5-tägiger Denkraum",
         "items": [
           {
             "num": "01",
-            "head": "Unteilbares 4-Tage-Format",
-            "body": "Die Teilnahme gilt ausschließlich für alle vier Tage. Die Dramaturgie spannt sich vom Anreisedialog über zwei intensive Museumstage bis zur Schlussreflexion."
+            "head": "Unteilbares 4–5-Tage-Format",
+            "body": "Die Teilnahme gilt für den gesamten Zyklus (4 Tage Do–So/Fr–Mo oder 5 Tage Fr–Di inkl. geschlossenem Vormittag am 5. Tag) — vom Eröffnungsabend bis zur Schlussreflexion."
           },
           {
             "num": "02",
@@ -757,12 +757,12 @@ window.EXPEDITIONS_DATA = {
             "body": "Auf dieser Website erfolgt noch keine Bezahlung. Nach Erreichen der Mindestgruppe nennen wir Ihnen den Programmpreis, den Zeitplan im Seminarraum sowie unsere Hotel-Empfehlung."
           }
         ],
-        "smallFormatNote": "* Hinweis: Sollten in einer Stadt nur 1–2 Interessierte zusammenkommen, fällt die Reise von Sergii nicht aus — wir bieten ein kompaktes 3-stündiges Museumsgespräch an."
+        "smallFormatNote": "Durchführungsgarantie auch für 1–2 Gäste: Melden sich in einer Stadt zunächst 1–2 Interessierte an, findet Sergiis Forschungsreise dennoch statt — wir bieten ein kompaktes 3-stündiges Museumsgespräch."
       },
       "hub": {
         "eyebrow": "ROUTEN-KARTOGRAPHIE · 2027",
-        "title": "Deutsche Bundesländer & Detailplan des Zentrums",
-        "lead": "Klicken Sie auf eine Stadt in der Länderkarte oder rechts in der Übersicht — die Karte zoomt ins Stadtzentrum und zeigt alle Stationen unserer philosophischen Route.",
+        "title": "Routen-Atlas 2027 & 3D-Stadtansichten",
+        "lead": "Vergleichen Sie alle 7 Reiseziele in Ruhe auf der Karte und rechts auf der Abfahrtstafel. Für Stuttgart, Hamburg und Berlin können Sie direkt eine 3D-Vorschau öffnen oder das vollständige Stadtprogramm aufrufen.",
         "filters": {
           "all": "Alle Städte (7)",
           "active": "Voranmeldung offen",
@@ -846,12 +846,12 @@ window.EXPEDITIONS_DATA = {
         "mapMetaCity": "STADTZENTRUM-ZOOM · KONZEPTSTATIONEN",
         "backToCountry": "← Zur Übersicht DE & AT",
         "zoomToCity": "Stadtzentrum heranzoomen →",
-        "boardTitle": "ABFAHRTSTAFEL · JAHRESPLAN 2027",
+        "boardTitle": "ABFAHRTSTAFEL · REISEPLAN 2027",
         "boardThreshold": "GRUPPE: 4–10 PERS.",
         "legend": [
           "Voranmeldung (Januar)",
           "Gruppenbildung",
-          "Warteliste (Fr–Mo)"
+          "3D-Vorschau: Stuttgart · Hamburg · Berlin"
         ],
         "landmarkHint": "Wählen Sie einen nummerierten Ort auf dem Stadtplan, um seine Rolle im Gedankengang der Expedition zu sehen.",
         "reserveBtn": "Unverbindlich vormerken"
@@ -881,13 +881,13 @@ window.EXPEDITIONS_DATA = {
       "compare": {
         "eyebrow": "TRIAL-FÜHRUNG · 1808–1843",
         "title": "Pinsel gegen Silberplatte: Dieselben Künstler vor und nach dem Brand",
-        "lead": "Erleben Sie eine Kostprobe der Expedition: Klicken Sie auf die Künstler (Nummern bewusst am Revers unterhalb der Gesichter) oder starten Sie den Kamera-Schwenk über die Porträts.",
+        "lead": "Erleben Sie eine Kostprobe der Expedition: Klicken Sie auf einen Künstler (seitliche Markierungen mit dünner Linie lassen jedes Gesicht frei), um den gleichzeitigen Spotlight-Vergleich zwischen dem Gemälde 1840 und dem Daguerreotyp 1843 zu aktivieren.",
         "modePins": "Interaktiv: Künstler & Hauptwerke (6)",
         "modeCinema": "🎥 Kamera-Tour: Zoom über die Porträts",
         "plateButtons": {
           "plate1843a": "Stelzner Daguerreotypie I (13 Künstler, 6. Mai 1843)",
-          "plate1843b": "Stelzner Daguerreotypie II (19 Künstler, 6. Mai 1843)",
-          "plate1842ruins": "Biow Ruinen-Daguerreotypie (Mai 1842)"
+          "plate1843b": "Stelzner Daguerreotypie II (Variante · ohne Porträtmarker)",
+          "plate1842ruins": "Biow Ruinen-Daguerreotypie (Mai 1842 · ohne Porträtmarker)"
         },
         "caption1840": "1840 · Öl auf Leinwand · „Die Mitglieder des Hamburgischen Künstlervereins“ (Günther Gensler, Kunsthalle)",
         "caption1843": "6. Mai 1843 · Daguerreotypie · „Hamburger Künstlerverein im Garten“ (Carl Ferdinand Stelzner)",
@@ -905,7 +905,7 @@ window.EXPEDITIONS_DATA = {
       "speaker": {
         "eyebrow": "DOZENT & EXPEDITIONSLEITER",
         "name": "Dr. Sergii Grygoryshyn",
-        "role": "Kandidat der philosophischen Wissenschaften · Philosophiehistoriker · Bildwissenschaftler",
+        "role": "Dr. phil. (Ph.D.) · Philosophiehistoriker · Bildwissenschaftler",
         "portraitCap": "SERGII GRYGORYSHYN · PH.D.",
         "bio": [
           "Seine Forschungsschwerpunkte liegen in der europäischen Philosophiegeschichte, der Phänomenologie des Bildes, biblischen Hermeneutik und den Digital Humanities.",
@@ -914,7 +914,7 @@ window.EXPEDITIONS_DATA = {
         "facts": [
           {
             "label": "Akademischer Grad",
-            "val": "Dr. phil. (Kandidat der philosophischen Wissenschaften)"
+            "val": "Dr. phil. (Ph.D. in Philosophie)"
           },
           {
             "label": "Sprachen",
@@ -928,18 +928,18 @@ window.EXPEDITIONS_DATA = {
         "pubBtn": "Publikationsverzeichnis (grygoryshyn.com)",
         "videoTitle": "Video-Einladung von Sergii Grygoryshyn",
         "videoStatus": "Platzhalter für kurzes Einführungsvideo (01:15)",
-        "lectureCaption": "Dokumentarische Vorab-Aufnahmen aus früheren Lesekreisen"
+        "lectureCaption": "Sergii Grygoryshyn · Konzeption & Leitung der Expeditionen 2027"
       },
       "tariffs": {
         "eyebrow": "VORANMELDUNG · OHNE ONLINE-ZAHLUNG",
-        "title": "Einheitsformat & Anmeldung über den Telegram-Bot",
+        "title": "Format & unverbindliche Vormerkung",
         "cards": [
           {
             "id": "full",
-            "tag": "EINHEITSFORMAT · 4 TAGE / 3 NÄCHTE",
-            "name": "Komplette 4-Tage-Expedition (Stuttgart · Jan / Hamburg · Feb)",
+            "tag": "VORANMELDUNG OFFEN · 4–5 TAGE",
+            "name": "Aktive Termine: Stuttgart (Jan) · Hamburg (Feb) · Berlin (Apr)",
             "priceMain": "Voranmeldung",
-            "priceNote": "4–10 Gäste · Programmpreis wird nach Erreichen der Gruppe bestätigt",
+            "priceNote": "4–10 Gäste · 4 Tage (Do–So) bzw. 5 Tage (Fr–Di) · Preisbestätigung bei Gruppenbildung",
             "features": [
               "Eigener zentraler Konferenzraum für Morgen- und Abendvorträge",
               "Kuratiertes Seminarprogramm, Quellendiskussion & Arbeitsheft",
@@ -950,10 +950,10 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "id": "waitlist",
-            "tag": "WEITERE STÄDTE · FR–MO · 2027",
-            "name": "Interessentenliste: Dresden, Berlin, Frankfurt, München",
+            "tag": "WEITERE STÄDTE · MÄRZ – JULI 2027",
+            "name": "Interessentenliste: Dresden · Frankfurt · München · Wien",
             "priceMain": "Ohne Gebühr",
-            "priceNote": "Letzte Monatstage (Fr–Mo) · März bis Juni 2027",
+            "priceNote": "4 Tage (Dresden) & 5 Tage (Frankfurt, München, Wien) · März bis Juli 2027",
             "features": [
               "Unverbindliche Interessenbekundung für Wunschstädte",
               "Erste Benachrichtigung beim Start der Anmeldung in der Stadt",
@@ -963,38 +963,38 @@ window.EXPEDITIONS_DATA = {
             "cta": "Stadt im Formular wählen"
           }
         ],
-        "includedNote": "Es findet keine Online-Zahlung auf dieser Website statt. Sobald mindestens 4 Teilnehmende feststehen, nennt Ihnen Sergii Grygoryshyn den Programmpreis (Vorträge, Konferenzraum & Museumsbesuche) sowie unsere Hotel-Empfehlung für die eigenständige Zimmerbuchung.",
+        "includedNote": "Es findet keine Online-Zahlung auf dieser Website statt. Sobald mindestens 4 Teilnehmende feststehen, nennt Ihnen Sergii Grygoryshyn den Programmpreis für die 4–5 Tage (Vorträge, Konferenzraum & Museumsbesuche) sowie unsere Hotel-Empfehlung für die eigenständige Zimmerbuchung.",
         "ticketTitle": "Voranmelde-Ticket (Fahrkarte)",
-        "ticketSubtitle": "Senden Sie Ihre unverbindliche Anfrage direkt an unseren Telegram-Bot (@Grygoryshyn).",
+        "ticketSubtitle": "Tragen Sie Ihre Wünsche unten ein — die Rückmeldung erfolgt persönlich per E-Mail oder Telegram (@Grygoryshyn).",
         "badgeText": "VORANMELDUNG · KEINE ZAHLUNG",
         "form": {
           "cityLabel": "Stadt & Termin (2027)",
           "seatsLabel": "Anzahl Plätze",
           "langLabel": "Bevorzugte Gruppensprache",
-          "nameLabel": "Ihr Name",
+          "nameLabel": "Ihr Name *",
           "namePlaceholder": "z. B. Lukas",
-          "contactLabel": "Telegram (@username) oder Telefon",
-          "contactPlaceholder": "@username",
+          "contactLabel": "Telegram (@username) oder E-Mail *",
+          "contactPlaceholder": "@username oder name@email.de",
           "commentLabel": "Anmerkung (optional)",
           "commentPlaceholder": "z. B. Interessen oder Fragen zur Stadt",
-          "sendBotBtn": "Anfrage an Telegram-Bot senden",
+          "sendBotBtn": "Unverbindlich auf Fahrkarte vormerken",
           "openDirectBtn": "Direkt schreiben (@Grygoryshyn)",
           "copyBtn": "Text kopieren",
           "copied": "Anfragetext kopiert!",
-          "sending": "Wird an Telegram-Bot gesendet...",
-          "sentOk": "✓ Anfrage wurde an die Organisatoren im Telegram-Bot übermittelt!",
-          "sentWarn": "Automatische Zustellung derzeit nicht möglich. Bitte kontaktieren Sie uns direkt per E-Mail (grigorishinsv@gmail.com), Telefon (+49 151 428 128 14) oder Telegram (@Grygoryshyn)."
+          "sending": "Vormerkung wird gesendet...",
+          "sentOk": "✓ Vormerkung eingegangen! Ihr Ticket wurde unten gestempelt.",
+          "sentWarn": "Direktversand ist derzeit offline — Ihre Fahrkarte ist fertig: Senden Sie sie per Telegram, E-Mail oder kopieren Sie den Text."
         },
         "ticketLabels": {
           "route": "ZIELORT",
           "format": "FORMAT",
-          "formatValue": "4 Tage / 3 Nächte · Seminar & Museen",
+          "formatValue": "4–5 Tage · Seminar & Museen",
           "status": "STATUS",
           "statusValue": "UNVERBINDLICHE VORANMELDUNG",
           "group": "GRUPPENGRÖSSE",
           "groupValue": "4–10 Teilnehmende",
           "person": "GAST / PLÄTZE / SPRACHE",
-          "msg": "NACHRICHT FÜR TELEGRAM-BOT"
+          "msg": "TICKET-ZUSAMMENFASSUNG"
         }
       },
       "faq": {
@@ -1007,7 +1007,7 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "q": "Wie sind Unterkunft und Verpflegung organisiert?",
-            "a": "Der Teilnahmepreis umfasst ausschließlich das 4-tägige Seminarprogramm: Vorträge, den angemieteten zentralen Konferenzraum, Studienmaterialien und angemeldete Museumsbesuche. Anreise, Hotelübernachtung und Verpflegung buchen und bezahlen alle Gäste eigenständig — wir empfehlen rechtzeitig das Seminarhotel unseres Konferenzraums, damit Interessierte auf Wunsch bequem unter demselben Dach wohnen können."
+            "a": "Der Teilnahmepreis umfasst ausschließlich das 4- oder 5-tägige Seminarprogramm: Vorträge, den angemieteten zentralen Konferenzraum, Studienmaterialien und angemeldete Museumsbesuche. Anreise, Hotelübernachtung und Verpflegung buchen und bezahlen alle Gäste eigenständig — wir empfehlen rechtzeitig das Seminarhotel unseres Konferenzraums, damit Interessierte auf Wunsch bequem unter demselben Dach wohnen können."
           },
           {
             "q": "Was passiert nach der Voranmeldung?",
@@ -1015,25 +1015,25 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "q": "Braucht man philosophische Vorkenntnisse?",
-            "a": "Nein. Testen Sie oben die interaktive Sektion „1840 ↔ 1843“ — genau so lebendig und bildnah arbeiten wir vier Tage lang."
+            "a": "Nein. Alles wird als anschauliche Bild- und Ideengeschichte vermittelt. Auf den Stadtseiten von Stuttgart (1738 ↺ 1855), Hamburg (1840 ↔ 1843) und Berlin (1831 ↔ 1900) finden Sie interaktive Kostproben genau dieser Arbeitsweise."
           }
         ]
       },
       "footer": {
         "legalNotice": "Informationsplattform für philosophische Expeditionen. Verbindliche Teilnahmebedingungen folgen nach Gruppenbestätigung.",
-        "impressum": "Organisation in Telegram: @Grygoryshyn · Bot-Übermittlung aktiv.",
+        "impressum": "Persönliche Koordination: @Grygoryshyn (Telegram) & grigorishinsv@gmail.com.",
         "archiveCredit": "Historische Gemälde, Lithografien und Daguerreotypien des 19. Jh. sind gemeinfrei (Public Domain)."
       },
       "v3": {
         "seoTitle": "Philosophische & kulturelle Expeditionen in Deutschland (2027) — Dr. Sergii Grygoryshyn",
-        "seoDescription": "Kuratierte 4-tägige Philosophie-, Literatur- und Kunstexpeditionen in Deutschland (Stuttgart, Hamburg, Dresden, Berlin, Frankfurt, München). Eigener Konferenzraum, Museen, 4–10 Gäste.",
+        "seoDescription": "Kuratierte 4–5-tägige Philosophie-, Literatur- und Kunstexpeditionen in Deutschland & Wien (Stuttgart, Hamburg, Dresden, Berlin, Frankfurt, München, Wien). Eigener Konferenzraum, Museen, 4–10 Gäste.",
         "homeHeroEyebrow": "EXPEDITIONS-ATLAS DEUTSCHLAND · 2027",
-        "homeHeroLead": "Zwei eigenständige Reihen — Dichter & Denker sowie Maler & Fotografen. Öffnen Sie jede Stadt für ihre eigene 3D-Karte, interaktive Kostprobe und das 4-Tage-Dossier — oder merken Sie sich direkt vor.",
-        "homeCtaPrimary": "Karte & Reihen 2027 entdecken",
+        "homeHeroLead": "Zwei eigenständige Reihen — Dichter & Denker sowie Maler & Fotografen. Öffnen Sie jede Stadt für ihre eigene 3D-Karte, interaktive Kostprobe und das 4–5-Tage-Dossier — oder merken Sie sich direkt vor.",
+        "homeCtaPrimary": "Route 2027 wählen",
         "homeCtaSecondary": "Direkt unverbindlich vormerken",
         "nextDeparturesLabel": "ERSTE ZWEI TERMINE · 2027",
         "enterCityBtn": "Zur Stadtseite →",
-        "allTracksBtn": "Alle Routen · 2027 (6)",
+        "allTracksBtn": "Alle Routen · 2027",
         "backToAllRoutes": "← Alle Routen 2027",
         "authorStripCta": "Biografie & Methode →",
         "nextInTrack": "NÄCHSTE STATION DIESER REIHE →",
@@ -1057,7 +1057,7 @@ window.EXPEDITIONS_DATA = {
         "eyebrow": "EXPEDITION CATALOGUE · ISSUE №01 · 2027",
         "storyHook": "“In 1840 they posed in their studio, certain that their cozy world would endure forever. Two years later the city burned—and the survivors were captured not by brush, but on a silver daguerreotype plate.”",
         "title": "Intimate Philosophical Expeditions in Germany",
-        "subtitle": "An indivisible 4-day intellectual journey led by PhD philosopher Sergii Grygoryshyn. Lectures in a rented central conference hall and officially registered museum visits (4–10 participants).",
+        "subtitle": "An indivisible 4–5 day intellectual journey led by Ph.D. philosopher Sergii Grygoryshyn. Lectures in a rented central conference hall and officially registered museum visits (4–10 participants).",
         "ctaPrimary": "Explore Map of German States & 2027 Dates",
         "ctaSecondary": "Explore Route №1: Stuttgart (Jan 28–31)",
         "badgeTitle": "FEATURED ARCHIVE · HAMBURG (№02)",
@@ -1071,12 +1071,12 @@ window.EXPEDITIONS_DATA = {
       },
       "principles": {
         "eyebrow": "EXPEDITION ARCHITECTURE · 4 PILLARS",
-        "title": "An indivisible 4-day intellectual immersion",
+        "title": "An indivisible 4–5 day intellectual immersion",
         "items": [
           {
             "num": "01",
-            "head": "Indivisible 4-Day Product",
-            "body": "Participation covers all 4 days as one continuous philosophical narrative from opening dinner to closing synthesis—no partial weekend split."
+            "head": "Indivisible 4–5 Day Format",
+            "body": "Each city runs as one unbroken philosophical narrative—4 days (Thu–Sun or Fri–Mon) or 5 days (Fri–Tue with a closed Day 5 morning)—from opening evening to final synthesis."
           },
           {
             "num": "02",
@@ -1094,12 +1094,12 @@ window.EXPEDITIONS_DATA = {
             "body": "No payment is charged on this website. Once a minimum group of 4 forms, we confirm the program fee, seminar room schedule, and our hotel recommendation."
           }
         ],
-        "smallFormatNote": "* Note: If only 1–2 participants sign up in a city instead of 4–10, Sergii’s scheduled research trip still takes place and we can offer a compact 3-hour private museum walk and coffee discussion."
+        "smallFormatNote": "Guaranteed Even for 1–2 Guests: If a city forms 1–2 participants instead of 4–10, Sergii’s scheduled research trip still goes ahead—and we offer a private 3-hour museum walk and seminar over coffee."
       },
       "hub": {
         "eyebrow": "ROUTE CARTOGRAPHY · 2027",
-        "title": "German Federal States & City Center Zoom",
-        "lead": "Click any city on the German Länder map or in the board on the right to zoom straight into the city center and explore the conceptual landmarks of our retreat.",
+        "title": "2027 Atlas of Routes & Live 3D Previews",
+        "lead": "Browse all 7 destinations calmly on the Germany & Austria atlas or select any departure on the right. For active 3D chapters (Stuttgart, Hamburg, Berlin), open an instant 3D street-level preview or step inside the city’s full editorial page.",
         "filters": {
           "all": "All Cities (7)",
           "active": "Pre-Reg Open",
@@ -1183,12 +1183,12 @@ window.EXPEDITIONS_DATA = {
         "mapMetaCity": "CITY CENTER ZOOM · CONCEPTUAL LANDMARKS",
         "backToCountry": "← Back to Germany & Austria Map",
         "zoomToCity": "Zoom into City Center →",
-        "boardTitle": "ABFAHRTSTAFEL · 2027 EXPEDITION SCHEDULE",
+        "boardTitle": "2027 DEPARTURE BOARD (ABFAHRTSTAFEL)",
         "boardThreshold": "GROUP: 4–10 GUESTS",
         "legend": [
           "Pre-Reg Open (Jan)",
           "Forming Group",
-          "Waitlist (Fri–Mon)"
+          "3D Preview: Stuttgart · Hamburg · Berlin"
         ],
         "landmarkHint": "Click any numbered marker on the zoomed city map to inspect its conceptual role in the retreat.",
         "reserveBtn": "Pre-Register Interest"
@@ -1218,13 +1218,13 @@ window.EXPEDITIONS_DATA = {
       "compare": {
         "eyebrow": "INTERACTIVE TRIAL TOUR · 1808–1843",
         "title": "Brush vs. Silver Plate: The Same Artists Before and After the Fire",
-        "lead": "Experience a live trial of Sergii’s seminar: click any artist below (badges sit neatly on their lapels so faces stay unobstructed) to read their biography and major works, or run the smooth Cinema Camera face tour.",
+        "lead": "Experience Sergii’s method directly: select any artist below (side callouts connect cleanly to each figure without covering faces) to trigger synchronized dual-frame spotlights across the 1840 oil painting and the 1843 daguerreotype.",
         "modePins": "Interactive: Artists & Major Works (6)",
         "modeCinema": "🎥 Cinema Camera: Guided Face Pan",
         "plateButtons": {
           "plate1843a": "Stelzner Daguerreotype I (13 artists, May 6, 1843)",
-          "plate1843b": "Stelzner Daguerreotype II (19 artists, May 6, 1843)",
-          "plate1842ruins": "Biow Ruins Daguerreotype (May 1842)"
+          "plate1843b": "Stelzner Daguerreotype II (variant · no portrait markers)",
+          "plate1842ruins": "Biow Ruins Daguerreotype (May 1842 · no portrait markers)"
         },
         "caption1840": "1840 · Oil on canvas · “Members of the Hamburg Artists’ Association” (Günther Gensler, Kunsthalle)",
         "caption1843": "May 6, 1843 · Daguerreotype · “Hamburg Artists’ Association in the Garden” (Carl Ferdinand Stelzner)",
@@ -1251,7 +1251,7 @@ window.EXPEDITIONS_DATA = {
         "facts": [
           {
             "label": "Degree",
-            "val": "Ph.D. in Philosophy (Candidate of Philosophical Sciences)"
+            "val": "Ph.D. in Philosophy"
           },
           {
             "label": "Working Languages",
@@ -1265,18 +1265,18 @@ window.EXPEDITIONS_DATA = {
         "pubBtn": "Academic Publications (grygoryshyn.com)",
         "videoTitle": "Video Invitation by Sergii Grygoryshyn",
         "videoStatus": "Placeholder ready for 01:15 video introduction",
-        "lectureCaption": "Temporary documentary shots from live reading circles (to be updated)"
+        "lectureCaption": "Sergii Grygoryshyn · Author & Lead Scholar of the 2027 Expeditions"
       },
       "tariffs": {
         "eyebrow": "PRE-REGISTRATION · NO ONLINE PAYMENT",
-        "title": "Unified Format & Telegram Bot Registration",
+        "title": "How It Works & Pre-Registration",
         "cards": [
           {
             "id": "full",
-            "tag": "SINGLE FORMAT · 4 DAYS / 3 NIGHTS",
-            "name": "Full 4-Day Expedition (Stuttgart · Jan / Hamburg · Feb)",
+            "tag": "OPEN PRE-REGISTRATION · 4–5 DAYS",
+            "name": "Active Departures: Stuttgart (Jan) · Hamburg (Feb) · Berlin (Apr)",
             "priceMain": "Pre-Register",
-            "priceNote": "4–10 guests · program fee confirmed once group forms",
+            "priceNote": "4–10 guests · 4 days (Thu–Sun) or 5 days (Fri–Tue) · fee confirmed once group forms",
             "features": [
               "Private central conference room rented for morning and evening sessions",
               "Author lectures, primary-source discussions & printed route workbook",
@@ -1287,10 +1287,10 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "id": "waitlist",
-            "tag": "UPCOMING CITIES · FRI–MON · 2027",
-            "name": "Early List: Dresden, Berlin, Frankfurt, Munich",
+            "tag": "UPCOMING 2027 ROUTES · MAR–JUL",
+            "name": "Early List: Dresden · Frankfurt · Munich · Vienna",
             "priceMain": "Free Sign-Up",
-            "priceNote": "Last weekend of each month (Fri–Mon) · Mar–Jun 2027",
+            "priceNote": "4 days (Dresden) & 5 days (Frankfurt, Munich, Vienna) · Mar–Jul 2027",
             "features": [
               "Register your interest in one or more cities on the 2027 route",
               "Priority notification when enrollment opens for the city",
@@ -1300,38 +1300,38 @@ window.EXPEDITIONS_DATA = {
             "cta": "Select City Below"
           }
         ],
-        "includedNote": "No payment is charged on this website. Once a group of 4+ forms, Sergii Grygoryshyn reaches out with the confirmed fee for the 4-day program (lectures, rented conference hall, and museum visits) and shares our recommended seminar hotel for independent booking.",
+        "includedNote": "No payment is charged on this website. Once a group of 4+ forms, Sergii Grygoryshyn reaches out with the confirmed fee for the 4–5-day program (lectures, rented conference hall, and museum visits) and shares our recommended seminar hotel for independent booking.",
         "ticketTitle": "Pre-Registration Ticket (Fahrkarte)",
-        "ticketSubtitle": "Fill out the form below — your request goes directly to our Telegram bot (@Grygoryshyn) to reserve your place in the pre-registration list.",
+        "ticketSubtitle": "Fill out your ticket below — we confirm availability personally via Telegram (@Grygoryshyn) or E-mail.",
         "badgeText": "PRE-REG · NO PAYMENT NOW",
         "form": {
           "cityLabel": "City & Dates (2027)",
           "seatsLabel": "Number of Seats",
           "langLabel": "Preferred Group Language",
-          "nameLabel": "Your Name",
+          "nameLabel": "Your Name *",
           "namePlaceholder": "e.g. Alex",
-          "contactLabel": "Telegram (@username) or Phone",
-          "contactPlaceholder": "@username",
+          "contactLabel": "Telegram (@username) or E-mail *",
+          "contactPlaceholder": "@username or name@email.com",
           "commentLabel": "Note (optional)",
           "commentPlaceholder": "e.g. questions or preferences",
-          "sendBotBtn": "Send Request to Telegram Bot",
+          "sendBotBtn": "Reserve Place on Pre-Registration Ticket",
           "openDirectBtn": "Message Directly (@Grygoryshyn)",
           "copyBtn": "Copy Text",
           "copied": "Request text copied!",
-          "sending": "Sending to Telegram bot...",
-          "sentOk": "✓ Delivered to the organizers’ Telegram bot!",
-          "sentWarn": "Automatic delivery is currently unavailable. Please contact us directly at grigorishinsv@gmail.com, +49 151 428 128 14, or Telegram @Grygoryshyn."
+          "sending": "Sending pre-registration request...",
+          "sentOk": "✓ Pre-registration received! Your ticket is stamped below.",
+          "sentWarn": "Direct server endpoint is offline — your Fahrkarte is ready below: send via Telegram, E-mail, or copy in one click."
         },
         "ticketLabels": {
           "route": "DESTINATION",
           "format": "FORMAT",
-          "formatValue": "4 Days / 3 Nights · Hall & Museums",
+          "formatValue": "4–5 Days · Hall & Museums",
           "status": "STATUS",
           "statusValue": "PRE-REGISTRATION ONLY",
           "group": "GROUP SIZE",
           "groupValue": "4–10 Participants",
           "person": "GUEST / SEATS / LANG",
-          "msg": "TELEGRAM BOT PAYLOAD"
+          "msg": "TICKET SUMMARY"
         }
       },
       "faq": {
@@ -1344,7 +1344,7 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "q": "How do hotel accommodation and meals work?",
-            "a": "Participation covers strictly the 4-day intellectual program: lectures, our rented central conference hall, printed workbooks, and registered museum visits. Travel, hotel accommodation, and meals are booked and paid for directly by each participant — we share a recommended central hotel where our seminar hall is located so anyone who wishes can stay under the same roof."
+            "a": "Participation covers strictly the 4- or 5-day intellectual program: lectures, our rented central conference hall, printed workbooks, and registered museum visits. Travel, hotel accommodation, and meals are booked and paid for directly by each participant — we share a recommended central hotel where our seminar hall is located so anyone who wishes can stay under the same roof."
           },
           {
             "q": "What happens after submitting pre-registration?",
@@ -1352,25 +1352,25 @@ window.EXPEDITIONS_DATA = {
           },
           {
             "q": "Do I need a background in philosophy or art history?",
-            "a": "Not at all. Try the interactive “1840 ↔ 1843” section above for a live taste of how Sergii connects visual art, history, and philosophy."
+            "a": "Not at all. Everything is taught as a detective story connecting art, primary sources, and philosophy. Explore the interactive visual studies inside the Stuttgart (1738 ↺ 1855), Hamburg (1840 ↔ 1843), and Berlin (1831 ↔ 1900) route pages for a live taste of how Sergii works."
           }
         ]
       },
       "footer": {
         "legalNotice": "Informational platform for curated philosophical expeditions. Final participation terms are provided upon group confirmation.",
-        "impressum": "Organizer on Telegram: @Grygoryshyn · Telegram bot integration active.",
+        "impressum": "Direct organizer coordination: @Grygoryshyn (Telegram) & grigorishinsv@gmail.com.",
         "archiveCredit": "All 19th-century paintings, lithographs, and daguerreotypes shown belong to the Public Domain."
       },
       "v3": {
         "seoTitle": "Philosophical & Cultural Expeditions in Germany (2027) — Sergii Grygoryshyn, PhD",
-        "seoDescription": "Intimate 4-day philosophical, literary, and art-historical expeditions across Germany (Stuttgart, Hamburg, Dresden, Berlin, Frankfurt, Munich). Private conference hall, museum studies, 4–10 guests.",
+        "seoDescription": "Intimate 4–5-day philosophical, literary, and art-historical expeditions across Germany & Vienna (Stuttgart, Hamburg, Dresden, Berlin, Frankfurt, Munich, Vienna). Private conference hall, museum studies, 4–10 guests.",
         "homeHeroEyebrow": "GERMANY EXPEDITION ATLAS · 2027",
-        "homeHeroLead": "Two independent curatorial lines — Writers & Philosophers and Artists & Photographers. Enter any city’s dedicated page for its 3D map, interactive lecture trial, and 4-day dossier, or pre-register right away.",
-        "homeCtaPrimary": "Explore Map & 2027 Tracks",
+        "homeHeroLead": "Two independent curatorial lines — Writers & Philosophers and Artists & Photographers. Enter any city’s dedicated page for its 3D map, interactive visual lecture, and 4–5-day dossier, or pre-register right away.",
+        "homeCtaPrimary": "Choose Your 2027 Route",
         "homeCtaSecondary": "Quick Pre-Registration",
         "nextDeparturesLabel": "FIRST TWO DEPARTURES · 2027",
         "enterCityBtn": "Open City Page →",
-        "allTracksBtn": "All Routes · 2027 (6)",
+        "allTracksBtn": "All Routes · 2027",
         "backToAllRoutes": "← All 2027 Routes",
         "authorStripCta": "Full Bio & Method →",
         "nextInTrack": "NEXT STOP IN THIS LINE →",
@@ -1427,10 +1427,10 @@ window.EXPEDITIONS_DATA = {
         "scheduleUa": "План на 4 дні (Зал і Музеї)",
         "scheduleDe": "4-Tage-Tagesplan (Seminar & Museen)",
         "scheduleEn": "4-Day Schedule (Hall & Museums)",
-        "archiveRu": "Архив сюжетов (4 гравюры)",
-        "archiveUa": "Архів сюжетів (4 гравюри)",
-        "archiveDe": "Bildarchiv (4 Ansichten)",
-        "archiveEn": "Visual Archive (4 Plates)"
+        "archiveRu": "Архив сюжетов",
+        "archiveUa": "Архів сюжетів",
+        "archiveDe": "Bildarchiv",
+        "archiveEn": "Visual Archive"
       },
       "archiveFilters": {
         "all": {
@@ -1505,7 +1505,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Експозиція StadtPalais · Меморіальний камінь Зюссу Оппенгеймеру (Galgenberg)",
             "artifactsDe": "StadtPalais-Ausstellung · Oppenheimer-Gedenkstein (Galgenberg / Nordbahnhof)",
             "artifactsEn": "StadtPalais archives · Joseph Süß Oppenheimer memorial stone (Galgenberg)",
-            "img": "фото и картины/stuttgart/web/st-02-oppenheimer-trial.jpg"
+            "img": "media/stuttgart/st-02-oppenheimer-trial.jpg"
           },
           {
             "id": "st-2",
@@ -1543,7 +1543,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Пам’ятник Шубарту біля Hospitalkirche · Музей-в’язниця Festung Hohenasperg",
             "artifactsDe": "Schubart-Tafel an der Hospitalkirche · Festung Hohenasperg · „Deutsche Chronik“",
             "artifactsEn": "Hospitalkirche memorial · Festung Hohenasperg prison museum · “Deutsche Chronik”",
-            "img": "фото и картины/stuttgart/web/st-04-schubart-hohenasperg.jpg"
+            "img": "media/stuttgart/st-04-schubart-hohenasperg.jpg"
           },
           {
             "id": "st-3",
@@ -1581,7 +1581,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Академічний сад (Karlsschule) · Старий замок · Schiller-Nationalmuseum (Марбах)",
             "artifactsDe": "Akademiegarten · Altes Schloss · Schiller-Nationalmuseum Marbach",
             "artifactsEn": "Akademiegarten (former Karlsschule) · Altes Schloss · Schiller-Nationalmuseum Marbach",
-            "img": "фото и картины/stuttgart/web/st-07-schiller-flight.jpg"
+            "img": "media/stuttgart/st-07-schiller-flight.jpg"
           },
           {
             "id": "st-4",
@@ -1619,7 +1619,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Могила В. Гауфа (Hoppenlau-Friedhof) · Замок Ліхтенштайн і Wilhelm-Hauff-Museum",
             "artifactsDe": "Hauff-Grabmal (Hoppenlau-Friedhof) · Schloss Lichtenstein & Wilhelm-Hauff-Museum",
             "artifactsEn": "Hauff monument (Hoppenlau-Friedhof) · Schloss Lichtenstein & Wilhelm-Hauff-Museum",
-            "img": "фото и картины/stuttgart/web/st-08-hauff-portrait.jpg"
+            "img": "media/stuttgart/st-08-hauff-portrait.jpg"
           },
           {
             "id": "st-5",
@@ -1657,7 +1657,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Бронзовий пам’ятник Шиллеру (Б. Торвальдсен, 1839) · Schillerplatz",
             "artifactsDe": "Schillerdenkmal (B. Thorvaldsen, 1839) · Schillerplatz",
             "artifactsEn": "Bronze Schiller Monument (B. Thorvaldsen, 1839) · Schillerplatz ensemble",
-            "img": "фото и картины/stuttgart/web/st-09-thorvaldsen-monument.jpg"
+            "img": "media/stuttgart/st-09-thorvaldsen-monument.jpg"
           },
           {
             "id": "st-6",
@@ -1695,7 +1695,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Бюст Шиллера (Даннекер, Staatsgalerie) · Експозиція 1848 р. · Дошка Г. Гервега",
             "artifactsDe": "Danneckers Schillerbüste · Haus der Geschichte (1848) · Herwegh-Tafel Calwer Straße",
             "artifactsEn": "Dannecker’s Schiller Bust · 1848 Revolution galleries · Georg Herwegh plaque (Calwer Straße)",
-            "img": "фото и картины/stuttgart/web/st-12-herwegh-portrait.jpg"
+            "img": "media/stuttgart/st-12-herwegh-portrait.jpg"
           },
           {
             "id": "st-7",
@@ -1733,7 +1733,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Дім-музей Hegel-Haus · Пам’ятник Гегелю · «Феноменологія духу»",
             "artifactsDe": "Hegel-Haus Eberhardstraße 53 · Hegel-Denkmal · „Phänomenologie des Geistes“",
             "artifactsEn": "Hegel-Haus museum · Hegel monument · “Phenomenology of Spirit”",
-            "img": "фото и картины/stuttgart/web/st-10-dannecker-bust.jpg"
+            "img": "media/stuttgart/st-10-dannecker-bust.jpg"
           },
           {
             "id": "st-8",
@@ -1771,7 +1771,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Фонтан Мьоріке (Silberburganlage) · Mörike-Kabinett",
             "artifactsDe": "Mörike-Brunnen (Silberburganlage) · Mörike-Kabinett (Stadtbibliothek)",
             "artifactsEn": "Mörike Fountain (Silberburganlage) · Mörike-Kabinett (Stuttgart City Library)",
-            "img": "фото и картины/stuttgart/web/st-14-moerike-portrait.jpg"
+            "img": "media/stuttgart/st-14-moerike-portrait.jpg"
           }
         ]
       },
@@ -1788,7 +1788,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Витоки Просвітництва й тиранія: Зюсс Оппенгеймер та в’язень Шубарт",
           "titleDe": "Aufklärung & Willkür: Joseph Süß Oppenheimer und Schubart",
           "titleEn": "Enlightenment & Tyranny: Joseph Süß Oppenheimer & C. F. D. Schubart",
-          "image": "фото и картины/stuttgart/web/st-01-oppenheimer-triptych.jpg",
+          "image": "media/stuttgart/st-01-oppenheimer-triptych.jpg",
           "imageCaptionRu": "Вюртемберг XVIII века: крепость Гоэнасперг над холмами и крышами старого Штутгарта.",
           "imageCaptionUa": "Вюртемберг XVIII ст.: фортеця Гоенасперг над пагорбами старого Штутгарта.",
           "imageCaptionDe": "Württemberg im 18. Jahrhundert: Festung Hohenasperg über den Hügeln Alt-Stuttgarts.",
@@ -1826,7 +1826,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Поетичний бунт і романтична туга: Фрідріх Шиллер і Вільгельм Гауф",
           "titleDe": "Poetischer Aufbruch & Romantik: Friedrich Schiller und Wilhelm Hauff",
           "titleEn": "Poetic Rebellion & Romantic Longing: Friedrich Schiller & Wilhelm Hauff",
-          "image": "фото и картины/stuttgart/web/st-07-schiller-flight.jpg",
+          "image": "media/stuttgart/st-07-schiller-flight.jpg",
           "imageCaptionRu": "Швабский романтизм: замок Лихтенштайн над туманной долиной — пространство романа Вильгельма Гауфа.",
           "imageCaptionUa": "Швабський романтизм: замок Ліхтенштайн над туманною долиною.",
           "imageCaptionDe": "Schwäbische Romantik: Schloss Lichtenstein über dem nebligen Tal.",
@@ -1864,7 +1864,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Боротьба за пам’ять і барикади: Бронзовий Шиллер та похід Георга Гервега",
           "titleDe": "Denkmalstreit & Barrikaden: Dannecker vs. Thorvaldsen & Georg Herwegh 1848",
           "titleEn": "Struggle for Memory & 1848 Barricades: Dannecker vs. Thorvaldsen & Herwegh",
-          "image": "фото и картины/stuttgart/web/st-09-thorvaldsen-monument.jpg",
+          "image": "media/stuttgart/st-09-thorvaldsen-monument.jpg",
           "imageCaptionRu": "Schillerplatz XIX века: бронзовый монумент Торвальдсена (1839) и споры граждан в канун 1848 года.",
           "imageCaptionUa": "Schillerplatz XIX ст.: монумент Торвальдсена (1839) і суперечки громадян напередодні 1848 року.",
           "imageCaptionDe": "Schillerplatz im 19. Jahrhundert: Thorvaldsens Denkmal (1839) und bürgerliche Debatten um 1848.",
@@ -1902,7 +1902,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Вибух діалектики й осіння петля: Гегель та Едуард Мьоріке",
           "titleDe": "Dialektischer Funke & Herbstschleife: Hegel und Eduard Mörike",
           "titleEn": "Dialectical Fuse & Autumn Loop: G. W. F. Hegel & Eduard Mörike",
-          "image": "фото и картины/stuttgart/web/st-14-moerike-portrait.jpg",
+          "image": "media/stuttgart/st-14-moerike-portrait.jpg",
           "imageCaptionRu": "Уроженческий дом Гегеля (Hegel-Haus) на Eberhardstraße в мягком осеннем свете старого Штутгарта.",
           "imageCaptionUa": "Будинок-музей Гегеля (Hegel-Haus) на Eberhardstraße в осінньому світлі Штутгарта.",
           "imageCaptionDe": "Das Hegel-Haus in der Eberhardstraße im warmen Herbstlicht Alt-Stuttgarts.",
@@ -2045,7 +2045,7 @@ window.EXPEDITIONS_DATA = {
           "category": "enlightenment",
           "dayRef": "Day 1",
           "year": "1738",
-          "src": "фото и картины/stuttgart/web/st-01-oppenheimer-triptych.jpg",
+          "src": "media/stuttgart/st-01-oppenheimer-triptych.jpg",
           "titleRu": "Листовка-триптих процесса Йозефа Зюсса Оппенгеймера",
           "titleUa": "Листівка-триптих процесу Йозефа Зюсса Оппенгеймера",
           "titleDe": "Kolorierter Einblattdruck zum Prozess Joseph Süß Oppenheimers",
@@ -2064,7 +2064,7 @@ window.EXPEDITIONS_DATA = {
           "category": "enlightenment",
           "dayRef": "Day 1",
           "year": "1738",
-          "src": "фото и картины/stuttgart/web/st-02-oppenheimer-trial.jpg",
+          "src": "media/stuttgart/st-02-oppenheimer-trial.jpg",
           "titleRu": "Заключение и допрос Зюсса Оппенгеймера перед трибуналом",
           "titleUa": "Ув’язнення і допит Зюсса Оппенгеймера перед трибуналом",
           "titleDe": "Haft und Verhör Joseph Süß Oppenheimers vor der Kommission",
@@ -2083,7 +2083,7 @@ window.EXPEDITIONS_DATA = {
           "category": "enlightenment",
           "dayRef": "Day 1",
           "year": "1738",
-          "src": "фото и картины/stuttgart/web/st-03-oppenheimer-market.jpg",
+          "src": "media/stuttgart/st-03-oppenheimer-market.jpg",
           "titleRu": "Проезд Зюсса Оппенгеймера через Рыночную площадь 4 февраля 1738 г.",
           "titleUa": "Проїзд Зюсса Оппенгеймера Ринковою площею 4 лютого 1738 р.",
           "titleDe": "Fahrt Joseph Süß Oppenheimers über den Stuttgarter Marktplatz (1738)",
@@ -2102,7 +2102,7 @@ window.EXPEDITIONS_DATA = {
           "category": "enlightenment",
           "dayRef": "Day 1",
           "year": "1781",
-          "src": "фото и картины/stuttgart/web/st-04-schubart-hohenasperg.jpg",
+          "src": "media/stuttgart/st-04-schubart-hohenasperg.jpg",
           "titleRu": "Визит молодого Фридриха Шиллера к узнику Шубарту на Гоэнасперге",
           "titleUa": "Візит молодого Шиллера до в’язня Шубарта в Гоенасперзі",
           "titleDe": "Schillers Besuch bei C. F. D. Schubart auf dem Hohenasperg (1781)",
@@ -2121,7 +2121,7 @@ window.EXPEDITIONS_DATA = {
           "category": "enlightenment",
           "dayRef": "Day 1",
           "year": "1787",
-          "src": "фото и картины/stuttgart/web/st-05-schubart-portrait.jpg",
+          "src": "media/stuttgart/st-05-schubart-portrait.jpg",
           "titleRu": "Кристиан Фридрих Даниэль Шубарт: поэт, композитор, журналист",
           "titleUa": "Крістіан Фрідріх Даніель Шубарт: поет і журналіст",
           "titleDe": "Christian Friedrich Daniel Schubart (1739–1791)",
@@ -2140,7 +2140,7 @@ window.EXPEDITIONS_DATA = {
           "category": "romantic",
           "dayRef": "Day 2",
           "year": "1786–1791",
-          "src": "фото и картины/stuttgart/web/st-06-schiller-graff.jpg",
+          "src": "media/stuttgart/st-06-schiller-graff.jpg",
           "titleRu": "Портрет Фридриха Шиллера кисти Антона Граффа",
           "titleUa": "Портрет Фрідріха Шиллера роботи Антона Граффа",
           "titleDe": "Friedrich Schiller (Porträt von Anton Graff)",
@@ -2159,7 +2159,7 @@ window.EXPEDITIONS_DATA = {
           "category": "romantic",
           "dayRef": "Day 2",
           "year": "1782",
-          "src": "фото и картины/stuttgart/web/st-07-schiller-flight.jpg",
+          "src": "media/stuttgart/st-07-schiller-flight.jpg",
           "titleRu": "Ночной побег Шиллера и Андреаса Штрайхера из Штутгарта (1782)",
           "titleUa": "Нічна втеча Шиллера та Андреаса Штрайхера зі Штутгарта (1782)",
           "titleDe": "Flucht Schillers mit Andreas Streicher aus Stuttgart (1782)",
@@ -2178,7 +2178,7 @@ window.EXPEDITIONS_DATA = {
           "category": "romantic",
           "dayRef": "Day 2",
           "year": "1826",
-          "src": "фото и картины/stuttgart/web/st-08-hauff-portrait.jpg",
+          "src": "media/stuttgart/st-08-hauff-portrait.jpg",
           "titleRu": "Вильгельм Гауф в 24 года — за год до смерти и публикации «Еврея Зюсса»",
           "titleUa": "Вільгельм Гауф у 24 роки — за рік до смерті й повісті «Єврей Зюсс»",
           "titleDe": "Wilhelm Hauff (Pastell von J. M. Behringer, 1826)",
@@ -2197,7 +2197,7 @@ window.EXPEDITIONS_DATA = {
           "category": "revolution",
           "dayRef": "Day 3",
           "year": "1839",
-          "src": "фото и картины/stuttgart/web/st-09-thorvaldsen-monument.jpg",
+          "src": "media/stuttgart/st-09-thorvaldsen-monument.jpg",
           "titleRu": "Открытие первого в Германии памятника Шиллеру на Шиллерплац (8 мая 1839)",
           "titleUa": "Відкриття першого в Німеччині пам’ятника Шиллеру (8 травня 1839)",
           "titleDe": "Enthüllung des Schiller-Denkmals in Stuttgart (8. Mai 1839)",
@@ -2216,7 +2216,7 @@ window.EXPEDITIONS_DATA = {
           "category": "romantic",
           "dayRef": "Day 3",
           "year": "1794–1806",
-          "src": "фото и картины/stuttgart/web/st-10-dannecker-bust.jpg",
+          "src": "media/stuttgart/st-10-dannecker-bust.jpg",
           "titleRu": "Камерный мраморный бюст Шиллера работы Иоганна Генриха Данеккера",
           "titleUa": "Камерний мармуровий бюст Шиллера роботи Й. Г. Данеккера",
           "titleDe": "Schiller-Büste von Johann Heinrich Dannecker",
@@ -2235,7 +2235,7 @@ window.EXPEDITIONS_DATA = {
           "category": "romantic",
           "dayRef": "Day 3",
           "year": "1798",
-          "src": "фото и картины/stuttgart/web/st-11-dannecker-portrait.jpg",
+          "src": "media/stuttgart/st-11-dannecker-portrait.jpg",
           "titleRu": "Портрет скульптора Иоганна Генриха Данеккера",
           "titleUa": "Портрет скульптора Йоганна Генріха Данеккера",
           "titleDe": "Porträt des Bildhauers Johann Heinrich Dannecker",
@@ -2254,7 +2254,7 @@ window.EXPEDITIONS_DATA = {
           "category": "revolution",
           "dayRef": "Day 3",
           "year": "1841–1848",
-          "src": "фото и картины/stuttgart/web/st-12-herwegh-portrait.jpg",
+          "src": "media/stuttgart/st-12-herwegh-portrait.jpg",
           "titleRu": "Георг Гервег — голос политической поэзии 1848 года",
           "titleUa": "Георг Гервег — голос політичної поезії 1848 року",
           "titleDe": "Georg Herwegh (1817–1875)",
@@ -2273,7 +2273,7 @@ window.EXPEDITIONS_DATA = {
           "category": "revolution",
           "dayRef": "Day 3",
           "year": "1841",
-          "src": "фото и картины/stuttgart/web/st-13-herwegh-poems.jpg",
+          "src": "media/stuttgart/st-13-herwegh-poems.jpg",
           "titleRu": "«Стихи живого» (Gedichte eines Lebendigen, 1841) — первое издание",
           "titleUa": "«Вірші живого» (Gedichte eines Lebendigen, 1841) — перше видання",
           "titleDe": "Gedichte eines Lebendigen (Erstausgabe, 1841)",
@@ -2292,7 +2292,7 @@ window.EXPEDITIONS_DATA = {
           "category": "revolution",
           "dayRef": "Day 4",
           "year": "1851",
-          "src": "фото и картины/stuttgart/web/st-14-moerike-portrait.jpg",
+          "src": "media/stuttgart/st-14-moerike-portrait.jpg",
           "titleRu": "Эдуард Мёрике — штутгартский поэт поздней «петли времени»",
           "titleUa": "Едуард Мьоріке — штутгартський поет пізньої «петлі часу»",
           "titleDe": "Eduard Mörike (1804–1875)",
@@ -2311,7 +2311,7 @@ window.EXPEDITIONS_DATA = {
           "category": "revolution",
           "dayRef": "Day 4",
           "year": "1880",
-          "src": "фото и картины/stuttgart/web/st-15-moerike-monument.jpg",
+          "src": "media/stuttgart/st-15-moerike-monument.jpg",
           "titleRu": "Памятник Эдуарду Мёрике у Зильбербурга в Штутгарте",
           "titleUa": "Пам’ятник Едуарду Мьоріке біля Зільбербурга у Штутгарті",
           "titleDe": "Mörike-Denkmal an der Silberburg-Anlage, Stuttgart",
@@ -2327,7 +2327,7 @@ window.EXPEDITIONS_DATA = {
         }
       ],
       "trackId": "writers",
-      "heroImage": "фото и картины/stuttgart/web/st-09-thorvaldsen-monument.jpg",
+      "heroImage": "media/stuttgart/st-09-thorvaldsen-monument.jpg",
       "heroHookEn": "“From Joseph Süß Oppenheimer’s iron cage and young Schiller’s midnight flight out of the Karlsschule to Hegel’s hidden dialectical fuse—Stuttgart turns two centuries of rebellion into an autumn circle.”",
       "heroHookDe": "„Vom Prozess gegen Joseph Süß Oppenheimer und Schillers nächtlicher Flucht aus der Karlsschule bis zu Hegels dialektischem Funken — Stuttgart schließt zwei Jahrhunderte Aufbruch in einem herbstlichen Bogen.“",
       "heroHookRu": "«От железной клетки Зюсса Оппенгеймера и ночного побега юного Шиллера до скрытой бомбы диалектики Гегеля — Штутгарт замыкает два века бунта в осеннюю петлю времени».",
@@ -2349,7 +2349,12 @@ window.EXPEDITIONS_DATA = {
           "title": "Екскурсія у Штутгарті з філософом (4 дні) — Шиллер, Гегель, Гауф | Сергій Григоришин",
           "description": "Авторська 4-денна літературно-філософська експедиція та екскурсія Штутгартом (28–31 січня 2027) із к.ф.н. Сергієм Григоришиним: Оппенгеймер, Шубарт, Шиллер, Гауф, Дім Гегеля та Мьоріке."
         }
-      }
+      },
+      "durationDays": 4,
+      "durationEn": "4 Days / 3 Nights",
+      "durationDe": "4 Tage / 3 Nächte",
+      "durationRu": "4 дня / 3 ночи",
+      "durationUa": "4 дні / 3 ночі"
     },
     {
       "id": "hamburg",
@@ -2435,7 +2440,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Робочий зошит експедиції · Гравюра старого Гамбурга · Карти пожежі 1842 р.",
             "artifactsDe": "Arbeitsbuch der Expedition · Historischer Stadtplan 1840/1842",
             "artifactsEn": "Expedition workbook · Pre-1842 engraving of the Alster basin",
-            "img": "фото и картины/hamburg/photo_1_2026-11-18_13-34-16.jpg"
+            "img": "media/hamburg/photo_1_2026-11-18_13-34-16.jpg"
           },
           {
             "id": "hm-2",
@@ -2473,7 +2478,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Ф. О. Рунге «Ранок» (1808) · «Діти Гюльзенбек» · Г. Генслер «Гамбурзьке товариство художників» (1840)",
             "artifactsDe": "P. O. Runge „Der Morgen“ (1808) · G. Gensler „Künstlerverein“ (1840)",
             "artifactsEn": "P. O. Runge “Morning” (1808) · G. Gensler “Artists’ Association” (1840)",
-            "img": "фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg"
+            "img": "media/hamburg/photo_6_2026-11-18_13-34-16.jpg"
           },
           {
             "id": "hm-3",
@@ -2511,7 +2516,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Літографія «Пожежа біля Старого крана» (1842) · Етюди Якоба Генслера",
             "artifactsDe": "Lithografie „Brand beim Alten Kran“ (1842) · Studien von Jacob Gensler",
             "artifactsEn": "Lithograph “Fire at the Old Crane” (1842) · Jacob Gensler’s canal studies",
-            "img": "фото и картины/hamburg/photo_9_2026-11-18_13-34-16.jpg"
+            "img": "media/hamburg/photo_9_2026-11-18_13-34-16.jpg"
           },
           {
             "id": "hm-4",
@@ -2549,7 +2554,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Гравюра «Пожежа вежі Св. Миколая» (1842) · Літографія «Стара Ратуша у вогні»",
             "artifactsDe": "Stich „Brand von St. Nikolai“ (1842) · P. Suhr „Das alte Rathaus in Flammen“",
             "artifactsEn": "Engraving “Burning of St. Nikolai” (1842) · Suhr lithograph “Old Town Hall in Flames”",
-            "img": "фото и картины/hamburg/photo_14_2026-11-18_13-34-16.jpg"
+            "img": "media/hamburg/photo_14_2026-11-18_13-34-16.jpg"
           },
           {
             "id": "hm-5",
@@ -2587,7 +2592,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Г. Кауффман «Велика пожежа» (1842) · Літографії П. Зура · Дагеротипи Г. Біова",
             "artifactsDe": "H. Kauffmann „Der Große Brand“ · P. Suhr Lithografien · H. Biow Daguerreotypien",
             "artifactsEn": "H. Kauffmann “The Great Fire” · P. Suhr lithographs · H. Biow 1842 ruin plates",
-            "img": "фото и картины/hamburg/photo_10_2026-11-18_13-34-16.jpg"
+            "img": "media/hamburg/photo_10_2026-11-18_13-34-16.jpg"
           },
           {
             "id": "hm-6",
@@ -2625,7 +2630,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "К. Ф. Штельцнер «Гамбурзька спілка художників у саду» — Дагеротипи I та II (6 травня 1843 р.)",
             "artifactsDe": "C. F. Stelzner: Gruppen-Daguerreotypien I (13 Künstler) & II (19 Künstler), 6. Mai 1843",
             "artifactsEn": "C. F. Stelzner: Group Daguerreotypes I (13 artists) & II (19 artists), May 6, 1843",
-            "img": "фото и картины/hamburg/photo_7_2026-11-18_13-34-16.jpg"
+            "img": "media/hamburg/photo_7_2026-11-18_13-34-16.jpg"
           },
           {
             "id": "hm-7",
@@ -2663,7 +2668,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Стела Ф. О. Рунге (ділянка P 6) · Родинний пам’ятник братів Генслер (Heckengarten)",
             "artifactsDe": "Grabstele P. O. Runge (Grablage P 6) · Familiengrabmal Gensler (Heckengarten)",
             "artifactsEn": "P. O. Runge portrait stele (Plot P 6) · Gensler family monument (Heckengarten)",
-            "img": "фото и картины/hamburg/photo_8_2026-11-18_13-34-16.jpg"
+            "img": "media/hamburg/photo_8_2026-11-18_13-34-16.jpg"
           }
         ]
       },
@@ -2680,7 +2685,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Містичне світло і пророцтво Філіпа Отто Рунге",
           "titleDe": "Runges mystisches Licht und die Prophezeiung der Elemente",
           "titleEn": "Runge’s Mystical Light and the Prophecy of Elements",
-          "image": "фото и картины/hamburg/photo_1_2026-11-18_13-34-16.jpg",
+          "image": "media/hamburg/photo_1_2026-11-18_13-34-16.jpg",
           "imageCaptionRu": "Панорама старого Гамбурга с башни Св. Георга до пожара 1842 г.",
           "imageCaptionUa": "Панорама старого Гамбурга з вежі Св. Георга до пожежі 1842 р.",
           "imageCaptionDe": "Panorama des alten Hamburg vom St. Georgs Turm vor 1842.",
@@ -2718,7 +2723,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Ілюзія вічного затишку й династія братів Генслер",
           "titleDe": "Die Illusion ewiger Geborgenheit: Die Brüder Gensler",
           "titleEn": "The Illusion of Eternal Comfort: The Gensler Brothers",
-          "image": "фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg",
+          "image": "media/hamburg/photo_6_2026-11-18_13-34-16.jpg",
           "imageCaptionRu": "Гюнтер Генслер. «Члены Гамбургского общества художников», 1840. Hamburger Kunsthalle.",
           "imageCaptionUa": "Гюнтер Генслер. «Члени Гамбурзького товариства художників», 1840. Hamburger Kunsthalle.",
           "imageCaptionDe": "Günther Gensler: Die Mitglieder des Hamburgischen Künstlervereins, 1840.",
@@ -2756,7 +2761,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Пророцтво сходить із полотен: Велика пожежа",
           "titleDe": "Der Große Brand von 1842: Die Elemente verlassen die Leinwand",
           "titleEn": "The Great Fire of 1842: Elements Leave the Canvas",
-          "image": "фото и картины/hamburg/photo_10_2026-11-18_13-34-16.jpg",
+          "image": "media/hamburg/photo_10_2026-11-18_13-34-16.jpg",
           "imageCaptionRu": "Великий пожар Гамбурга 5–8 мая 1842 г. Литография Петера Зура.",
           "imageCaptionUa": "Велика пожежа Гамбурга 5–8 травня 1842 р. Літографія Петера Зура.",
           "imageCaptionDe": "Der Große Brand Hamburgs im Mai 1842. Lithografie von Peter Suhr.",
@@ -2794,7 +2799,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Срібна пластина й тиша Ольсдорфа",
           "titleDe": "Die Silberplatte von 1843 & die Stille von Ohlsdorf",
           "titleEn": "Silver Plates of 1843 & the Quiet of Ohlsdorf",
-          "image": "фото и картины/hamburg/photo_7_2026-11-18_13-34-16.jpg",
+          "image": "media/hamburg/photo_7_2026-11-18_13-34-16.jpg",
           "imageCaptionRu": "Карл Фердинанд Штельцнер. Группа Гамбургского союза художников в саду, 6 мая 1843 г. (1-я годовщина пожара).",
           "imageCaptionUa": "Карл Фердинанд Штельцнер. Група Гамбурзької спілки художників у саду, 6 травня 1843 р. (1-ша річниця пожежі).",
           "imageCaptionDe": "Carl Ferdinand Stelzner: Hamburger Künstlerverein im Garten, 6. Mai 1843.",
@@ -2937,7 +2942,7 @@ window.EXPEDITIONS_DATA = {
           "category": "pre",
           "dayRef": "День 1–2",
           "year": "ок. 1830-х",
-          "src": "фото и картины/hamburg/photo_1_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_1_2026-11-18_13-34-16.jpg",
           "titleRu": "Панорама Гамбурга с башни Св. Георга (Hamburg v. St. Georg’s Thurm)",
           "titleUa": "Панорама Гамбурга з вежі Св. Георга",
           "titleDe": "Hamburg vom St. Georgs Turm",
@@ -2956,7 +2961,7 @@ window.EXPEDITIONS_DATA = {
           "category": "pre",
           "dayRef": "День 2",
           "year": "1840",
-          "src": "фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_6_2026-11-18_13-34-16.jpg",
           "titleRu": "Члены Гамбургского общества художников (Die Mitglieder des Hamburgischen Künstlervereins)",
           "titleUa": "Члени Гамбурзького товариства художників",
           "titleDe": "Die Mitglieder des Hamburgischen Künstlervereins",
@@ -2975,7 +2980,7 @@ window.EXPEDITIONS_DATA = {
           "category": "pre",
           "dayRef": "День 2",
           "year": "до 1842",
-          "src": "фото и картины/hamburg/photo_13_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_13_2026-11-18_13-34-16.jpg",
           "titleRu": "Старая Ратуша и Нижний суд (Das Raht Hauß / Das Niedern Gericht)",
           "titleUa": "Стара Ратуша і Нижній суд",
           "titleDe": "Das Alte Rathaus und Niedergericht",
@@ -2994,7 +2999,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_10_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_10_2026-11-18_13-34-16.jpg",
           "titleRu": "Великий пожар Гамбурга: вид со стороны Альстера и моста",
           "titleUa": "Велика пожежа Гамбурга: вид з боку Альстера",
           "titleDe": "Der Große Brand über der Binnenalster",
@@ -3013,7 +3018,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_2_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_2_2026-11-18_13-34-16.jpg",
           "titleRu": "Старая Ратуша и Лотерейное бюро в огне",
           "titleUa": "Стара Ратуша і Лотерейне бюро у вогні",
           "titleDe": "Das alte Rathaus in Flammen",
@@ -3032,7 +3037,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_9_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_9_2026-11-18_13-34-16.jpg",
           "titleRu": "Пожар у Старого крана (Beim Alten Kran) и эвакуация по каналам",
           "titleUa": "Пожежа біля Старого крана та евакуація каналами",
           "titleDe": "Brand beim Alten Kran & Evakuierung auf den Fleeten",
@@ -3051,7 +3056,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_4_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_4_2026-11-18_13-34-16.jpg",
           "titleRu": "Панорама набережной у Старого крана в разгар огня",
           "titleUa": "Панорама набережної біля Старого крана",
           "titleDe": "Panorama beim Alten Kran",
@@ -3070,7 +3075,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_5_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_5_2026-11-18_13-34-16.jpg",
           "titleRu": "Эвакуация имущества у деревянного крана (фрагмент)",
           "titleUa": "Евакуація майна біля дерев’яного крана (фрагмент)",
           "titleDe": "Detailansicht am Alten Kran",
@@ -3089,7 +3094,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_11_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_11_2026-11-18_13-34-16.jpg",
           "titleRu": "Горящий шпиль церкви Св. Петра (St. Petri)",
           "titleUa": "Палаючий шпиль церкви Св. Петра",
           "titleDe": "Der brennende Turm von St. Petri",
@@ -3108,7 +3113,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_14_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_14_2026-11-18_13-34-16.jpg",
           "titleRu": "Пожар башни церкви Св. Николая (St. Nikolai)",
           "titleUa": "Пожежа вежі церкви Св. Миколая",
           "titleDe": "Brand der St. Nikolaikirche",
@@ -3127,7 +3132,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_12_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_12_2026-11-18_13-34-16.jpg",
           "titleRu": "View of the Conflagration of the City of Hamburgh",
           "titleUa": "View of the Conflagration of the City of Hamburgh",
           "titleDe": "View of the Conflagration of the City of Hamburgh",
@@ -3146,7 +3151,7 @@ window.EXPEDITIONS_DATA = {
           "category": "fire",
           "dayRef": "День 3",
           "year": "1842",
-          "src": "фото и картины/hamburg/photo_3_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_3_2026-11-18_13-34-16.jpg",
           "titleRu": "Ночное зарево Великого пожара со стороны флита",
           "titleUa": "Нічна заграва Великої пожежі з боку фліту",
           "titleDe": "Nächtlicher Feuerschein über dem Fleet",
@@ -3165,7 +3170,7 @@ window.EXPEDITIONS_DATA = {
           "category": "daguerre",
           "dayRef": "День 3",
           "year": "май 1842",
-          "src": "фото и картины/hamburg/photo_8_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_8_2026-11-18_13-34-16.jpg",
           "titleRu": "Руины Гамбурга со стороны Бинненальстера (один из первых фоторепортажей мира)",
           "titleUa": "Руїни Гамбурга з боку Бінненальстера",
           "titleDe": "Die Ruinen an der Binnenalster (erste Fotoreportage)",
@@ -3184,7 +3189,7 @@ window.EXPEDITIONS_DATA = {
           "category": "daguerre",
           "dayRef": "День 3",
           "year": "6 мая 1843",
-          "src": "фото и картины/hamburg/photo_7_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_7_2026-11-18_13-34-16.jpg",
           "titleRu": "Гамбургское общество художников в саду (13 мастеров, 1-я годовщина пожара)",
           "titleUa": "Гамбурзьке товариство художників у саду (13 майстрів)",
           "titleDe": "Hamburger Künstlerverein im Garten (13 Künstler, 6. Mai 1843)",
@@ -3203,7 +3208,7 @@ window.EXPEDITIONS_DATA = {
           "category": "daguerre",
           "dayRef": "День 3",
           "year": "6 мая 1843",
-          "src": "фото и картины/hamburg/photo_15_2026-11-18_13-34-16.jpg",
+          "src": "media/hamburg/photo_15_2026-11-18_13-34-16.jpg",
           "titleRu": "Гамбургское общество художников (второй дубль, 19 мастеров)",
           "titleUa": "Гамбурзьке товариство художників (другий дубль, 19 майстрів)",
           "titleDe": "Hamburger Künstlerverein (zweite Aufnahme, 19 Künstler)",
@@ -3219,7 +3224,7 @@ window.EXPEDITIONS_DATA = {
         }
       ],
       "trackId": "artists",
-      "heroImage": "фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg",
+      "heroImage": "media/hamburg/photo_6_2026-11-18_13-34-16.jpg",
       "heroHookEn": "“In 1840 they posed in their studio, certain that their cozy world would endure forever. Two years later the city burned—and the survivors were captured not by brush, but on a silver daguerreotype plate.”",
       "heroHookDe": "„1840 posierten sie im Atelier, überzeugt von der Ewigkeit ihrer bürgerlichen Welt. Zwei Jahre später brannte die Stadt nieder — und die Überlebenden hielt kein Pinsel mehr fest, sondern die Silberplatte des Daguerreotyps.“",
       "heroHookRu": "«В 1840 году они позировали в мастерской, уверенные, что их мир вечен. Через два года город сгорел — а выживших запечатлела уже не кисть, а серебряная пластина дагеротипа».",
@@ -3241,7 +3246,12 @@ window.EXPEDITIONS_DATA = {
           "title": "Екскурсія у Гамбурзі з філософом (4 дні) — Рунге, пожежа 1842 і дагеротипи | Сергій Григоришин",
           "description": "Авторська 4-денна експедиція та екскурсія Гамбургом (25–28 лютого 2027) із к.ф.н. Сергієм Григоришиним: Кунстхалле, Рунге, брати Генслер, Велика пожежа 1842 та перші дагеротипи."
         }
-      }
+      },
+      "durationDays": 4,
+      "durationEn": "4 Days / 3 Nights",
+      "durationDe": "4 Tage / 3 Nächte",
+      "durationRu": "4 дня / 3 ночи",
+      "durationUa": "4 дні / 3 ночі"
     },
     {
       "id": "dresden",
@@ -3353,7 +3363,11 @@ window.EXPEDITIONS_DATA = {
           "descRu": "Немецкий романтизм от ранних полотен Каспара Давида Фридриха до пейзажей Даля.",
           "descUa": "Німецький романтизм від Фрідріха до пейзажів Даля.",
           "descDe": "Werke von C. D. Friedrich und Johan Christian Dahl.",
-          "descEn": "German Romanticism from C. D. Friedrich to Johan Christian Dahl."
+          "descEn": "German Romanticism from C. D. Friedrich to Johan Christian Dahl.",
+          "codeEn": "STOP 01",
+          "codeDe": "STATION 01",
+          "codeRu": "ТОЧКА 01",
+          "codeUa": "ТОЧКА 01"
         },
         {
           "code": "ТОЧКА 02",
@@ -3364,7 +3378,11 @@ window.EXPEDITIONS_DATA = {
           "descRu": "Спор между руиной как раной памяти и реконструкцией.",
           "descUa": "Суперечка між руїною як раною та реконструкцією.",
           "descDe": "Zwischen Mahnmal und Wiederaufbau.",
-          "descEn": "Between memorial ruin and architectural rebirth."
+          "descEn": "Between memorial ruin and architectural rebirth.",
+          "codeEn": "STOP 02",
+          "codeDe": "STATION 02",
+          "codeRu": "ТОЧКА 02",
+          "codeUa": "ТОЧКА 02"
         },
         {
           "code": "ТОЧКА 03",
@@ -3375,11 +3393,15 @@ window.EXPEDITIONS_DATA = {
           "descRu": "Могилы Фридриха и Каруса: разговор о фигуре «спиной к зрителю».",
           "descUa": "Могили Фрідріха й Каруса.",
           "descDe": "Gespräch über die Rückenfigur.",
-          "descEn": "Graves of Friedrich and Carus: dialogue on the hidden gaze."
+          "descEn": "Graves of Friedrich and Carus: dialogue on the hidden gaze.",
+          "codeEn": "STOP 03",
+          "codeDe": "STATION 03",
+          "codeRu": "ТОЧКА 03",
+          "codeUa": "ТОЧКА 03"
         }
       ],
       "trackId": "artists",
-      "heroImage": "фото и картины/hamburg/photo_1_2026-11-18_13-34-16.jpg",
+      "heroImage": "media/hamburg/photo_1_2026-11-18_13-34-16.jpg",
       "seo": {
         "en": {
           "title": "Dresden Art & Philosophical Expedition (Mar 26–29, 2027) — C. D. Friedrich & Ruins | Sergii Grygoryshyn",
@@ -3397,7 +3419,12 @@ window.EXPEDITIONS_DATA = {
           "title": "Екскурсія та експедиція у Дрездені (26–29 березня 2027) — К. Д. Фрідріх | Сергій Григоришин",
           "description": "4-денна авторська експедиція Дрезденом: Albertinum, Каспар Давид Фрідріх, Фрауенкірхе та філософія руїн."
         }
-      }
+      },
+      "durationDays": 4,
+      "durationEn": "4 Days / 3 Nights",
+      "durationDe": "4 Tage / 3 Nächte",
+      "durationRu": "4 дня / 3 ночи",
+      "durationUa": "4 дні / 3 ночі"
     },
     {
       "id": "berlin",
@@ -3438,7 +3465,7 @@ window.EXPEDITIONS_DATA = {
       "heroHookEn": "“Nineteenth-century sacred Berlin existed only through the lens of Schinkel, Hummel, Krüger, and Gaertner. Once early photography stripped away the aura of the Granite Bowl, Menzel replaced metaphysics with industrial physics.”",
       "isLabStub": false,
       "has3DMap": true,
-      "heroImage": "фото и картины/berlin/web/bln-08-hummel-bowl.jpg",
+      "heroImage": "media/berlin/bln-08-hummel-bowl.jpg",
       "dossierTabs": {
         "storyRu": "История и оптика Берлина",
         "storyUa": "Історія та оптика Берліна",
@@ -3448,10 +3475,10 @@ window.EXPEDITIONS_DATA = {
         "scheduleUa": "Програма · 4 дні + ранок 5-го",
         "scheduleDe": "Programm · 4 Tage + Tag 5",
         "scheduleEn": "Schedule · 4 Days + Day 5",
-        "archiveRu": "Живопись и архив (14)",
-        "archiveUa": "Живопис та архів (14)",
-        "archiveDe": "Gemälde & Archiv (14)",
-        "archiveEn": "Visual Archive (14)"
+        "archiveRu": "Живопись и архив",
+        "archiveUa": "Живопис та архів",
+        "archiveDe": "Gemälde & Archiv",
+        "archiveEn": "Visual Archive"
       },
       "archiveFilters": {
         "all": {
@@ -3492,7 +3519,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Шинкель і Хуммель: сакральна геометрія і космічне дзеркало",
           "titleDe": "Schinkel & Hummel: Sakrale Geometrie und der kosmische Spiegel",
           "titleEn": "Schinkel & Hummel: Sacred Geometry & Cosmic Reflection",
-          "image": "фото и картины/berlin/web/bln-08-hummel-bowl.jpg",
+          "image": "media/berlin/bln-08-hummel-bowl.jpg",
           "imageCaptionRu": "Иоганн Эрдман Хуммель · «Гранитная чаша в Люстгартене» (1831) · Alte Nationalgalerie",
           "imageCaptionUa": "Йоганн Ердманн Хуммель · «Гранітна чаша в Люстгартені» (1831)",
           "imageCaptionDe": "Johann Erdmann Hummel · Die Granitschale im Lustgarten (1831)",
@@ -3530,7 +3557,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Квартет утримання: парад Крюгера і горизонт Гертнера",
           "titleDe": "Die Kunst des Haltens: Krügers Ritual & Gaertners Panorama",
           "titleEn": "Holding the Sacred Space: Krüger & Gaertner",
-          "image": "фото и картины/berlin/web/bln-10-gaertner-panorama.jpg",
+          "image": "media/berlin/bln-10-gaertner-panorama.jpg",
           "imageCaptionRu": "Эдуард Гертнер · Фрагмент панорамы Берлина с крыши Фридрихсвердерской церкви (1834)",
           "imageCaptionUa": "Едуард Гертнер · Фрагмент панорами Берліна з вежі Фрідріхсвердерської церкви (1834)",
           "imageCaptionDe": "Eduard Gaertner · Ostansicht des Berlin-Panoramas von der Friedrichswerderschen Kirche (1834)",
@@ -3568,7 +3595,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Хроніка десакралізації: п’ять фотографів завойовують Музейний острів",
           "titleDe": "Chronik der Entzauberung: Fünf Fotografen erobern den Raum (1840–1888)",
           "titleEn": "Chronicle of Desacralization: Five Photographers (1840–1888)",
-          "image": "фото и картины/berlin/web/bln-13-lustgarten-photo.jpg",
+          "image": "media/berlin/bln-13-lustgarten-photo.jpg",
           "imageCaptionRu": "Старый музей и Люстгартен после утраты зеркального мифа · Архивная фотография",
           "imageCaptionUa": "Старий музей і Люстгартен на межі XIX–XX ст. · Архівне фото",
           "imageCaptionDe": "Altes Museum & Lustgarten · Historische Fotografie",
@@ -3606,7 +3633,7 @@ window.EXPEDITIONS_DATA = {
           "titleUa": "Адольф Менцель і закрита кімната п’ятого ранку",
           "titleDe": "Adolph Menzel: Von der Metaphysik zur Physik & Tag 5 im geschlossenen Raum",
           "titleEn": "Adolph Menzel: Industrial Physics & The Closed Room on Day 5",
-          "image": "фото и картины/berlin/web/bln-04-hummel-chess.jpg",
+          "image": "media/berlin/bln-04-hummel-chess.jpg",
           "imageCaptionRu": "Иоганн Эрдман Хуммель · «Шахматисты во дворце Фосса» (ок. 1818–1819) — оптический узел рефлексии",
           "imageCaptionUa": "Йоганн Ердманн Хуммель · «Шахісти у палаці Фосса» (бл. 1818–1819)",
           "imageCaptionDe": "Johann Erdmann Hummel · Die Schachspieler im Palais Voß (um 1818–1819)",
@@ -3776,7 +3803,7 @@ window.EXPEDITIONS_DATA = {
           "category": "schinkel",
           "dayRef": "Day 1",
           "year": "1813",
-          "src": "фото и картины/berlin/web/bln-01-schinkel-dom.jpg",
+          "src": "media/berlin/bln-01-schinkel-dom.jpg",
           "titleRu": "«Готический собор на берегу реки»",
           "titleUa": "«Готичний собор на березі річки»",
           "titleDe": "Gotischer Dom am Wasser",
@@ -3795,7 +3822,7 @@ window.EXPEDITIONS_DATA = {
           "category": "schinkel",
           "dayRef": "Day 1",
           "year": "1825 / 1836",
-          "src": "фото и картины/berlin/web/bln-02-schinkel-greece.jpg",
+          "src": "media/berlin/bln-02-schinkel-greece.jpg",
           "titleRu": "«Взгляд на расцвет Греции» (идеал нового Акрополя)",
           "titleUa": "«Погляд на розквіт Греції»",
           "titleDe": "Blick in Griechenlands Blüte (Alte Nationalgalerie)",
@@ -3814,7 +3841,7 @@ window.EXPEDITIONS_DATA = {
           "category": "schinkel",
           "dayRef": "Day 1",
           "year": "1813",
-          "src": "фото и картины/berlin/web/bln-03-schinkel-morgen.jpg",
+          "src": "media/berlin/bln-03-schinkel-morgen.jpg",
           "titleRu": "«Утро» (строгая архитектоника света и природы)",
           "titleUa": "«Ранок»",
           "titleDe": "Der Morgen (1813)",
@@ -3833,7 +3860,7 @@ window.EXPEDITIONS_DATA = {
           "category": "schinkel",
           "dayRef": "Day 1–2",
           "year": "ок. 1818–1819",
-          "src": "фото и картины/berlin/web/bln-04-hummel-chess.jpg",
+          "src": "media/berlin/bln-04-hummel-chess.jpg",
           "titleRu": "«Шахматисты во дворце Фосса в Берлине»",
           "titleUa": "«Шахісти у палаці Фосса в Берліні»",
           "titleDe": "Die Schachpartie im Palais Voß zu Berlin",
@@ -3852,7 +3879,7 @@ window.EXPEDITIONS_DATA = {
           "category": "schinkel",
           "dayRef": "Day 1",
           "year": "ок. 1820",
-          "src": "фото и картины/berlin/web/bln-05-hummel-mirrors.jpg",
+          "src": "media/berlin/bln-05-hummel-mirrors.jpg",
           "titleRu": "«Комната с зеркалами и перспективой» (исчезнувший цикл)",
           "titleUa": "«Кімната з дзеркалами і перспективою»",
           "titleDe": "Zimmerbild mit Spiegeln (Perspektivstudie)",
@@ -3871,7 +3898,7 @@ window.EXPEDITIONS_DATA = {
           "category": "quartet",
           "dayRef": "Day 1–2",
           "year": "1831",
-          "src": "фото и картины/berlin/web/bln-06-hummel-grinding.jpg",
+          "src": "media/berlin/bln-06-hummel-grinding.jpg",
           "titleRu": "Акт 1 триптиха: «Шлифовка Гранитной чаши»",
           "titleUa": "Акт 1 триптиха: «Шліфування Гранітної чаші»",
           "titleDe": "Das Schleifen der Granitschale (1831)",
@@ -3890,7 +3917,7 @@ window.EXPEDITIONS_DATA = {
           "category": "quartet",
           "dayRef": "Day 1–2",
           "year": "1831–1832",
-          "src": "фото и картины/berlin/web/bln-07-hummel-polishing.jpg",
+          "src": "media/berlin/bln-07-hummel-polishing.jpg",
           "titleRu": "Акт 2 триптиха: «Полировка Гранитной чаши»",
           "titleUa": "Акт 2 триптиха: «Полірування Гранітної чаші»",
           "titleDe": "Das Polieren der Granitschale (1831/32)",
@@ -3909,7 +3936,7 @@ window.EXPEDITIONS_DATA = {
           "category": "quartet",
           "dayRef": "Day 1–2",
           "year": "1831",
-          "src": "фото и картины/berlin/web/bln-08-hummel-bowl.jpg",
+          "src": "media/berlin/bln-08-hummel-bowl.jpg",
           "titleRu": "Акт 3 триптиха: «Водружение Гранитной чаши в Люстгартене»",
           "titleUa": "Акт 3 триптиха: «Водруження Гранітної чаші в Люстгартені»",
           "titleDe": "Die Granitschale im Berliner Lustgarten (1831)",
@@ -3928,7 +3955,7 @@ window.EXPEDITIONS_DATA = {
           "category": "quartet",
           "dayRef": "Day 2",
           "year": "1824–1830",
-          "src": "фото и картины/berlin/web/bln-09-krueger-parade.jpg",
+          "src": "media/berlin/bln-09-krueger-parade.jpg",
           "titleRu": "«Парад на Опернплац в Берлине»",
           "titleUa": "«Парад на Опернплац у Берліні»",
           "titleDe": "Parade auf dem Opernplatz in Berlin",
@@ -3947,7 +3974,7 @@ window.EXPEDITIONS_DATA = {
           "category": "quartet",
           "dayRef": "Day 2",
           "year": "1834",
-          "src": "фото и картины/berlin/web/bln-10-gaertner-panorama.jpg",
+          "src": "media/berlin/bln-10-gaertner-panorama.jpg",
           "titleRu": "Панорама Берлина с крыши Фридрихсвердерской церкви (вид на восток)",
           "titleUa": "Панорама Берліна з даху Фрідріхсвердерської церкви (вид на схід)",
           "titleDe": "Berlin-Panorama von der Friedrichswerderschen Kirche (Ostansicht, 1834)",
@@ -3966,7 +3993,7 @@ window.EXPEDITIONS_DATA = {
           "category": "quartet",
           "dayRef": "Day 2–3",
           "year": "1852",
-          "src": "фото и картины/berlin/web/bln-11-gaertner-linden.jpg",
+          "src": "media/berlin/bln-11-gaertner-linden.jpg",
           "titleRu": "«Унтер-ден-Линден» (1852) — точность ведуты на грани эпох",
           "titleUa": "«Унтер-ден-Лінден» (1852)",
           "titleDe": "Unter den Linden (1852)",
@@ -3985,7 +4012,7 @@ window.EXPEDITIONS_DATA = {
           "category": "desacral",
           "dayRef": "Day 3–4",
           "year": "1848",
-          "src": "фото и картины/berlin/web/bln-12-gaertner-barricade.jpg",
+          "src": "media/berlin/bln-12-gaertner-barricade.jpg",
           "titleRu": "«Баррикада на Брайте-штрассе в марте 1848 года»",
           "titleUa": "«Барикада на Брайте-штрассе в березні 1848 року»",
           "titleDe": "Barrikade in der Breiten Straße (März 1848)",
@@ -4004,7 +4031,7 @@ window.EXPEDITIONS_DATA = {
           "category": "desacral",
           "dayRef": "Day 3",
           "year": "ок. 1900",
-          "src": "фото и картины/berlin/web/bln-13-lustgarten-photo.jpg",
+          "src": "media/berlin/bln-13-lustgarten-photo.jpg",
           "titleRu": "Старый музей и Люстгартен в эпоху фотографической инвентаризации",
           "titleUa": "Старий музей і Люстгартен в епоху фотографічної інвентаризації",
           "titleDe": "Altes Museum und Lustgarten um 1900 (Historische Aufnahme)",
@@ -4023,7 +4050,7 @@ window.EXPEDITIONS_DATA = {
           "category": "desacral",
           "dayRef": "Day 3–4",
           "year": "1913",
-          "src": "фото и картины/berlin/web/bln-14-lustgarten-1913.jpg",
+          "src": "media/berlin/bln-14-lustgarten-1913.jpg",
           "titleRu": "Люстгартен и Гранитная чаша после десакрализации (1913)",
           "titleUa": "Люстгартен і Гранітна чаша після десакралізації (1913)",
           "titleDe": "Lustgarten mit Granitschale (1913)",
@@ -4078,7 +4105,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Гранітна чаша · Дагеротипи Біова та Еме",
             "artifactsDe": "Granitschale · Daguerreotypien Biow & Oehme",
             "artifactsEn": "Granite Bowl · Biow & Oehme Daguerreotypes",
-            "img": "фото и картины/berlin/web/bln-08-hummel-bowl.jpg"
+            "img": "media/berlin/bln-08-hummel-bowl.jpg"
           },
           {
             "id": "bln-2",
@@ -4116,7 +4143,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Триптих Хуммеля · «Шахісти» · «Залізопрокатний завод»",
             "artifactsDe": "Granitschalen-Triptychon · Schachspieler · Eisenwalzwerk",
             "artifactsEn": "Granite Bowl Triptych · Chess Players · Iron Rolling Mill",
-            "img": "фото и картины/berlin/web/bln-04-hummel-chess.jpg"
+            "img": "media/berlin/bln-04-hummel-chess.jpg"
           },
           {
             "id": "bln-3",
@@ -4154,7 +4181,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Панорама Берліна (1834)",
             "artifactsDe": "Berlin-Panorama (1834)",
             "artifactsEn": "Berlin Panorama (1834)",
-            "img": "фото и картины/berlin/web/bln-10-gaertner-panorama.jpg"
+            "img": "media/berlin/bln-10-gaertner-panorama.jpg"
           },
           {
             "id": "bln-4",
@@ -4192,7 +4219,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "«Парад на Опернплац» · «Унтер-ден-Лінден»",
             "artifactsDe": "Parade auf dem Opernplatz (Krüger)",
             "artifactsEn": "Parade on Opernplatz (Krüger)",
-            "img": "фото и картины/berlin/web/bln-09-krueger-parade.jpg"
+            "img": "media/berlin/bln-09-krueger-parade.jpg"
           },
           {
             "id": "bln-5",
@@ -4230,7 +4257,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Berliner Veduten (Арентс, 1852–1858)",
             "artifactsDe": "Berliner Veduten (Leopold Ahrendts)",
             "artifactsEn": "Berliner Veduten (Leopold Ahrendts)",
-            "img": "фото и картины/berlin/web/bln-01-schinkel-dom.jpg"
+            "img": "media/berlin/bln-01-schinkel-dom.jpg"
           },
           {
             "id": "bln-6",
@@ -4268,7 +4295,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "«Барикада на Брайте-штрассе» (1848)",
             "artifactsDe": "Barrikade in der Breiten Straße (Gaertner) · Alben Schwartz",
             "artifactsEn": "Barricade on Breite Straße (Gaertner) · Schwartz Albums",
-            "img": "фото и картины/berlin/web/bln-12-gaertner-barricade.jpg"
+            "img": "media/berlin/bln-12-gaertner-barricade.jpg"
           },
           {
             "id": "bln-7",
@@ -4306,7 +4333,7 @@ window.EXPEDITIONS_DATA = {
             "artifactsUa": "Полотна Гертнера · Робочі зошити",
             "artifactsDe": "Gaertners Parochialstraße · Arbeitsbücher",
             "artifactsEn": "Gaertner’s Old Mitte Plates · Route Workbooks",
-            "img": "фото и картины/berlin/web/bln-11-gaertner-linden.jpg"
+            "img": "media/berlin/bln-11-gaertner-linden.jpg"
           }
         ]
       },
@@ -4327,7 +4354,12 @@ window.EXPEDITIONS_DATA = {
           "title": "Берлінська експедиція (23–27 квітня 2027) — Гранітна чаша та оптика XIX ст.",
           "description": "Філософсько-мистецтвознавчий ретрит (4 дні + ранок 5-го) у Берліні з к.ф.н. Сергієм Григоришиним: Шинкель, Хуммель, Крюгер, Гертнер, фотографія та Менцель."
         }
-      }
+      },
+      "durationDays": 5,
+      "durationEn": "5 Days / 4 Nights (incl. Day 5 AM)",
+      "durationDe": "5 Tage / 4 Nächte (inkl. Tag 5 Vorm.)",
+      "durationRu": "5 дней / 4 ночи (вкл. утро 5-го дня)",
+      "durationUa": "5 днів / 4 ночі (вкл. ранок 5-го дня)"
     },
     {
       "id": "frankfurt",
@@ -4346,29 +4378,29 @@ window.EXPEDITIONS_DATA = {
         "y": 382
       },
       "monthId": "may27",
-      "datesRu": "28–31 мая 2027 (Пт–Пн)",
-      "datesUa": "28–31 травня 2027 (Пт–Пн)",
-      "datesDe": "28.–31. Mai 2027 (Fr–Mo)",
-      "datesEn": "May 28–31, 2027 (Fri–Mon)",
+      "datesRu": "28 мая – 1 июня 2027 (Пт–Вт · 5 дней)",
+      "datesUa": "28 травня – 1 червня 2027 (Пт–Вт · 5 днів)",
+      "datesDe": "28. Mai – 1. Juni 2027 (Fr–Di · 5 Tage)",
+      "datesEn": "May 28 – Jun 1, 2027 (Fri–Tue · 5 Days)",
       "accentColor": "#6E2B35",
       "status": "waitlist",
-      "statusLabelRu": "ПРЕДЗАПИСЬ · ПТ–ПН · МАЙ",
-      "statusLabelUa": "ПЕРЕДЗАПИС · ПТ–ПН · ТРАВЕНЬ",
-      "statusLabelDe": "WARTELISTE · FR–MO",
-      "statusLabelEn": "WAITLIST · FRI–MON",
-      "titleRu": "Штедель, бюргеры и диалектика Просвещения",
-      "titleUa": "Штедель, бюргери й діалектика Просвітництва",
-      "titleDe": "Städel, Bürgertum und Dialektik der Aufklärung",
-      "titleEn": "Städel Museum & the Dialectic of Enlightenment",
-      "subtitleRu": "Как город банкиров породил критическую теорию XX века, и что прячет коллекция музея Штедель",
-      "subtitleUa": "Як місто банкірів породило критичну філософію XX століття",
-      "subtitleDe": "Wie die Bankenstadt zur Wiege der Kritischen Theorie wurde",
-      "subtitleEn": "How a banking capital gave rise to Critical Theory",
+      "statusLabelRu": "ПРЕДЗАПИСЬ · ПТ–ВТ · 5 ДНЕЙ",
+      "statusLabelUa": "ПЕРЕДЗАПИС · ПТ–ВТ · 5 ДНІВ",
+      "statusLabelDe": "WARTELISTE · FR–DI · 5 TAGE",
+      "statusLabelEn": "WAITLIST · FRI–TUE · 5 DAYS",
+      "titleRu": "Назарейцы, бидермайер и Ротшильды: Франкфурт перед 1848 годом",
+      "titleUa": "Назарейці, бідермаєр і Ротшильди: Франкфурт перед 1848 роком",
+      "titleDe": "Nazarener, Biedermeier & Rothschilds: Frankfurt vor 1848",
+      "titleEn": "Nazarenes, Biedermeier & Rothschilds: 1848 on the Horizon",
+      "subtitleRu": "Два мира перед переломом 1848 года: пейзажи Майна Моргенштерна, хроника дома Ротшильдов у Оппенгейма, назарейцы Штеделя и «Пляска смерти» Альфреда Ретеля",
+      "subtitleUa": "Два світи перед переломом 1848 року: краєвиди Майну Моргенштерна, хроніка дому Ротшильдів у Оппенгейма, назарейці Штеделя і «Танець смерті» Альфреда Ретеля",
+      "subtitleDe": "Zwei religiöse Lebenswelten vor 1848: Oppenheims bürgerliche Chronik, die Frankfurter Nazarener um Veit & Steinle, Morgenstern am Main und Rethels Totentanz",
+      "subtitleEn": "Two religious worlds on the brink of 1848—Oppenheim’s Jewish Biedermeier, Veit & Steinle’s Nazarenes, Morgenstern’s Main landscapes, and Rethel’s Dance of Death",
       "isLabStub": true,
-      "labStageRu": "Выбор шедевров Städel Museum и текстов Теодора Адорно на май 2027",
-      "labStageUa": "Вибір шедеврів Städel та текстів Адорно на травень 2027",
-      "labStageDe": "Auswahl der Städel-Werke & Adorno-Texte für Mai 2027",
-      "labStageEn": "Selecting Städel masterpieces & Adorno seminars for May 2027",
+      "labStageRu": "Готов 5-дневный замысел программы (назарейцы, Оппенгейм, Ретель); подбираем визуальный архив и карту",
+      "labStageUa": "Готовий 5-денний задум програми (назарейці, Оппенгейм, Ретель); підбираємо візуальний архів і карту",
+      "labStageDe": "5-Tage-Konzept entworfen (Nazarener, Oppenheim, Rethel); Bildtafeln & 3D-Route in Arbeit",
+      "labStageEn": "5-day curriculum drafted (Nazarenes, Oppenheim, Rethel); museum plates & 3D route in preparation",
       "cityMap": {
         "waterLabel": "Main",
         "riverLabel": "Main · Museumsufer",
@@ -4431,59 +4463,76 @@ window.EXPEDITIONS_DATA = {
       },
       "labClues": [
         {
-          "code": "ТОЧКА 01",
-          "titleRu": "Städel Museum · Тишбейн «Гёте в Кампанье»",
-          "titleUa": "Städel Museum · «Гете в Кампаньї»",
-          "titleDe": "Städel Museum",
-          "titleEn": "Städel Museum",
-          "descRu": "Идеал античной гармонии в немецкой культуре.",
-          "descUa": "Ідеал античної гармонії.",
-          "descDe": "Ideal der antiken Harmonie.",
-          "descEn": "Classical German ideal of harmony."
+          "code": "DAYS 1–2 · MAIN & OPPENHEIM",
+          "codeEn": "DAYS 1–2 · MAIN & OPPENHEIM",
+          "codeDe": "TAGE 1–2 · MAIN & OPPENHEIM",
+          "codeRu": "ДНИ 1–2 · МАЙН И ОППЕНГЕЙМ",
+          "codeUa": "ДНІ 1–2 · МАЙН І ОППЕНГЕЙМ",
+          "titleEn": "Morgenstern’s Living City & Oppenheim’s Rothschild World",
+          "titleDe": "Morgensterns Main & Oppenheims jüdisches Bürgertum",
+          "titleRu": "Моргенштерн: инвентаризация мира и хроника Оппенгейма",
+          "titleUa": "Моргенштерн: інвентаризація світу та хроніка Оппенгейма",
+          "descEn": "Fixing Frankfurt’s riverfronts before modernization, then entering Moritz Daniel Oppenheim’s Biedermeier portraits of civic dignity.",
+          "descDe": "Die bürgerliche Topografie der Brüder Morgenstern vor dem Umbruch und Oppenheims Weg in eine säkulare Moderne.",
+          "descRu": "Бережная фиксация старого Франкфурта у Моргенштернов и бюргерское достоинство дома Ротшильдов на холстах Морица Оппенгейма.",
+          "descUa": "Дбайлива фіксація старого Франкфурта у Моргенштернів і бюргерська гідність дому Ротшильдів на полотнах Моріца Оппенгейма."
         },
         {
-          "code": "ТОЧКА 02",
-          "titleRu": "Франкфуртская школа · Адорно и Хоркхаймер",
-          "titleUa": "Франкфуртська школа · Адорно",
-          "titleDe": "Frankfurter Schule",
-          "titleEn": "Frankfurt School",
-          "descRu": "Разговор о массовой культуре и диалектике Просвещения.",
-          "descUa": "Розмова про діалектику Просвітництва.",
-          "descDe": "Kulturkritik nach 1945.",
-          "descEn": "Critical Theory & the fate of art."
+          "code": "DAYS 3–4 · NAZARENES AT STÄDEL",
+          "codeEn": "DAYS 3–4 · NAZARENES AT STÄDEL",
+          "codeDe": "TAGE 3–4 · NAZARENER IM STÄDEL",
+          "codeRu": "ДНИ 3–4 · НАЗАРЕЙЦЫ В ШТЕДЕЛЕ",
+          "codeUa": "ДНІ 3–4 · НАЗАРЕЙЦІ У ШТЕДЕЛІ",
+          "titleEn": "Halting Time vs. Living in Time (Veit, Steinle & Two Realities)",
+          "titleDe": "Sakrale Bremse vs. geschichtliche Dynamik (Veit & Steinle)",
+          "titleRu": "Назарейское торможение будущего и встреча двух религий",
+          "titleUa": "Назарейське гальмування майбутнього і зустріч двох релігій",
+          "descEn": "How Philipp Veit, Edward von Steinle, and Passavant sought refuge in timeless sacred form—directly beside secular bourgeois confidence.",
+          "descDe": "Wie Philipp Veit und Edward von Steinle im Städel der Beschleunigung ein zeitloses Ideal entgegensetzen.",
+          "descRu": "Почему Филипп Фейт и Эдуард фон Штайнле искали спасения в сакральном идеале — прямо напротив светского мира Ротшильдов.",
+          "descUa": "Чому Філіп Фейт та Едуард фон Штайнле шукали порятунку в сакральному ідеалі — навпроти світського світу Ротшильдів."
         },
         {
-          "code": "ТОЧКА 03",
-          "titleRu": "Дом Гёте и набережная Майна",
-          "titleUa": "Дім Гете та набережна Майна",
-          "titleDe": "Goethe-Haus & Mainufer",
-          "titleEn": "Goethe House & River Main",
-          "descRu": "Истоки бюргерского самосознания.",
-          "descUa": "Витоки бюргерської самосвідомості.",
-          "descDe": "Wurzeln des Bildungsbürgertums.",
-          "descEn": "Origins of German civic Bildung."
+          "code": "DAY 5 · 1848 & RETHEL",
+          "codeEn": "DAY 5 · 1848 & RETHEL",
+          "codeDe": "TAG 5 · 1848 & RETHEL",
+          "codeRu": "ДЕНЬ 5 · 1848 И РЕТЕЛЬ",
+          "codeUa": "ДЕНЬ 5 · 1848 І РЕТЕЛЬ",
+          "titleEn": "Paulskirche 1848 & Alfred Rethel’s “Dance of Death”",
+          "titleDe": "Paulskirche 1848 & Rethels „Auch ein Totentanz“",
+          "titleRu": "Репетиция конца света: Паульскирхе и «Пляска смерти» Ретеля",
+          "titleUa": "Репетиція кінця світу: Паульскірхе та «Танець смерті» Ретеля",
+          "descEn": "Street barricades shatter contemplative illusions as Alfred Rethel turns mystical power into a stark witness of revolutionary wreckage.",
+          "descDe": "Die Revolution 1848 als Realitätsprüfung — zwischen dem Scheitern sakraler Flucht und Rethels unbestechlicher Tragik.",
+          "descRu": "Взрыв 1848 года проверяет оба мира на прочность, а Альфред Ретель превращает мистику назарейцев в трезвое свидетельство катастрофы.",
+          "descUa": "Вибух 1848 року випробовує обидва світи на міцність, а Альфред Ретель перетворює містику назарейців на тверезе свідчення катастрофи."
         }
       ],
       "trackId": "artists",
-      "heroImage": "фото и картины/hamburg/photo_12_2026-11-18_13-34-16.jpg",
+      "heroImage": "media/hamburg/photo_12_2026-11-18_13-34-16.jpg",
       "seo": {
         "en": {
-          "title": "Frankfurt Art & Philosophical Expedition (May 28–31, 2027) — Städel & Critical Theory | Sergii Grygoryshyn",
-          "description": "4-day expedition in Frankfurt am Main (May 28–31, 2027): Städel Museum, Frankfurt School, Adorno, and Goethe-Haus with PhD Sergii Grygoryshyn."
+          "title": "Frankfurt 5-Day Philosophical Expedition (May 28 – Jun 1, 2027) — Nazarenes, Oppenheim & Rethel | Sergii Grygoryshyn",
+          "description": "5-day expedition in Frankfurt am Main (May 28 – Jun 1, 2027): Städel Museum, Nazarenes, Oppenheim & the Rothschild circle, Paulskirche 1848, and Alfred Rethel."
         },
         "de": {
-          "title": "Kunst- & Philosophie-Expedition Frankfurt (28.–31. Mai 2027) — Städel & Adorno | Sergii Grygoryshyn",
-          "description": "4-tägige Expedition in Frankfurt am Main: Städel Museum, Frankfurter Schule, Theodor W. Adorno und Goethe-Haus."
+          "title": "Kunst- & Philosophie-Expedition Frankfurt (28. Mai – 1. Juni 2027 · 5 Tage) — Nazarener, Oppenheim & Rethel | Sergii Grygoryshyn",
+          "description": "5-tägige Expedition in Frankfurt am Main: Städel Museum, Veit & Steinle, Moritz Oppenheim, Rothschild-Kreis und Alfred Rethels Totentanz."
         },
         "ru": {
-          "title": "Экскурсия и экспедиция во Франкфурте (28–31 мая 2027) — Штедель и Адорно | Сергей Григоришин",
-          "description": "4-дневная авторская экспедиция во Франкфурте-на-Майне: Städel Museum, Франкфуртская школа, Адорно и дом Гёте с к.ф.н. Сергеем Григоришиным."
+          "title": "Экспедиция во Франкфурте (28 мая – 1 июня 2027 · 5 дней) — Назарейцы, бидермайер, Ротшильды и Ретель | Сергей Григоришин",
+          "description": "5-дневная авторская экспедиция во Франкфурте-на-Майне: Штедель, Моргенштерн, Оппенгейм, назарейцы Фейт и Штайнле, Паульскирхе 1848 и Ретель."
         },
         "ua": {
-          "title": "Екскурсія та експедиція у Франкфурті (28–31 травня 2027) — Штедель і Адорно | Сергій Григоришин",
-          "description": "4-денна авторська експедиція у Франкфурті-на-Майні: Städel Museum, Франкфуртська школа та дім Гете."
+          "title": "Експедиція у Франкфурті (28 травня – 1 червня 2027 · 5 днів) — Назарейці, Оппенгейм і Ретель | Сергій Григоришин",
+          "description": "5-денна авторська експедиція у Франкфурті-на-Майні: Штедель, Моргенштерн, Оппенгейм, назарейці та «Танець смерті» Ретеля."
         }
-      }
+      },
+      "durationDays": 5,
+      "durationEn": "5 Days / 4 Nights",
+      "durationDe": "5 Tage / 4 Nächte",
+      "durationRu": "5 дней / 4 ночи",
+      "durationUa": "5 днів / 4 ночі"
     },
     {
       "id": "munich",
@@ -4502,29 +4551,29 @@ window.EXPEDITIONS_DATA = {
         "y": 556
       },
       "monthId": "jun27",
-      "datesRu": "25–28 июня 2027 (Пт–Пн)",
-      "datesUa": "25–28 червня 2027 (Пт–Пн)",
-      "datesDe": "25.–28. Juni 2027 (Fr–Mo)",
-      "datesEn": "Jun 25–28, 2027 (Fri–Mon)",
+      "datesRu": "25–29 июня 2027 (Пт–Вт · 5 дней)",
+      "datesUa": "25–29 червня 2027 (Пт–Вт · 5 днів)",
+      "datesDe": "25.–29. Juni 2027 (Fr–Di · 5 Tage)",
+      "datesEn": "Jun 25–29, 2027 (Fri–Tue · 5 Days)",
       "accentColor": "#9A6B26",
       "status": "waitlist",
-      "statusLabelRu": "ПРЕДЗАПИСЬ · ПТ–ПН · ИЮНЬ",
-      "statusLabelUa": "ПЕРЕДЗАПИС · ПТ–ПН · ЧЕРВЕНЬ",
-      "statusLabelDe": "WARTELISTE · FR–MO",
-      "statusLabelEn": "WAITLIST · FRI–MON",
-      "titleRu": "Алхимия Дюрера и тень «Синего всадника»",
-      "titleUa": "Алхімія Дюрера й тінь «Синього вершника»",
-      "titleDe": "Dürers Alchemie und der Blaue Reiter",
-      "titleEn": "Dürer’s Alchemy & the Blue Rider",
-      "subtitleRu": "Старая Пинакотека, Альтдорфер и переход от средневековой теологии взгляда к беспредметности Кандинского",
-      "subtitleUa": "Стара Пінакотека, Альтдорфер і шлях до Кандинського",
-      "subtitleDe": "Alte Pinakothek, Altdorfer und der Aufbruch der Abstraktion",
-      "subtitleEn": "Alte Pinakothek, Altdorfer, and Kandinsky’s leap into abstraction",
+      "statusLabelRu": "ПРЕДЗАПИСЬ · ПТ–ВТ · 5 ДНЕЙ",
+      "statusLabelUa": "ПЕРЕДЗАПИС · ПТ–ВТ · 5 ДНІВ",
+      "statusLabelDe": "WARTELISTE · FR–DI · 5 TAGE",
+      "statusLabelEn": "WAITLIST · FRI–TUE · 5 DAYS",
+      "titleRu": "Мюнхен в трёх реальностях: Людвиг I, назарейцы и бидермайер",
+      "titleUa": "Мюнхен у трьох реальностях: Людвіг I, назарейці та бідермаєр",
+      "titleDe": "München in drei Wirklichkeiten: Ludwig I., Nazarener & Biedermeier",
+      "titleEn": "Munich in Three Realities: Ludwig I, the Nazarenes & Spitzweg",
+      "subtitleRu": "Как «Афины на Изаре» Людвига I, мистические циклы назарейцев и мечты Людвига II сталкиваются с тихой иронией и частным выживанием Карла Шпицвега",
+      "subtitleUa": "Як «Афіни на Ізарі» Людвіга I, містичні цикли назарейців і мрії Людвіга II стикаються з тихою іронією Карла Шпіцвега",
+      "subtitleDe": "Zwischen Ludwigs I. „Athen an der Isar“, den Monumentalzyklen der Nazarener, Ludwigs II. Traumreich und Carl Spitzwegs ironischer Gegenwelt",
+      "subtitleEn": "From Ludwig I’s monumental “Athens on the Isar” and Nazarene frescoes under Cornelius to Ludwig II’s dream myth and Carl Spitzweg’s quiet Biedermeier rebellion",
       "isLabStub": true,
-      "labStageRu": "Формирование программы между Старой Пинакотекой и Lenbachhaus на июнь 2027",
-      "labStageUa": "Формування програми на червень 2027",
-      "labStageDe": "Planung für Juni 2027",
-      "labStageEn": "Curating Munich itinerary for June 2027",
+      "labStageRu": "Готов 5-дневный замысел программы (Людвиг I и II, Корнелиус, Штилер, Шпицвег); подбираем архив и карту",
+      "labStageUa": "Готовий 5-денний задум програми (Людвіг I і II, Корнеліус, Штілер, Шпіцвег); готуємо архів і карту",
+      "labStageDe": "5-Tage-Konzept entworfen (Ludwig I. & II., Cornelius, Stieler, Spitzweg); Bildarchiv & 3D-Karte folgen",
+      "labStageEn": "5-day curriculum drafted (Ludwig I & II, Cornelius, Stieler, Spitzweg); visual archive & 3D map in preparation",
       "cityMap": {
         "waterLabel": "Isar",
         "riverLabel": "Isar · Maxvorstadt",
@@ -4587,59 +4636,76 @@ window.EXPEDITIONS_DATA = {
       },
       "labClues": [
         {
-          "code": "ТОЧКА 01",
-          "titleRu": "Alte Pinakothek · Дюрер и Альтдорфер",
-          "titleUa": "Alte Pinakothek · Дюрер",
-          "titleDe": "Alte Pinakothek",
-          "titleEn": "Alte Pinakothek",
-          "descRu": "Автопортрет 1500 года и ренессансная оптика творца.",
-          "descUa": "Автопортрет 1500 року.",
-          "descDe": "Die Geburt des neuzeitlichen Subjekts.",
-          "descEn": "The birth of the Renaissance artist-subject."
+          "code": "DAYS 1–2 · MYTH & NAZARENES",
+          "codeEn": "DAYS 1–2 · MYTH & NAZARENES",
+          "codeDe": "TAGE 1–2 · MYTHOS & NAZARENER",
+          "codeRu": "ДНИ 1–2 · МИФ И НАЗАРЕЙЦЫ",
+          "codeUa": "ДНІ 1–2 · МІФ І НАЗАРЕЙЦІ",
+          "titleEn": "Ludwig II’s Dream World & the Nazarene Mystical Plan",
+          "titleDe": "Ludwigs II. Traumreich & das Mystische der Nazarener",
+          "titleRu": "Внутренний мир Людвига II и мистический замысел назарейцев",
+          "titleUa": "Внутрішній світ Людвіга II і містичний задум назарейців",
+          "descEn": "Materializing imagination as escape vs. Overbeck, Cornelius, and Schnorr von Carolsfeld fusing Antiquity, Christianity, and Germanic myth.",
+          "descDe": "Gebaute Sehnsucht bei Ludwig II. gegen die monumentalen Ideenzyklen von Cornelius, Schnorr von Carolsfeld und Heß.",
+          "descRu": "Воображаемый Мюнхен Людвига II и «мистический план» Корнелиуса, Гесса и Шнорра фон Карольсфельда до столкновения с волей монарха.",
+          "descUa": "Уявний Мюнхен Людвіга II та «містичний план» Корнеліуса, Гесса і Шнорра фон Карольсфельда."
         },
         {
-          "code": "ТОЧКА 02",
-          "titleRu": "Lenbachhaus · Der Blaue Reiter",
-          "titleUa": "Lenbachhaus · Der Blaue Reiter",
-          "titleDe": "Lenbachhaus",
-          "titleEn": "Lenbachhaus",
-          "descRu": "Духовное в искусстве: Кандинский, Франц Марк и Пауль Клее.",
-          "descUa": "Кандинський, Марк і Клеє.",
-          "descDe": "Geistige Wende der Moderne.",
-          "descEn": "Concerning the Spiritual in Art."
+          "code": "DAYS 3–4 · FACADES VS. CORNERS",
+          "codeEn": "DAYS 3–4 · FACADES VS. CORNERS",
+          "codeDe": "TAGE 3–4 · FASSADE VS. SPITZWEG",
+          "codeRu": "ДНИ 3–4 · ФАСАД И УГЛЫ",
+          "codeUa": "ДНІ 3–4 · ФАСАД І КУТКИ",
+          "titleEn": "Stieler’s “Gallery of Beauties” vs. Spitzweg’s Poor Poet",
+          "titleDe": "Stielers Schönheitengalerie gegen Spitzwegs Sonderlinge",
+          "titleRu": "Пейзаж в воображении короля и «Галерея красавиц» vs Шпицвег",
+          "titleUa": "Пейзаж в уяві короля й «Галерея красунь» проти Шпіцвега",
+          "descEn": "Quaglio, Rottmann, and Morgenstern’s landscapes under royal obsession, followed by court status versus Carl Spitzweg’s attic ironists.",
+          "descDe": "Landschaft zwischen Rottmann und Morgenstern – und der Kampf um Wirklichkeit zwischen Hofporträt und Spitzwegs Dachstuben.",
+          "descRu": "Квальо, Ротман и Моргенштерн против «бессмертия» в портретах Штилера и частных ниш маргиналов у Карла Шпицвега.",
+          "descUa": "Квальо, Ротман і Моргенштерн проти придворного «безсмертя» Штілера і приватних ніш Карла Шпіцвега."
         },
         {
-          "code": "ТОЧКА 03",
-          "titleRu": "Шеллинг и Макс Вебер",
-          "titleUa": "Шеллінг і Макс Вебер",
-          "titleDe": "Schelling & Max Weber",
-          "titleEn": "Schelling & Max Weber",
-          "descRu": "Вечерний симпозиум о поиске сакрального в современном мире.",
-          "descUa": "Вечірній симпозіум про сакральне.",
-          "descDe": "Entzauberung der Welt.",
-          "descEn": "Evening seminar on disenchantment and the sacred."
+          "code": "DAY 5 · WAKING FROM HYPNOSIS",
+          "codeEn": "DAY 5 · WAKING FROM HYPNOSIS",
+          "codeDe": "TAG 5 · ERWACHEN AUS HYPNOSE",
+          "codeRu": "ДЕНЬ 5 · ВЫХОД ИЗ ГИПНОЗА",
+          "codeUa": "ДЕНЬ 5 · ВИХІД ІЗ ГІПНОЗУ",
+          "titleEn": "Seeing Through the Royal Hypnosis of “Athens on the Isar”",
+          "titleDe": "Ausgang aus der Hypnose des „Athen an der Isar“",
+          "titleRu": "Мюнхен: выход из гипноза Людвига I и сборка своего образа города",
+          "titleUa": "Мюнхен: вихід із гіпнозу Людвіга I та збірка власного міста",
+          "descEn": "Stepping back inside the completed monumental city to watch Spitzweg’s quiet figures inhabit the gaps around palaces and temples.",
+          "descDe": "Wenn der monumentale Glanz durchschaut ist, besetzen Spitzwegs kleine Figuren die Nischen der fertigen Stadt.",
+          "descRu": "Когда гипноз монументальных осей рассеивается, герои Шпицвега занимают мансарды и зазоры готового города, собирая личный «Мистический Мюнхен».",
+          "descUa": "Коли гіпноз монументальних осей розсіюється, герої Шпіцвега заселяють мансарди й щілини готового міста."
         }
       ],
       "trackId": "artists",
-      "heroImage": "фото и картины/hamburg/photo_8_2026-11-18_13-34-16.jpg",
+      "heroImage": "media/hamburg/photo_8_2026-11-18_13-34-16.jpg",
       "seo": {
         "en": {
-          "title": "Munich Art & Philosophical Expedition (Jun 25–28, 2027) — Dürer & Blue Rider | Sergii Grygoryshyn",
-          "description": "4-day expedition in Munich (Jun 25–28, 2027): Alte Pinakothek, Dürer, Lenbachhaus, Kandinsky, Schelling, and Max Weber with PhD Sergii Grygoryshyn."
+          "title": "Munich 5-Day Philosophical Expedition (Jun 25–29, 2027) — Ludwig I, Nazarenes & Spitzweg | Sergii Grygoryshyn",
+          "description": "5-day expedition in Munich (Jun 25–29, 2027): Ludwig I & II, Nazarene frescoes by Cornelius, Rottmann, Stieler’s Beauties, and Carl Spitzweg."
         },
         "de": {
-          "title": "Kunst- & Philosophie-Expedition München (25.–28. Juni 2027) — Dürer & Blauer Reiter | Sergii Grygoryshyn",
-          "description": "4-tägige Expedition in München: Alte Pinakothek, Dürer, Lenbachhaus (Der Blaue Reiter), Schelling und Max Weber."
+          "title": "Kunst- & Philosophie-Expedition München (25.–29. Juni 2027 · 5 Tage) — Ludwig I., Nazarener & Spitzweg | Sergii Grygoryshyn",
+          "description": "5-tägige Expedition in München: Ludwigs I. Athen an der Isar, Cornelius & Overbeck, Rottmann, Stieler und Carl Spitzwegs Biedermeier."
         },
         "ru": {
-          "title": "Экскурсия и экспедиция в Мюнхене (25–28 июня 2027) — Дюрер и Синий всадник | Сергей Григоришин",
-          "description": "4-дневная авторская экспедиция в Мюнхене: Старая Пинакотека, Дюрер, Lenbachhaus (Кандинский), Шеллинг и Макс Вебер с к.ф.н. Сергеем Григоришиным."
+          "title": "Экспедиция в Мюнхене (25–29 июня 2027 · 5 дней) — Людвиг I, назарейцы и Шпицвег | Сергей Григоришин",
+          "description": "5-дневная авторская экспедиция по Мюнхену: Людвиг I и II, Корнелиус и Овербек, Ротман и Моргенштерн, Штилер и Карл Шпицвег."
         },
         "ua": {
-          "title": "Екскурсія та експедиція у Мюнхені (25–28 червня 2027) — Дюрер і Синій вершник | Сергій Григоришин",
-          "description": "4-денна авторська експедиція у Мюнхені: Стара Пінакотека, Дюрер, Lenbachhaus (Кандинський), Шеллінг і Макс Вебер."
+          "title": "Експедиція у Мюнхені (25–29 червня 2027 · 5 днів) — Людвіг I, назарейці та Шпіцвег | Сергій Григоришин",
+          "description": "5-денна авторська експедиція у Мюнхені: Людвіг I і II, Корнеліус, Ротман, Штілер і Карл Шпіцвег."
         }
-      }
+      },
+      "durationDays": 5,
+      "durationEn": "5 Days / 4 Nights",
+      "durationDe": "5 Tage / 4 Nächte",
+      "durationRu": "5 дней / 4 ночи",
+      "durationUa": "5 днів / 4 ночі"
     },
     {
       "id": "vienna",
@@ -4655,23 +4721,23 @@ window.EXPEDITIONS_DATA = {
       "coords": "48°12′N · 16°22′E",
       "svgPos": 2,
       "monthId": "jul27",
-      "datesRu": "23–27 июля 2027 (Пт–Вт)",
-      "datesUa": "23–27 липня 2027 (Пт–Вт)",
-      "datesDe": "23.–27. Juli 2027 (Fr–Di)",
-      "datesEn": "Jul 23–27, 2027 (Fri–Tue)",
+      "datesRu": "23–27 июля 2027 (Пт–Вт · 5 дней)",
+      "datesUa": "23–27 липня 2027 (Пт–Вт · 5 днів)",
+      "datesDe": "23.–27. Juli 2027 (Fr–Di · 5 Tage)",
+      "datesEn": "Jul 23–27, 2027 (Fri–Tue · 5 Days)",
       "accentColor": "#6B3A4D",
       "status": "waitlist",
-      "statusLabelRu": "ПРЕДЗАПИСЬ · В РАЗРАБОТКЕ · ИЮЛЬ",
-      "statusLabelUa": "ПЕРЕДЗАПИС · У РОЗРОБЦІ · ЛИПЕНЬ",
-      "statusLabelDe": "WARTELISTE · IN VORBEREITUNG · JULI",
-      "statusLabelEn": "WAITLIST · IN PREPARATION · JUL",
+      "statusLabelRu": "ПРЕДЗАПИСЬ · ПТ–ВТ · 5 ДНЕЙ",
+      "statusLabelUa": "ПЕРЕДЗАПИС · ПТ–ВТ · 5 ДНІВ",
+      "statusLabelDe": "WARTELISTE · FR–DI · 5 TAGE",
+      "statusLabelEn": "WAITLIST · FRI–TUE · 5 DAYS",
       "trackId": "artists",
       "titleRu": "Гипноз и порядок: тайны венского бидермайера",
       "titleUa": "Гіпноз і порядок: таємниці віденського бідермаєра",
       "titleDe": "Hypnose und Ordnung: Geheimnisse des Wiener Biedermeier",
       "titleEn": "Hypnosis and Order: Secrets of Viennese Biedermeier",
       "subtitleRu": "Портрет как покупка вечности, скрытый бунт бытового жанра, биополитика ранних смертей художников и прорыв Вальдмюллера сквозь гипнотический сон империи Габсбургов.",
-      "subtitleUa": "Портрет як купівля вічності, прихований бунт побутового жанру, біополітика ранніх смертей художників і пленэрний прорив Вальдмюллера крізь гіпноз імперії.",
+      "subtitleUa": "Портрет як купівля вічності, прихований бунт побутового жанру, біополітика ранніх смертей художників і пленерний прорив Вальдмюллера крізь гіпноз імперії.",
       "subtitleDe": "Porträts als ‚Kauf der Ewigkeit‘, stille Rebellion der Genremalerei, die Biopolitik früher Künstlertode und Waldmüllers Ausbruch aus dem hypnotischen Schlaf des Empire.",
       "subtitleEn": "Portraiture as purchasing eternity, hidden revolt inside genre painting, the biopolitics of early artist deaths, and Waldmüller’s rupture from imperial hypnosis.",
       "isLabStub": true,
@@ -4695,7 +4761,11 @@ window.EXPEDITIONS_DATA = {
           "descRu": "От государственного фасада императора у Петера Крафта и салонного лоска Амерлинга — к разоблачающему прямому солнцу Фердинанда Георга Вальдмюллера.",
           "descUa": "Від державного фасаду Крафта й лоску Амерлінга до прямого сонця натури у Вальдмюллера.",
           "descDe": "Vom staatlichen Thronkanon bei Johann Peter Krafft zum entlarvenden Sonnenlicht Waldmüllers.",
-          "descEn": "From Krafft’s imperial facade and Amerling’s velvet gloss to Waldmüller’s unforgiving open-air sunlight."
+          "descEn": "From Krafft’s imperial facade and Amerling’s velvet gloss to Waldmüller’s unforgiving open-air sunlight.",
+          "codeEn": "DAY 1 · VIENNA",
+          "codeDe": "TAG 1 · WIEN",
+          "codeRu": "ДЕНЬ 1 · ВЕНА",
+          "codeUa": "ДЕНЬ 1 · ВІДЕНЬ"
         },
         {
           "code": "ДНИ 2–3 · БИОПОЛИТИКА",
@@ -4706,7 +4776,11 @@ window.EXPEDITIONS_DATA = {
           "descRu": "Как бытовой жанр сделал невидимых людей бессмертными — и почему сами его авторы замерзали в сырых комнатах Вены и уходили слишком рано.",
           "descUa": "Як побутовий жанр увічнив простих людей і чому його творці помирали надто рано.",
           "descDe": "Warum die Maler des armen Alltags (Fendi, Schindler, Treml, Danhauser) die Vergessenen verewigten und früh starben.",
-          "descEn": "How genre painters immortalized ordinary citizens—while inheriting the cold, frail rooms of their subjects."
+          "descEn": "How genre painters immortalized ordinary citizens—while inheriting the cold, frail rooms of their subjects.",
+          "codeEn": "DAYS 2–3 · BIOPOLITICS",
+          "codeDe": "TAGE 2–3 · BIOPOLITIK",
+          "codeRu": "ДНИ 2–3 · БИОПОЛИТИКА",
+          "codeUa": "ДНІ 2–3 · БІОПОЛІТИКА"
         },
         {
           "code": "ДНИ 4–5 · ПРОБУЖДЕНИЕ",
@@ -4717,10 +4791,14 @@ window.EXPEDITIONS_DATA = {
           "descRu": "Тотальная фиксация Вены у Якоба и Рудольфа фон Альта, механика усыпления сознания в системе Меттерниха и финал пятого утра — выход из гипноза.",
           "descUa": "Тотальна фіксація імперії у Альта і фінальний вихід із гіпнотичного сну.",
           "descDe": "Zwischen totaler Raumkontrolle durch Jakob & Rudolf von Alt und dem Erwachen aus dem imperialen Schlaf.",
-          "descEn": "Total imperial cartography by Jakob and Rudolf von Alt clashing with Waldmüller’s transcendent break from imperial hypnosis."
+          "descEn": "Total imperial cartography by Jakob and Rudolf von Alt clashing with Waldmüller’s transcendent break from imperial hypnosis.",
+          "codeEn": "DAYS 4–5 · AWAKENING",
+          "codeDe": "TAGE 4–5 · ERWACHEN",
+          "codeRu": "ДНИ 4–5 · ПРОБУЖДЕНИЕ",
+          "codeUa": "ДНІ 4–5 · ПРОБУДЖЕННЯ"
         }
       ],
-      "heroImage": "фото и картины/berlin/web/bln-03-schinkel-morgen.jpg",
+      "heroImage": "media/berlin/bln-03-schinkel-morgen.jpg",
       "seo": {
         "en": {
           "title": "Vienna Philosophical Expedition (Jul 2027) — Secrets of Viennese Biedermeier",
@@ -4738,14 +4816,19 @@ window.EXPEDITIONS_DATA = {
           "title": "Віденська експедиція (липень 2027) — Таємниці віденського бідермаєра",
           "description": "Маршрут у Відні з к.ф.н. Сергієм Григоришиним: Крафт, Амерлінг, Фенді, Данхаузер, Альт і Вальдмюллер."
         }
-      }
+      },
+      "durationDays": 5,
+      "durationEn": "5 Days / 4 Nights",
+      "durationDe": "5 Tage / 4 Nächte",
+      "durationRu": "5 дней / 4 ночи",
+      "durationUa": "5 днів / 4 ночі"
     }
   ],
   "faceComparison": {
-    "painting1840": "фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg",
-    "daguerreotype1843a": "фото и картины/hamburg/photo_7_2026-11-18_13-34-16.jpg",
-    "daguerreotype1843b": "фото и картины/hamburg/photo_15_2026-11-18_13-34-16.jpg",
-    "daguerreotype1842ruins": "фото и картины/hamburg/photo_8_2026-11-18_13-34-16.jpg",
+    "painting1840": "media/hamburg/photo_6_2026-11-18_13-34-16.jpg",
+    "daguerreotype1843a": "media/hamburg/photo_7_2026-11-18_13-34-16.jpg",
+    "daguerreotype1843b": "media/hamburg/photo_15_2026-11-18_13-34-16.jpg",
+    "daguerreotype1842ruins": "media/hamburg/photo_8_2026-11-18_13-34-16.jpg",
     "persons": [
       {
         "id": "p0",
@@ -4776,17 +4859,17 @@ window.EXPEDITIONS_DATA = {
           {
             "title": "«Утро» (Der Morgen), 1808",
             "museum": "Hamburger Kunsthalle",
-            "thumb": "фото и картины/hamburg/photo_1_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_1_2026-11-18_13-34-16.jpg"
           },
           {
             "title": "«Дети Хюльзенбек» (Die Hülsenbeckschen Kinder), 1805–1806",
             "museum": "Hamburger Kunsthalle",
-            "thumb": "фото и картины/hamburg/photo_1_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_1_2026-11-18_13-34-16.jpg"
           },
           {
             "title": "Трактат «Цветовой шар» (Farben-Kugel), 1810",
             "museum": "Архив теории цвета",
-            "thumb": "фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_6_2026-11-18_13-34-16.jpg"
           }
         ],
         "desc1840Ru": "Ушёл из жизни в 1810 г.; не изображён на картине Генслера 1840 г., но его духовное наследие — отправная точка Дня 2.",
@@ -4812,20 +4895,20 @@ window.EXPEDITIONS_DATA = {
         "roleDe": "Ältester Bruder · Schöpfer des Gemäldes von 1840",
         "roleEn": "Eldest Brother · Painter of the 1840 Masterpiece",
         "face1840": {
-          "x": 48.5,
-          "y": 43
+          "x": 47.8,
+          "y": 48.0
         },
         "face1843": {
-          "x": 39,
-          "y": 45
+          "x": 39.2,
+          "y": 57.5
         },
         "badge1840": {
-          "x": 48.5,
-          "y": 58
+          "x": 48.0,
+          "y": 66.0
         },
         "badge1843": {
-          "x": 39,
-          "y": 59
+          "x": 39.2,
+          "y": 74.0
         },
         "bioRu": "Портретист, теоретик и педагог (учил в Johanneum), основавший Гамбургский союз художников (1832). Запечатлел в 1840 году «золотой век» гармонии своих друзей и братьев.",
         "bioUa": "Портретист і педагог, засновник Гамбурзької спілки художників (1832).",
@@ -4839,12 +4922,12 @@ window.EXPEDITIONS_DATA = {
           {
             "title": "«Члены Гамбургского общества художников» (1840)",
             "museum": "Hamburger Kunsthalle",
-            "thumb": "фото и картины/hamburg/photo_6_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_6_2026-11-18_13-34-16.jpg"
           },
           {
             "title": "Цикл портретов гамбургских сенаторов и меценатов",
             "museum": "Музей истории Гамбурга",
-            "thumb": "фото и картины/hamburg/photo_13_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_13_2026-11-18_13-34-16.jpg"
           }
         ],
         "desc1840Ru": "Центральная фигура в светлом сюртуке за красным столом: автор, вписавший сам себя внутрь братства.",
@@ -4870,20 +4953,20 @@ window.EXPEDITIONS_DATA = {
         "roleDe": "Mittlerer Bruder · Genremaler & Brandchronist",
         "roleEn": "Middle Brother · Genre Painter & Fire Chronicler",
         "face1840": {
-          "x": 30.5,
-          "y": 36
+          "x": 32.3,
+          "y": 38.2
         },
         "face1843": {
-          "x": 52.5,
-          "y": 44
+          "x": 52.8,
+          "y": 52.8
         },
         "badge1840": {
-          "x": 28,
-          "y": 50
+          "x": 18.5,
+          "y": 42.0
         },
         "badge1843": {
-          "x": 52.5,
-          "y": 59
+          "x": 52.8,
+          "y": 69.5
         },
         "bioRu": "Мастер уединённых сцен гамбургской жизни, пейзажа и акварели. После мая 1842 года одним из первых вышел с этюдником на ещё дымящиеся улицы города. Умер молодым в 1845 году.",
         "bioUa": "Майстер сцен гамбурзького побуту. Після пожежі вийшов із етюдником на руїни. Помер у 1845 р.",
@@ -4897,12 +4980,12 @@ window.EXPEDITIONS_DATA = {
           {
             "title": "Акварели и эскизы руин церкви Св. Петра и Бёрзенбрике (1842)",
             "museum": "Museum für Hamburgische Geschichte",
-            "thumb": "фото и картины/hamburg/photo_11_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_11_2026-11-18_13-34-16.jpg"
           },
           {
             "title": "«Праздник в Бланкенезе» и бытовые сценки бидермайера",
             "museum": "Hamburger Kunsthalle",
-            "thumb": "фото и картины/hamburg/photo_1_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_1_2026-11-18_13-34-16.jpg"
           }
         ],
         "desc1840Ru": "Стоит слева, упёршись рукой в спинку стула, всматриваясь в чертежи товарищей.",
@@ -4928,20 +5011,20 @@ window.EXPEDITIONS_DATA = {
         "roleDe": "Jüngster Bruder · Architekturmaler",
         "roleEn": "Youngest Brother · Architectural Painter",
         "face1840": {
-          "x": 43,
-          "y": 27
+          "x": 43.2,
+          "y": 29.8
         },
         "face1843": {
           "x": 63.5,
-          "y": 47
+          "y": 54.5
         },
         "badge1840": {
-          "x": 41.5,
-          "y": 40
+          "x": 33.5,
+          "y": 22.0
         },
         "badge1843": {
           "x": 63.5,
-          "y": 61
+          "y": 71.0
         },
         "bioRu": "Хранитель архитектурной памяти Гамбурга. Спас от забвения десятки готических фасадов и интерьеров ещё до пожара — а после 1842 г. создал документальный цикл погибших храмов.",
         "bioUa": "Охоронець архітектурної пам’яті Гамбурга, автор документального циклу загиблих храмів.",
@@ -4955,12 +5038,12 @@ window.EXPEDITIONS_DATA = {
           {
             "title": "Графика разрушенной церкви Св. Николая (1842)",
             "museum": "Museum für Hamburgische Geschichte",
-            "thumb": "фото и картины/hamburg/photo_14_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_14_2026-11-18_13-34-16.jpg"
           },
           {
             "title": "Интерьеры старой Ратуши и монастыря Св. Иоанна",
             "museum": "Hamburger Kunsthalle",
-            "thumb": "фото и картины/hamburg/photo_13_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_13_2026-11-18_13-34-16.jpg"
           }
         ],
         "desc1840Ru": "В высокой мягкой шапочке за спиной Гюнтера — хранитель старинной архитектуры.",
@@ -4986,20 +5069,20 @@ window.EXPEDITIONS_DATA = {
         "roleDe": "Landschaftsmaler & Chronist des Großen Brandes",
         "roleEn": "Landscape Painter & Chief Fire Chronicler",
         "face1840": {
-          "x": 64,
-          "y": 29
+          "x": 63.5,
+          "y": 30.8
         },
         "face1843": {
-          "x": 36,
-          "y": 25
+          "x": 35.8,
+          "y": 38.2
         },
         "badge1840": {
-          "x": 66.5,
-          "y": 44
+          "x": 74.5,
+          "y": 34.0
         },
         "badge1843": {
-          "x": 36,
-          "y": 38
+          "x": 24.5,
+          "y": 29.5
         },
         "bioRu": "Сначала прославился мирными зимними пейзажами и сценами охоты; в мае 1842 г. стал автором самых драматичных картин Великого пожара в Гамбурге.",
         "bioUa": "Прославився мирними пейзажами, а в травні 1842 р. створив найдраматичніші картини пожежі.",
@@ -5013,12 +5096,12 @@ window.EXPEDITIONS_DATA = {
           {
             "title": "«Великий пожар Гамбурга» (1842)",
             "museum": "Museum für Hamburgische Geschichte",
-            "thumb": "фото и картины/hamburg/photo_10_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_10_2026-11-18_13-34-16.jpg"
           },
           {
             "title": "«Эвакуация у Старого крана / Пожар старой Ратуши»",
             "museum": "Архив 1842 г.",
-            "thumb": "фото и картины/hamburg/photo_2_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_2_2026-11-18_13-34-16.jpg"
           }
         ],
         "desc1840Ru": "Высокая уверенная фигура в чёрном цилиндре справа — столп и авторитет союза.",
@@ -5044,20 +5127,20 @@ window.EXPEDITIONS_DATA = {
         "roleDe": "Grafiker & Pionier der Hamburger Lithografie",
         "roleEn": "Graphic Artist & Lithography Pioneer",
         "face1840": {
-          "x": 84,
-          "y": 55
+          "x": 83.2,
+          "y": 57.2
         },
         "face1843": {
-          "x": 80.5,
-          "y": 55
+          "x": 80.2,
+          "y": 60.5
         },
         "badge1840": {
-          "x": 82,
-          "y": 71
+          "x": 85.5,
+          "y": 41.0
         },
         "badge1843": {
-          "x": 79.5,
-          "y": 71
+          "x": 83.0,
+          "y": 42.5
         },
         "bioRu": "Выдающийся иллюстратор и литограф (сын основателя гамбургской литографической мастерской). Работал на границе эпох между ручной графикой, книжной иллюстрацией и рождением фотографии.",
         "bioUa": "Видатний ілюстратор та літограф, що працював на межі ручної графіки й народження фотографії.",
@@ -5071,12 +5154,12 @@ window.EXPEDITIONS_DATA = {
           {
             "title": "Литографии и иллюстрации Гамбургского союза",
             "museum": "Hamburger Kunsthalle",
-            "thumb": "фото и картины/hamburg/photo_12_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_12_2026-11-18_13-34-16.jpg"
           },
           {
             "title": "«Пожар у Старого крана» (тиражная графика эпохи)",
             "museum": "Архивная коллекция",
-            "thumb": "фото и картины/hamburg/photo_9_2026-11-18_13-34-16.jpg"
+            "thumb": "media/hamburg/photo_9_2026-11-18_13-34-16.jpg"
           }
         ],
         "desc1840Ru": "Справа с листом гравюры в руке — человек печатного цеха и визуального тиража.",
@@ -5092,7 +5175,7 @@ window.EXPEDITIONS_DATA = {
   },
   "siteConfig": {
     "baseUrl": "https://dagrosimo.github.io/retreat",
-    "assetVersion": "17",
+    "assetVersion": "18",
     "formEndpoint": "",
     "hideClientBotToken": true,
     "analytics": {
@@ -5154,7 +5237,7 @@ window.EXPEDITIONS_DATA = {
         "year": "1738",
         "landmarkId": "st-1",
         "echoTargetId": "n4",
-        "image": "фото и картины/stuttgart/web/st-01-oppenheimer-triptych.jpg",
+        "image": "media/stuttgart/st-01-oppenheimer-triptych.jpg",
         "shortEn": "Oppenheimer",
         "shortDe": "Oppenheimer",
         "shortRu": "Зюсс Оппенгеймер",
@@ -5178,7 +5261,7 @@ window.EXPEDITIONS_DATA = {
         "year": "1777",
         "landmarkId": "st-2",
         "echoTargetId": "n3",
-        "image": "фото и картины/stuttgart/web/st-04-schubart-hohenasperg.jpg",
+        "image": "media/stuttgart/st-04-schubart-hohenasperg.jpg",
         "shortEn": "C. F. D. Schubart",
         "shortDe": "C. F. D. Schubart",
         "shortRu": "Узник Шубарт",
@@ -5202,7 +5285,7 @@ window.EXPEDITIONS_DATA = {
         "year": "1782",
         "landmarkId": "st-3",
         "echoTargetId": "n5",
-        "image": "фото и картины/stuttgart/web/st-07-schiller-flight.jpg",
+        "image": "media/stuttgart/st-07-schiller-flight.jpg",
         "shortEn": "Schiller’s Escape",
         "shortDe": "Schillers Flucht",
         "shortRu": "Побег Шиллера",
@@ -5226,7 +5309,7 @@ window.EXPEDITIONS_DATA = {
         "year": "1827",
         "landmarkId": "st-4",
         "echoTargetId": "n1",
-        "image": "фото и картины/stuttgart/web/st-08-hauff-portrait.jpg",
+        "image": "media/stuttgart/st-08-hauff-portrait.jpg",
         "shortEn": "Wilhelm Hauff",
         "shortDe": "Wilhelm Hauff",
         "shortRu": "Вильгельм Гауф",
@@ -5250,7 +5333,7 @@ window.EXPEDITIONS_DATA = {
         "year": "1839",
         "landmarkId": "st-5",
         "echoTargetId": "n6",
-        "image": "фото и картины/stuttgart/web/st-09-thorvaldsen-monument.jpg",
+        "image": "media/stuttgart/st-09-thorvaldsen-monument.jpg",
         "shortEn": "Bronze Duel (1839)",
         "shortDe": "Denkmalstreit (1839)",
         "shortRu": "Спор о Шиллере (1839)",
@@ -5300,7 +5383,7 @@ window.EXPEDITIONS_DATA = {
         "year": "1848",
         "landmarkId": "st-7",
         "echoTargetId": "n7",
-        "image": "фото и картины/stuttgart/web/st-12-herwegh-portrait.jpg",
+        "image": "media/stuttgart/st-12-herwegh-portrait.jpg",
         "shortEn": "Hegel → Herwegh",
         "shortDe": "Hegel → Herwegh",
         "shortRu": "Гегель → Гервег",
@@ -5324,7 +5407,7 @@ window.EXPEDITIONS_DATA = {
         "year": "1855 ↺ 1787",
         "landmarkId": "st-8",
         "echoTargetId": "n1",
-        "image": "фото и картины/stuttgart/web/st-14-moerike-portrait.jpg",
+        "image": "media/stuttgart/st-14-moerike-portrait.jpg",
         "shortEn": "Mörike Loop",
         "shortDe": "Mörikes Bogen",
         "shortRu": "Петля Мёрике",
@@ -5380,12 +5463,12 @@ window.EXPEDITIONS_DATA = {
         "shortDe": "Biow & Oehme",
         "shortEn": "Biow & Oehme",
         "landmarkId": "bln-1",
-        "leftImg": "фото и картины/berlin/web/bln-08-hummel-bowl.jpg",
+        "leftImg": "media/berlin/bln-08-hummel-bowl.jpg",
         "leftBadgeRu": "1831 · ХОЛСТ ХУММЕЛЯ",
         "leftBadgeUa": "1831 · ПОЛОТНО ХУММЕЛЯ",
         "leftBadgeDe": "1831 · GEMÄLDE HUMMELS",
         "leftBadgeEn": "1831 · HUMMEL CANVAS",
-        "rightImg": "фото и картины/berlin/web/bln-14-lustgarten-1913.jpg",
+        "rightImg": "media/berlin/bln-14-lustgarten-1913.jpg",
         "rightBadgeRu": "1846–1913 · КАМЕРА БИОВА И ЭМЕ",
         "rightBadgeUa": "1846–1913 · КАМЕРА БІОВА ТА ЕМЕ",
         "rightBadgeDe": "1846–1913 · DAGUERREOTYPIE",
@@ -5417,12 +5500,12 @@ window.EXPEDITIONS_DATA = {
         "shortDe": "L. Ahrendts",
         "shortEn": "L. Ahrendts",
         "landmarkId": "bln-5",
-        "leftImg": "фото и картины/berlin/web/bln-01-schinkel-dom.jpg",
+        "leftImg": "media/berlin/bln-01-schinkel-dom.jpg",
         "leftBadgeRu": "1813 · ВИДЕНИЕ ШИНКЕЛЯ",
         "leftBadgeUa": "1813 · БАЧЕННЯ ШИНКЕЛЯ",
         "leftBadgeDe": "1813 · VISION SCHINKELS",
         "leftBadgeEn": "1813 · SCHINKEL VISION",
-        "rightImg": "фото и картины/berlin/web/bln-13-lustgarten-photo.jpg",
+        "rightImg": "media/berlin/bln-13-lustgarten-photo.jpg",
         "rightBadgeRu": "1852–1900 · ОБМЕР АРЕНТСА",
         "rightBadgeUa": "1852–1900 · ОБМІР АРЕНТСА",
         "rightBadgeDe": "1852–1900 · BAUINVENTUR",
@@ -5454,12 +5537,12 @@ window.EXPEDITIONS_DATA = {
         "shortDe": "F. A. Schwartz",
         "shortEn": "F. A. Schwartz",
         "landmarkId": "bln-6",
-        "leftImg": "фото и картины/berlin/web/bln-09-krueger-parade.jpg",
+        "leftImg": "media/berlin/bln-09-krueger-parade.jpg",
         "leftBadgeRu": "1830 · ПАРАД КРЮГЕРА",
         "leftBadgeUa": "1830 · ПАРАД КРЮГЕРА",
         "leftBadgeDe": "1830 · PARADE KRÜGERS",
         "leftBadgeEn": "1830 · KRÜGER PARADE",
-        "rightImg": "фото и картины/berlin/web/bln-15-stadtschloss-1900.jpg",
+        "rightImg": "media/berlin/bln-15-stadtschloss-1900.jpg",
         "rightBadgeRu": "1870–1900 · БЫТ ИМПЕРИИ (ШВАРЦ)",
         "rightBadgeUa": "1870–1900 · ПОБУТ ІМПЕРІЇ (ШВАРЦ)",
         "rightBadgeDe": "1870–1900 · ALLTAG & VERKEHR",
@@ -5491,12 +5574,12 @@ window.EXPEDITIONS_DATA = {
         "shortDe": "Otto Braun",
         "shortEn": "Otto Braun",
         "landmarkId": "bln-3",
-        "leftImg": "фото и картины/berlin/web/bln-10-gaertner-panorama.jpg",
+        "leftImg": "media/berlin/bln-10-gaertner-panorama.jpg",
         "leftBadgeRu": "1834 · ПАНОРАМА ГЕРТНЕРА",
         "leftBadgeUa": "1834 · ПАНОРАМА ГЕРТНЕРА",
         "leftBadgeDe": "1834 · PANORAMA GAERTNERS",
         "leftBadgeEn": "1834 · GAERTNER PANORAMA",
-        "rightImg": "фото и картины/berlin/web/bln-16-lustgarten-2004.jpg",
+        "rightImg": "media/berlin/bln-16-lustgarten-2004.jpg",
         "rightBadgeRu": "1880-е → XXI В. · КАТАЛОГ ПРОСТРАНСТВА",
         "rightBadgeUa": "1880-ті → XXI СТ. · КАТАЛОГ ПРОСТОРУ",
         "rightBadgeDe": "1880er → HEUTE · KATALOGRAUM",
@@ -5549,7 +5632,7 @@ window.EXPEDITIONS_DATA = {
         "titleUa": "Хуммель: Гранітна чаша як дзеркало Всесвіту",
         "titleDe": "Hummel: Die Granitschale als Spiegel des Kosmos",
         "titleEn": "Hummel: The Granite Bowl as Cosmic Reflector",
-        "image": "фото и картины/berlin/web/bln-08-hummel-bowl.jpg",
+        "image": "media/berlin/bln-08-hummel-bowl.jpg",
         "pointsRu": [
           "Камень отполирован так, чтобы удерживать небо и город в иномирном покое.",
           "Истина пространства открывается только через созерцательную оптику четырёх мастеров.",
@@ -5580,7 +5663,7 @@ window.EXPEDITIONS_DATA = {
         "titleUa": "Менцель: залізниця 1847-го і «Залізопрокатний завод»",
         "titleDe": "Menzel: Eisenbahn (1847) & Das Eisenwalzwerk (1872–1875)",
         "titleEn": "Menzel: 1847 Railway & ‘The Iron Rolling Mill’ (1872–1875)",
-        "image": "фото и картины/berlin/web/bln-12-gaertner-barricade.jpg",
+        "image": "media/berlin/bln-12-gaertner-barricade.jpg",
         "pointsRu": [
           "«Воронка фотографии» расчистила старую живопись — Менцель смело впускает движение, дым, жар и вес.",
           "В «Железопрокатном заводе» (Alte Nationalgalerie) вместо зеркал и ритуала — сила, искры и труд плоти.",
