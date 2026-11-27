@@ -87,8 +87,8 @@
   }
 
   const GERMANY_VIEW = {
-    center: [10.45, 51.18],
-    zoom: 4.82,
+    center: [11.05, 51.02],
+    zoom: 4.65,
     pitch: 0,
     bearing: 0
   };
@@ -107,9 +107,16 @@
     bearing: -14
   };
 
+  const BERLIN_VIEW = {
+    center: [13.3988, 52.5180],
+    zoom: 14.5,
+    pitch: 52,
+    bearing: -14
+  };
+
   const GERMANY_BOUNDS = [
-    [3.8, 46.3],
-    [17.0, 55.9]
+    [3.8, 46.0],
+    [18.4, 55.9]
   ];
 
   // Tight invisible walls covering Hamburg historic center up through Ohlsdorf
@@ -122,6 +129,12 @@
   const STUTTGART_BOUNDS = [
     [9.115, 48.742],
     [9.235, 48.812]
+  ];
+
+  // Tight invisible walls covering Berlin historic Mitte / Museum Island / Schinkel Axis
+  const BERLIN_BOUNDS = [
+    [13.368, 52.505],
+    [13.432, 52.532]
   ];
 
   const CITY_3D_PRESETS = {
@@ -138,6 +151,13 @@
       bounds: HAMBURG_BOUNDS,
       accent: '#C23B1A',
       zoneLayers: ['great-fire-fill', 'great-fire-outline', 'great-fire-label']
+    },
+    berlin: {
+      view: BERLIN_VIEW,
+      mobileZoom: 13.7,
+      bounds: BERLIN_BOUNDS,
+      accent: '#2C4A52',
+      zoneLayers: ['berlin-zone-fill', 'berlin-zone-outline', 'berlin-zone-label']
     }
   };
 
@@ -147,7 +167,8 @@
     dresden: [13.7373, 51.0504],
     berlin: [13.405, 52.52],
     frankfurt: [8.6821, 50.1109],
-    munich: [11.582, 48.1351]
+    munich: [11.582, 48.1351],
+    vienna: [16.3738, 48.2082]
   };
 
   const CITY_TO_STATE = {
@@ -156,7 +177,8 @@
     dresden: 'sachsen',
     berlin: 'berlin',
     frankfurt: 'hessen',
-    munich: 'bayern'
+    munich: 'bayern',
+    vienna: 'austria'
   };
 
   const SHORT_LANDMARK_NAMES = {
@@ -249,6 +271,48 @@
       ua: 'Некрополь Ольсдорф',
       de: 'Friedhof Ohlsdorf',
       en: 'Ohlsdorf Cemetery'
+    },
+    'bln-1': {
+      ru: 'Lustgarten · Гранитная чаша',
+      ua: 'Lustgarten · Гранітна чаша',
+      de: 'Lustgarten · Granitschale',
+      en: 'Lustgarten · Granite Bowl'
+    },
+    'bln-2': {
+      ru: 'Alte Nationalgalerie',
+      ua: 'Alte Nationalgalerie',
+      de: 'Alte Nationalgalerie',
+      en: 'Alte Nationalgalerie'
+    },
+    'bln-3': {
+      ru: 'Friedrichswerdersche Kirche',
+      ua: 'Friedrichswerdersche Kirche',
+      de: 'Friedrichswerdersche Kirche',
+      en: 'Friedrichswerder Church'
+    },
+    'bln-4': {
+      ru: 'Opernplatz · Крюгер',
+      ua: 'Opernplatz · Крюгер',
+      de: 'Bebelplatz · Krüger',
+      en: 'Opernplatz · Krüger'
+    },
+    'bln-5': {
+      ru: 'Bauakademie · Schloßbrücke',
+      ua: 'Bauakademie · Schloßbrücke',
+      de: 'Bauakademie · Schloßbrücke',
+      en: 'Bauakademie · Schloßbrücke'
+    },
+    'bln-6': {
+      ru: 'Schloßplatz · Breite Straße',
+      ua: 'Schloßplatz · Breite Straße',
+      de: 'Schloßplatz · Breite Straße',
+      en: 'Schloßplatz · Breite Straße'
+    },
+    'bln-7': {
+      ru: 'Parochialstraße · Гертнер',
+      ua: 'Parochialstraße · Гертнер',
+      de: 'Parochialstraße · Gaertner',
+      en: 'Parochialstraße · Gaertner'
     }
   };
 
@@ -305,6 +369,81 @@
     ]
   };
 
+  // Historical Berlin Schinkel Axis & Museum Island Overlay (1813–1888)
+  const BERLIN_SCHINKEL_AXIS_GEOJSON = {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        properties: { name: 'MUSEUMSINSEL · SCHINKEL-ACHSE' },
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[
+            [13.3915, 52.5225],
+            [13.4040, 52.5218],
+            [13.4142, 52.5184],
+            [13.4138, 52.5154],
+            [13.3915, 52.5146],
+            [13.3915, 52.5225]
+          ]]
+        }
+      }
+    ]
+  };
+
+  // Simplified Austrian silhouette bordering southern Germany for Vienna extension
+  const AUSTRIA_OUTLINE_GEOJSON = {
+    type: 'FeatureCollection',
+    features: [
+      {
+        type: 'Feature',
+        id: 100,
+        properties: { id: 'AT', name: 'Österreich' },
+        geometry: {
+          type: 'Polygon',
+          coordinates: [[
+            [9.53, 47.27],
+            [9.56, 47.42],
+            [9.72, 47.54],
+            [10.18, 47.55],
+            [10.45, 47.42],
+            [11.15, 47.45],
+            [12.18, 47.69],
+            [12.90, 47.65],
+            [13.02, 47.82],
+            [12.82, 48.10],
+            [13.45, 48.55],
+            [13.84, 48.77],
+            [14.32, 48.62],
+            [14.95, 49.02],
+            [15.65, 48.88],
+            [16.38, 48.82],
+            [16.94, 48.62],
+            [17.02, 48.35],
+            [17.16, 48.01],
+            [16.94, 47.72],
+            [16.62, 47.62],
+            [16.58, 47.34],
+            [16.46, 47.00],
+            [16.05, 46.84],
+            [15.42, 46.66],
+            [14.68, 46.46],
+            [13.71, 46.52],
+            [13.00, 46.60],
+            [12.35, 46.72],
+            [12.15, 47.02],
+            [11.48, 47.00],
+            [11.02, 46.84],
+            [10.47, 46.84],
+            [10.16, 46.94],
+            [9.78, 47.02],
+            [9.53, 47.27]
+          ]]
+        }
+      }
+    ]
+  };
+
   const BUNDESLAENDER_LABELS_GEOJSON = {
     type: 'FeatureCollection',
     features: [
@@ -319,7 +458,8 @@
       { name: 'SACHSEN', coords: [13.35, 51.02] },
       { name: 'RHEINLAND-PFALZ', coords: [7.35, 49.92] },
       { name: 'BADEN-WÜRTTEMBERG', coords: [9.15, 48.58] },
-      { name: 'BAYERN', coords: [11.55, 48.95] }
+      { name: 'BAYERN', coords: [11.55, 48.95] },
+      { name: 'ÖSTERREICH', coords: [14.30, 47.62] }
     ].map((item) => ({
       type: 'Feature',
       properties: { name: item.name },
@@ -676,6 +816,7 @@
       this.trackFilter = 'all'; // 'all' | 'writers' | 'artists'
       this.fireLayerVisible = true;
       this.hoveredStateId = null;
+      this.hoveredAustria = false;
       this.landmarkMarkers = {};
       this.countryMarkers = {};
       this.mapReady = false;
@@ -711,7 +852,7 @@
         container: this.container,
         style: buildArchivalStyle(),
         center: startCountry ? GERMANY_VIEW.center : preset.view.center,
-        zoom: startCountry ? (isNarrow ? 4.45 : GERMANY_VIEW.zoom) : (isNarrow ? preset.mobileZoom : preset.view.zoom),
+        zoom: startCountry ? (isNarrow ? 4.28 : GERMANY_VIEW.zoom) : (isNarrow ? preset.mobileZoom : preset.view.zoom),
         pitch: startCountry ? 0 : preset.view.pitch,
         bearing: startCountry ? 0 : preset.view.bearing,
         minZoom: startCountry ? 4.0 : 12.0,
@@ -769,13 +910,15 @@
           const normName = ((f.properties && f.properties.name) || '').toLowerCase();
           const isHH = normName.includes('hamburg');
           const isBW = normName.includes('baden');
+          const isBLN = normName === 'berlin' || normName.includes('berlin');
           f.properties._isHamburg = isHH;
           f.properties._isBaden = isBW;
-          f.properties._baseColor = isBW ? '#D9C2C6' : isHH ? '#C23B1A' : palette[idx % palette.length];
+          f.properties._isBerlin = isBLN;
+          f.properties._baseColor = isBW ? '#D9C2C6' : isHH ? '#C23B1A' : isBLN ? '#C5D1D4' : palette[idx % palette.length];
           if (isBW) this.stateFeatureIds.baden = f.id;
           else if (isHH) this.stateFeatureIds.hamburg = f.id;
           else if (normName === 'sachsen' || normName.includes('saxony')) this.stateFeatureIds.sachsen = f.id;
-          else if (normName.includes('berlin')) this.stateFeatureIds.berlin = f.id;
+          else if (isBLN) this.stateFeatureIds.berlin = f.id;
           else if (normName.includes('hessen') || normName.includes('hesse')) this.stateFeatureIds.hessen = f.id;
           else if (normName.includes('bayern') || normName.includes('bavaria')) this.stateFeatureIds.bayern = f.id;
         });
@@ -851,7 +994,7 @@
           }
         });
 
-        // Clicking Baden-Württemberg (Stuttgart) or Hamburg flies right into that city's 3D view
+        // Clicking Baden-Württemberg (Stuttgart), Hamburg, or Berlin flies right into that city's 3D view
         map.on('click', 'bundeslaender-fill', (e) => {
           if (this.mode !== 'country' || !e.features || !e.features.length) return;
           const props = e.features[0].properties || {};
@@ -861,9 +1004,80 @@
           } else if (props._isHamburg) {
             this.whooshToCity('hamburg');
             this.onSelectCityFromCountry('hamburg');
+          } else if (props._isBerlin) {
+            this.whooshToCity('berlin');
+            this.onSelectCityFromCountry('berlin');
           }
         });
       }
+
+      // 1B. NEIGHBORING AUSTRIA SILHOUETTE (Vienna Extension on Southeast Flank)
+      map.addSource('austria-neighbor', {
+        type: 'geojson',
+        data: AUSTRIA_OUTLINE_GEOJSON
+      });
+
+      map.addLayer({
+        id: 'austria-neighbor-fill',
+        type: 'fill',
+        source: 'austria-neighbor',
+        maxzoom: 9.8,
+        paint: {
+          'fill-color': [
+            'case',
+            ['boolean', ['feature-state', 'selected'], false], '#DEC7A4',
+            ['boolean', ['feature-state', 'hover'], false], '#F6F1E4',
+            '#E6DFCE'
+          ],
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 7.2, 0.88, 9.5, 0]
+        }
+      });
+
+      map.addLayer({
+        id: 'austria-neighbor-border',
+        type: 'line',
+        source: 'austria-neighbor',
+        maxzoom: 9.8,
+        paint: {
+          'line-color': '#141311',
+          'line-width': [
+            'case',
+            ['boolean', ['feature-state', 'selected'], false], 1.8,
+            ['boolean', ['feature-state', 'hover'], false], 1.5,
+            1.0
+          ],
+          'line-dasharray': [4, 3],
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 7.2, 0.65, 9.5, 0]
+        }
+      });
+
+      map.on('mousemove', 'austria-neighbor-fill', () => {
+        if (this.mode !== 'country') return;
+        this.hoveredAustria = true;
+        try {
+          map.setFeatureState({ source: 'austria-neighbor', id: 100 }, { hover: true });
+        } catch {}
+        map.getCanvas().style.cursor = 'pointer';
+      });
+
+      map.on('mouseleave', 'austria-neighbor-fill', () => {
+        if (this.hoveredAustria) {
+          this.hoveredAustria = false;
+          try {
+            map.setFeatureState({ source: 'austria-neighbor', id: 100 }, { hover: false });
+          } catch {}
+        }
+        if (this.mode === 'country') {
+          map.getCanvas().style.cursor = '';
+        }
+      });
+
+      map.on('click', 'austria-neighbor-fill', () => {
+        if (this.mode !== 'country') return;
+        this.activeCityId = 'vienna';
+        this.updateCountryPinSelection();
+        this.onSelectCityFromCountry('vienna');
+      });
 
       // 2. BUNDESLÄNDER LABELS
       map.addSource('bundeslaender-labels', {
@@ -1062,12 +1276,63 @@
         }
       });
 
-      // 5. EXPEDITION WALKING ROUTES (both Hamburg & Stuttgart under 3D buildings!)
+      // 4C. HISTORICAL BERLIN SCHINKEL AXIS OVERLAY (under 3D buildings!)
+      map.addSource('berlin-schinkel-axis', {
+        type: 'geojson',
+        data: BERLIN_SCHINKEL_AXIS_GEOJSON
+      });
+
+      map.addLayer({
+        id: 'berlin-zone-fill',
+        type: 'fill',
+        source: 'berlin-schinkel-axis',
+        minzoom: 11.2,
+        paint: {
+          'fill-color': '#2C4A52',
+          'fill-opacity': ['interpolate', ['linear'], ['zoom'], 11.2, 0, 12.6, 0.14]
+        }
+      }, beforeBuildings);
+
+      map.addLayer({
+        id: 'berlin-zone-outline',
+        type: 'line',
+        source: 'berlin-schinkel-axis',
+        minzoom: 11.2,
+        paint: {
+          'line-color': '#2C4A52',
+          'line-width': 2,
+          'line-dasharray': [4, 2.5],
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 11.2, 0, 12.6, 0.78]
+        }
+      }, beforeBuildings);
+
+      map.addLayer({
+        id: 'berlin-zone-label',
+        type: 'symbol',
+        source: 'berlin-schinkel-axis',
+        minzoom: 13.0,
+        maxzoom: 15.8,
+        layout: {
+          'text-field': 'MUSEUMSINSEL · SCHINKEL-ACHSE',
+          'text-font': ['Noto Sans Bold'],
+          'text-size': 9.5,
+          'text-letter-spacing': 0.16
+        },
+        paint: {
+          'text-color': '#213B42',
+          'text-halo-color': 'rgba(243, 239, 230, 0.92)',
+          'text-halo-width': 1.6
+        }
+      });
+
+      // 5. EXPEDITION WALKING ROUTES (Hamburg, Stuttgart & Berlin under 3D buildings!)
       const allCities = this.getCitiesData();
       const hhCity = allCities.find((c) => c.id === 'hamburg');
       const stCity = allCities.find((c) => c.id === 'stuttgart');
+      const blnCity = allCities.find((c) => c.id === 'berlin');
       const hhLandmarks = (hhCity && hhCity.cityMap && hhCity.cityMap.landmarks) || [];
       const stLandmarks = (stCity && stCity.cityMap && stCity.cityMap.landmarks) || [];
+      const blnLandmarks = (blnCity && blnCity.cityMap && blnCity.cityMap.landmarks) || [];
 
       const hhCoreCoords = hhLandmarks
         .filter((l) => l.id !== 'hm-7' && Array.isArray(l.lngLat))
@@ -1156,10 +1421,38 @@
         }
       }, beforeBuildings);
 
-      // 6. GROUND HALO ANCHORS UNDER ALL 3D CITY LANDMARKS (Stuttgart + Hamburg)
+      // Berlin optical & architectural walking loop (bln-1 .. bln-7)
+      const blnCoreCoords = blnLandmarks
+        .filter((l) => Array.isArray(l.lngLat))
+        .map((l) => l.lngLat);
+
+      map.addSource('berlin-route', {
+        type: 'geojson',
+        data: {
+          type: 'Feature',
+          geometry: { type: 'LineString', coordinates: blnCoreCoords }
+        }
+      });
+
+      map.addLayer({
+        id: 'berlin-route-core',
+        type: 'line',
+        source: 'berlin-route',
+        minzoom: 11.2,
+        layout: { 'line-cap': 'round', 'line-join': 'round' },
+        paint: {
+          'line-color': '#2C4A52',
+          'line-width': 2.4,
+          'line-dasharray': [3, 3],
+          'line-opacity': ['interpolate', ['linear'], ['zoom'], 11.2, 0, 12.6, 0.78]
+        }
+      }, beforeBuildings);
+
+      // 6. GROUND HALO ANCHORS UNDER ALL 3D CITY LANDMARKS (Stuttgart + Hamburg + Berlin)
       const allGeoLandmarks = [
         ...stLandmarks.filter((l) => Array.isArray(l.lngLat)).map((l) => ({ ...l, _accent: '#7A2E3A' })),
-        ...hhLandmarks.filter((l) => Array.isArray(l.lngLat)).map((l) => ({ ...l, _accent: '#C23B1A' }))
+        ...hhLandmarks.filter((l) => Array.isArray(l.lngLat)).map((l) => ({ ...l, _accent: '#C23B1A' })),
+        ...blnLandmarks.filter((l) => Array.isArray(l.lngLat)).map((l) => ({ ...l, _accent: '#2C4A52' }))
       ];
 
       map.addSource('landmark-halos', {
@@ -1337,6 +1630,9 @@
             this.map.setFeatureState({ source: 'bundeslaender', id: nextFid }, { selected: true });
           } catch {}
         }
+        try {
+          this.map.setFeatureState({ source: 'austria-neighbor', id: 100 }, { selected: this.activeCityId === 'vienna' });
+        } catch {}
       }
     }
 
@@ -1351,7 +1647,7 @@
         GERMANY_VIEW.center[0] * 0.78 + coords[0] * 0.22,
         GERMANY_VIEW.center[1] * 0.78 + coords[1] * 0.22
       ];
-      const targetZoom = isNarrow ? 4.48 : GERMANY_VIEW.zoom;
+      const targetZoom = isNarrow ? 4.28 : GERMANY_VIEW.zoom;
 
       if (this.mode !== 'country') {
         this.mode = 'country';
@@ -1426,7 +1722,8 @@
       const vis = this.fireLayerVisible ? 'visible' : 'none';
       const layers = [
         'great-fire-fill', 'great-fire-outline', 'great-fire-label',
-        'stuttgart-zone-fill', 'stuttgart-zone-outline', 'stuttgart-zone-label'
+        'stuttgart-zone-fill', 'stuttgart-zone-outline', 'stuttgart-zone-label',
+        'berlin-zone-fill', 'berlin-zone-outline', 'berlin-zone-label'
       ];
       layers.forEach((layerId) => {
         if (this.map.getLayer(layerId)) {
@@ -1500,7 +1797,7 @@
 
       this.map.flyTo({
         center: GERMANY_VIEW.center,
-        zoom: isNarrow ? 4.45 : GERMANY_VIEW.zoom,
+        zoom: isNarrow ? 4.28 : GERMANY_VIEW.zoom,
         pitch: GERMANY_VIEW.pitch,
         bearing: GERMANY_VIEW.bearing,
         padding: { top: 0, bottom: 0, left: 0, right: 0 },

@@ -779,6 +779,54 @@ def build_home_page(data: dict[str, Any], lang: str, url_lang: str, root_prefix:
     return head + body
 
 
+def _render_quad_hero(city: dict[str, Any], lang: str, root_prefix: str, caps: list[str], imgs: list[tuple[str, str, str]]) -> str:
+    slides = "".join(
+        f'<img class="hero-reel__slide{" is-active" if i == 0 else ""}" data-reel-idx="{i}" data-lightbox-id="{aid}" src="{esc(root_prefix + path)}" alt="{esc(caps[i])}" loading="eager" />'
+        for i, (aid, path, _) in enumerate(imgs)
+    )
+    bars = "".join(
+        f'<button type="button" class="hero-reel__bar{" is-active" if i == 0 else ""}" data-reel-pick="{i}" aria-label="{yr}"><span></span></button>'
+        for i, (_, _, yr) in enumerate(imgs)
+    )
+    quad = "".join(
+        f'<figure class="triptych__item" data-lightbox-id="{aid}"><img src="{esc(root_prefix + path)}" alt="{esc(caps[i])}" loading="eager" /><figcaption><span>{yr}</span> <em>{esc(caps[i].split("·")[-1].strip())}</em></figcaption></figure>'
+        for i, (aid, path, yr) in enumerate(imgs)
+    )
+    first_year = imgs[0][2]
+    first_cap = caps[0].split("·")[-1].strip()
+    return f"""
+        <div class="city-hero-visual">
+          <div class="hero-mobile-reel hero-mobile-reel--city" id="hero-mobile-reel" data-reel-mode="{esc(city['id'])}" aria-label="{esc(loc(city, 'name', lang))} 4-act visual sequence">
+            <div class="hero-reel__stage">
+              {slides}
+              <div class="hero-reel__scrim"></div>
+              <div class="hero-reel__top">
+                <span class="mono-label hero-reel__badge">{esc(loc(city, 'name', lang).upper())} · {esc(loc(city, 'dates', lang).upper())}</span>
+              </div>
+              <div class="hero-reel__bottom">
+                <div class="hero-reel__meta">
+                  <span class="mono-label hero-reel__year" id="reel-year">{esc(first_year)}</span>
+                  <strong class="hero-reel__cap" id="reel-cap">{esc(first_cap)}</strong>
+                </div>
+                <div class="hero-reel__bars" role="tablist">{bars}</div>
+              </div>
+            </div>
+          </div>
+
+          <aside class="hero-showcase hero-showcase--city">
+            <div class="showcase-header">
+              <span class="mono-label">№{esc(city['issueNo'])} · {esc(loc(city, 'name', lang).upper())}</span>
+              <span class="mono-label stamp-pill">{esc(loc(city, 'dates', lang).upper())}</span>
+            </div>
+            <div class="triptych triptych--quad">{quad}</div>
+            <div class="showcase-footer">
+              <span class="status-pulse" aria-hidden="true"></span>
+              <p class="mono-label showcase-status">{esc(loc(city, 'statusLabel', lang))}</p>
+            </div>
+          </aside>
+        </div>"""
+
+
 def render_city_hero_visual(data: dict[str, Any], city: dict[str, Any], lang: str, root_prefix: str) -> str:
     tr = data["i18n"][lang]
     if city["id"] == "hamburg":
@@ -843,54 +891,27 @@ def render_city_hero_visual(data: dict[str, Any], city: dict[str, Any], lang: st
             "ua": ["1738–1787 · Тиранія", "1782–1827 · Романтизм", "1839–1848 · Барикади", "1770–1855 · Гегель і петля"],
         }[lang]
         imgs_st = [
-            ("st-art-1", "фото и картины/stuttgart/stuttgart_act1_enlightenment.jpg", "1738"),
-            ("st-art-2", "фото и картины/stuttgart/stuttgart_act2_romanticism.jpg", "1782"),
-            ("st-art-3", "фото и картины/stuttgart/stuttgart_act3_schillerplatz.jpg", "1839"),
-            ("st-art-4", "фото и картины/stuttgart/stuttgart_act4_hegel_autumn.jpg", "1855"),
+            ("st-art-1", "фото и картины/stuttgart/web/st-01-oppenheimer-triptych.jpg", "1738"),
+            ("st-art-7", "фото и картины/stuttgart/web/st-07-schiller-flight.jpg", "1782"),
+            ("st-art-9", "фото и картины/stuttgart/web/st-09-thorvaldsen-monument.jpg", "1839"),
+            ("st-art-14", "фото и картины/stuttgart/web/st-14-moerike-portrait.jpg", "1855"),
         ]
-        slides = "".join(
-            f'<img class="hero-reel__slide{" is-active" if i == 0 else ""}" data-reel-idx="{i}" data-lightbox-id="{aid}" src="{esc(root_prefix + path)}" alt="{esc(caps_st[i])}" loading="eager" />'
-            for i, (aid, path, _) in enumerate(imgs_st)
-        )
-        bars = "".join(
-            f'<button type="button" class="hero-reel__bar{" is-active" if i == 0 else ""}" data-reel-pick="{i}" aria-label="{yr}"><span></span></button>'
-            for i, (_, _, yr) in enumerate(imgs_st)
-        )
-        quad = "".join(
-            f'<figure class="triptych__item" data-lightbox-id="{aid}"><img src="{esc(root_prefix + path)}" alt="{esc(caps_st[i])}" loading="eager" /><figcaption><span>{yr}</span> <em>{esc(caps_st[i].split("·")[-1].strip())}</em></figcaption></figure>'
-            for i, (aid, path, yr) in enumerate(imgs_st)
-        )
-        return f"""
-        <div class="city-hero-visual">
-          <div class="hero-mobile-reel hero-mobile-reel--city" id="hero-mobile-reel" data-reel-mode="stuttgart" aria-label="Stuttgart 4-act visual sequence">
-            <div class="hero-reel__stage">
-              {slides}
-              <div class="hero-reel__scrim"></div>
-              <div class="hero-reel__top">
-                <span class="mono-label hero-reel__badge">{esc(loc(city, 'name', lang).upper())} · {esc(loc(city, 'dates', lang).upper())}</span>
-              </div>
-              <div class="hero-reel__bottom">
-                <div class="hero-reel__meta">
-                  <span class="mono-label hero-reel__year" id="reel-year">1738</span>
-                  <strong class="hero-reel__cap" id="reel-cap">{esc(caps_st[0].split('·')[-1].strip())}</strong>
-                </div>
-                <div class="hero-reel__bars" role="tablist">{bars}</div>
-              </div>
-            </div>
-          </div>
+        return _render_quad_hero(city, lang, root_prefix, caps_st, imgs_st)
 
-          <aside class="hero-showcase hero-showcase--city">
-            <div class="showcase-header">
-              <span class="mono-label">№{esc(city['issueNo'])} · {esc(loc(city, 'name', lang).upper())}</span>
-              <span class="mono-label stamp-pill">{esc(loc(city, 'dates', lang).upper())}</span>
-            </div>
-            <div class="triptych triptych--quad">{quad}</div>
-            <div class="showcase-footer">
-              <span class="status-pulse" aria-hidden="true"></span>
-              <p class="mono-label showcase-status">{esc(loc(city, 'statusLabel', lang))}</p>
-            </div>
-          </aside>
-        </div>"""
+    if city["id"] == "berlin":
+        caps_bln = {
+            "en": ["1813 · Schinkel Vision", "1831 · Granite Bowl", "1834 · Panorama Horizon", "1846–1900 · Camera Survey"],
+            "de": ["1813 · Schinkel-Vision", "1831 · Granitschale", "1834 · Panorama-Blick", "1846–1900 · Foto-Inventur"],
+            "ru": ["1813 · Шинкель", "1831 · Гранитная чаша", "1834 · Панорама Гертнера", "1846–1900 · Срыв покрова"],
+            "ua": ["1813 · Шинкель", "1831 · Гранітна чаша", "1834 · Панорама Гертнера", "1846–1900 · Десакралізація"],
+        }[lang]
+        imgs_bln = [
+            ("bln-art-1", "фото и картины/berlin/web/bln-01-schinkel-dom.jpg", "1813"),
+            ("bln-art-8", "фото и картины/berlin/web/bln-08-hummel-bowl.jpg", "1831"),
+            ("bln-art-10", "фото и картины/berlin/web/bln-10-gaertner-panorama.jpg", "1834"),
+            ("bln-art-13", "фото и картины/berlin/web/bln-13-lustgarten-photo.jpg", "1846"),
+        ]
+        return _render_quad_hero(city, lang, root_prefix, caps_bln, imgs_bln)
 
     # Upcoming city clean concept showcase
     return f"""
@@ -965,6 +986,160 @@ def render_stuttgart_interactive(data: dict[str, Any], lang: str, root_prefix: s
               <button type="button" class="btn btn--outline" id="tl-jump-map" data-tl-landmark="{esc(first['landmarkId'])}">{esc(btn_map)}</button>
               <button type="button" class="pill-btn" id="tl-follow-echo" data-tl-node="{esc(first['echoTargetId'])}">→</button>
             </div>
+          </div>
+        </article>
+      </div>
+    </section>"""
+
+
+def render_berlin_interactive(data: dict[str, Any], lang: str, root_prefix: str) -> str:
+    bi = data["berlinInteractive"]
+    layers = bi["layers"]
+    menzel = bi["menzel"]
+    first = layers[0]
+
+    ui = {
+        "en": {
+            "preset100L": "100% Painting",
+            "preset50": "50 / 50",
+            "preset100R": "100% Camera",
+            "btnMenzel": "⚡ Vortex → Menzel",
+            "btnBack": "← Back to Curtain",
+            "jumpMap": "Show Stop on 3D Map ↑",
+            "nextMenzel": "Enter Photography’s Vortex (Menzel) →",
+            "readoutPrefix": "Painting Veil",
+            "rangeAria": "Reveal painting vs. photograph comparison",
+            "lossPrefix": "WHAT WAS LOST:",
+        },
+        "de": {
+            "preset100L": "100% Gemälde",
+            "preset50": "50 / 50",
+            "preset100R": "100% Kamera",
+            "btnMenzel": "⚡ Sog → Menzel",
+            "btnBack": "← Zurück zum Vorhang",
+            "jumpMap": "Station auf 3D-Karte ↑",
+            "nextMenzel": "In den Sog der Fotografie (Menzel) →",
+            "readoutPrefix": "Gemälde-Schleier",
+            "rangeAria": "Vergleichsregler Gemälde gegen Fotografie",
+            "lossPrefix": "VERLORENE DIMENSION:",
+        },
+        "ru": {
+            "preset100L": "100% Холст",
+            "preset50": "50 / 50",
+            "preset100R": "100% Камера",
+            "btnMenzel": "⚡ Воронка → Менцель",
+            "btnBack": "← Вернуться к шторке",
+            "jumpMap": "Показать точку на 3D-карте ↑",
+            "nextMenzel": "Войти в воронку фотографии (Менцель) →",
+            "readoutPrefix": "Покров живописи",
+            "rangeAria": "Сравнение живописи и архивной фотографии",
+            "lossPrefix": "ЧТО БЫЛО УТРАЧЕНО:",
+        },
+        "ua": {
+            "preset100L": "100% Полотно",
+            "preset50": "50 / 50",
+            "preset100R": "100% Камера",
+            "btnMenzel": "⚡ Воронка → Менцель",
+            "btnBack": "← Повернутися до шторки",
+            "jumpMap": "Показати на 3D-карті ↑",
+            "nextMenzel": "Увійти у воронку фотографії (Менцель) →",
+            "readoutPrefix": "Покров живопису",
+            "rangeAria": "Порівняння живопису й архівної фотографії",
+            "lossPrefix": "ЩО БУЛО ВТРАЧЕНО:",
+        },
+    }[lang]
+
+    rail_buttons = "".join(
+        f"""
+          <button type="button" class="timeloop-node{' is-active' if i == 0 else ''}" data-veil-layer="{esc(l['id'])}" role="tab" aria-selected="{'true' if i == 0 else 'false'}">
+            <span class="timeloop-node__year">{esc(l['num'])} · {esc(l['year'])}</span>
+            <strong class="timeloop-node__name">{esc(loc(l, 'short', lang))}</strong>
+          </button>"""
+        for i, l in enumerate(layers)
+    ) + f"""
+          <button type="button" class="timeloop-node veil-node--menzel" data-veil-layer="menzel" role="tab" aria-selected="false">
+            <span class="timeloop-node__year">{esc(menzel['num'])} · {esc(menzel['year'])}</span>
+            <strong class="timeloop-node__name">{esc(loc(menzel, 'short', lang))}</strong>
+          </button>"""
+
+    left_pts_html = "".join(f"<li>{esc(p)}</li>" for p in loc(menzel["leftCard"], "points", lang))
+    right_pts_html = "".join(f"<li>{esc(p)}</li>" for p in loc(menzel["rightCard"], "points", lang))
+
+    return f"""
+    <section class="compare-section veil-section" id="berlin-veil">
+      <div class="container">
+        <div class="section-head section-head--split">
+          <div>
+            <p class="eyebrow">{esc(loc(bi, 'eyebrow', lang))}</p>
+            <h2 class="section-title">{esc(loc(bi, 'title', lang))}</h2>
+            <p class="section-lead">{esc(loc(bi, 'lead', lang))}</p>
+          </div>
+          <div class="compare-mode-switch veil-presets" role="group" aria-label="Veil position controls">
+            <button type="button" class="pill-btn" data-veil-preset="94">{esc(ui['preset100L'])}</button>
+            <button type="button" class="pill-btn is-active" data-veil-preset="50">{esc(ui['preset50'])}</button>
+            <button type="button" class="pill-btn" data-veil-preset="6">{esc(ui['preset100R'])}</button>
+            <button type="button" class="pill-btn veil-vortex-btn" id="btn-veil-menzel">{esc(ui['btnMenzel'])}</button>
+          </div>
+        </div>
+
+        <div class="veil-rail" id="berlin-veil-rail" role="tablist" aria-label="Berlin optical desacralization stages">{rail_buttons}
+        </div>
+
+        <div class="veil-layout" id="berlin-curtain-panel">
+          <div class="veil-stage" id="veil-stage" style="--veil-pos: 52%">
+            <img class="veil-img veil-img--right is-filter-{esc(first['rightFilter'])}" id="veil-right-img" src="{esc(root_prefix + first['rightImg'])}" alt="{esc(loc(first, 'rightBadge', lang))}" />
+            <img class="veil-img veil-img--left" id="veil-left-img" src="{esc(root_prefix + first['leftImg'])}" alt="{esc(loc(first, 'leftBadge', lang))}" />
+            <span class="plate-year-badge veil-badge veil-badge--left" id="veil-left-badge">{esc(loc(first, 'leftBadge', lang))}</span>
+            <span class="plate-year-badge plate-year-badge--silver veil-badge veil-badge--right" id="veil-right-badge">{esc(loc(first, 'rightBadge', lang))}</span>
+            <span class="mono-label veil-readout" id="veil-readout">{esc(ui['readoutPrefix'])}: 52%</span>
+            <div class="veil-divider" aria-hidden="true">
+              <span class="veil-handle">↔</span>
+            </div>
+            <input type="range" class="veil-range" id="veil-range" min="0" max="100" value="52" aria-label="{esc(ui['rangeAria'])}" />
+          </div>
+
+          <aside class="veil-dossier" aria-live="polite">
+            <span class="mono-label timeloop-echo" id="veil-tag">{esc(loc(first, 'tag', lang))}</span>
+            <h3 id="veil-title">{esc(loc(first, 'title', lang))}</h3>
+            <div class="veil-loss-box">
+              <span class="mono-label">{esc(ui['lossPrefix'])}</span>
+              <strong id="veil-loss">{esc(loc(first, 'loss', lang))}</strong>
+            </div>
+            <p class="veil-thesis" id="veil-thesis">{esc(loc(first, 'thesis', lang))}</p>
+            <div class="veil-dossier__actions">
+              <button type="button" class="btn btn--outline" id="veil-jump-map" data-veil-landmark="{esc(first['landmarkId'])}">{esc(ui['jumpMap'])}</button>
+              <button type="button" class="pill-btn" id="veil-next-menzel">{esc(ui['nextMenzel'])}</button>
+            </div>
+          </aside>
+        </div>
+
+        <article class="veil-menzel" id="berlin-menzel-panel" hidden aria-live="polite">
+          <div class="veil-menzel__head">
+            <span class="mono-label veil-menzel__tag">{esc(loc(menzel, 'tag', lang))}</span>
+            <h3>{esc(loc(menzel, 'title', lang))}</h3>
+            <p>{esc(loc(menzel, 'thesis', lang))}</p>
+          </div>
+          <div class="veil-menzel-grid">
+            <div class="veil-menzel-card">
+              <div class="veil-menzel-card__media">
+                <img src="{esc(root_prefix + menzel['leftCard']['image'])}" alt="{esc(loc(menzel['leftCard'], 'title', lang))}" loading="lazy" />
+                <span class="plate-year-badge">{esc(loc(menzel['leftCard'], 'badge', lang))}</span>
+              </div>
+              <h4>{esc(loc(menzel['leftCard'], 'title', lang))}</h4>
+              <ul>{left_pts_html}</ul>
+            </div>
+            <div class="veil-menzel-card veil-menzel-card--ember">
+              <div class="veil-menzel-card__media">
+                <img src="{esc(root_prefix + menzel['rightCard']['image'])}" alt="{esc(loc(menzel['rightCard'], 'title', lang))}" loading="lazy" />
+                <span class="plate-year-badge plate-year-badge--fire">{esc(loc(menzel['rightCard'], 'badge', lang))}</span>
+              </div>
+              <h4>{esc(loc(menzel['rightCard'], 'title', lang))}</h4>
+              <ul>{right_pts_html}</ul>
+            </div>
+          </div>
+          <div class="veil-menzel__foot">
+            <button type="button" class="btn btn--primary" data-veil-landmark="{esc(menzel['landmarkId'])}">{esc(ui['jumpMap'])}</button>
+            <button type="button" class="btn btn--outline" id="btn-veil-back">{esc(ui['btnBack'])}</button>
           </div>
         </article>
       </div>
@@ -1175,11 +1350,12 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
 
     map_section_html = ""
     if has_3d:
-        zone_btn_lbl = (
-            {"ru": "Резиденция 1738", "ua": "Резиденція 1738", "de": "Residenz 1738", "en": "Altstadt 1738"}[lang]
-            if city["id"] == "stuttgart"
-            else {"ru": "Пожар 1842", "ua": "Пожежа 1842", "de": "Brand 1842", "en": "1842 Fire"}[lang]
-        )
+        zone_labels_map = {
+            "stuttgart": {"ru": "Резиденция 1738", "ua": "Резиденція 1738", "de": "Residenz 1738", "en": "Altstadt 1738"},
+            "berlin": {"ru": "Ось Шинкеля", "ua": "Вісь Шинкеля", "de": "Schinkel-Achse", "en": "Schinkel Axis"},
+            "hamburg": {"ru": "Пожар 1842", "ua": "Пожежа 1842", "de": "Brand 1842", "en": "1842 Fire"},
+        }
+        zone_btn_lbl = zone_labels_map.get(city["id"], zone_labels_map["hamburg"])[lang]
         map_section_html = f"""
     <section class="hub-section city-map-section" id="city-map">
       <div class="container">
@@ -1232,12 +1408,16 @@ def build_city_page(data: dict[str, Any], city: dict[str, Any], lang: str, url_l
     interactive_html = ""
     if city["id"] == "stuttgart":
         interactive_html = render_stuttgart_interactive(data, lang, root_prefix)
+    elif city["id"] == "berlin":
+        interactive_html = render_berlin_interactive(data, lang, root_prefix)
     elif city["id"] == "hamburg":
         interactive_html = render_hamburg_interactive(data, lang, root_prefix)
 
     nav_trial_link = ""
     if city["id"] == "stuttgart":
         nav_trial_link = f'<a href="#city-trial">1738 ↺ 1855</a>'
+    elif city["id"] == "berlin":
+        nav_trial_link = f'<a href="#berlin-veil">1831 ↔ 1900</a>'
     elif city["id"] == "hamburg":
         nav_trial_link = f'<a href="#compare">1840 ↔ 1843</a>'
 

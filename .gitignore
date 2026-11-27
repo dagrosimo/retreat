@@ -3,6 +3,13 @@
 !robots.txt
 !llms.txt
 *.md
+Планы на города/
+
+# Raw museum source archives (keep only web-optimized plates)
+фото и картины/berlin/*
+!фото и картины/berlin/web/
+фото и картины/stuttgart/*
+!фото и картины/stuttgart/web/
 
 # Local agent skills, backend drafts & helper scripts
 .agents/

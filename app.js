@@ -38,6 +38,9 @@
     activeTimeNodeId: 'n1',
     timeLoopAuto: false,
     timeLoopTimer: null,
+    // Berlin 1831 <-> 1913 Veil Curtain
+    berlinVeilLayer: 'l1',
+    berlinVeilPos: 52,
     // City Hero mobile reel
     reelIndex: 0,
     reelTimer: null,
@@ -115,7 +118,8 @@
       dresden: { en: 'Mar', de: 'Mär', ru: 'Мар', ua: 'Бер' },
       berlin: { en: 'Apr', de: 'Apr', ru: 'Апр', ua: 'Кві' },
       frankfurt: { en: 'May', de: 'Mai', ru: 'Май', ua: 'Тра' },
-      munich: { en: 'Jun', de: 'Jun', ru: 'Июн', ua: 'Чер' }
+      munich: { en: 'Jun', de: 'Jun', ru: 'Июн', ua: 'Чер' },
+      vienna: { en: 'Jul', de: 'Jul', ru: 'Июл', ua: 'Лип' }
     };
     return (months[cityId] && months[cityId][state.lang]) || '';
   }
@@ -159,15 +163,15 @@
      ------------------------------------------------------------------------ */
   function updateMap3DButtonsText() {
     const city3d = getActive3DCity();
-    const isStuttgart = city3d && city3d.id === 'stuttgart';
+    const cid = city3d ? city3d.id : 'stuttgart';
 
     const btnCountry = document.getElementById('btn-back-country');
     if (btnCountry) {
       const lbls = {
-        ru: '← Вся Германия (16 земель)',
-        ua: '← Уся Німеччина (16 земель)',
-        de: '← Ganz Deutschland (16 Länder)',
-        en: '← All Germany (16 States)'
+        ru: '← Карта маршрутов (DE + AT)',
+        ua: '← Карта маршрутів (DE + AT)',
+        de: '← Übersichtskarte (DE + AT)',
+        en: '← All Routes (DE + AT)'
       };
       btnCountry.textContent = lbls[state.lang];
     }
@@ -182,9 +186,12 @@
       orbitBtn.textContent = { ru: '↻ Ракурс', ua: '↻ Ракурс', de: '↻ Winkel', en: '↻ Orbit' }[state.lang];
     }
 
-    const zoneLabels = isStuttgart
-      ? { ru: 'Резиденция 1738', ua: 'Резиденція 1738', de: 'Residenz 1738', en: 'Altstadt 1738' }
-      : { ru: 'Пожар 1842', ua: 'Пожежа 1842', de: 'Brand 1842', en: '1842 Fire' };
+    const zoneLabels =
+      cid === 'stuttgart'
+        ? { ru: 'Резиденция 1738', ua: 'Резиденція 1738', de: 'Residenz 1738', en: 'Altstadt 1738' }
+        : cid === 'berlin'
+        ? { ru: 'Ось Шинкеля', ua: 'Вісь Шинкеля', de: 'Schinkel-Achse', en: 'Schinkel Axis' }
+        : { ru: 'Пожар 1842', ua: 'Пожежа 1842', de: 'Brand 1842', en: '1842 Fire' };
     const fireBtn = document.getElementById('btn-toggle-fire');
     if (fireBtn) fireBtn.textContent = zoneLabels[state.lang];
 
@@ -198,26 +205,34 @@
       if (lf) lf.textContent = `${tA.symbol} ${loc(tA, 'name')}`;
       if (lw) {
         lw.textContent = {
-          en: '3D Zoom: Stuttgart & Hamburg',
-          de: '3D-Zoom: Stuttgart & Hamburg',
-          ru: '3D-зум: Штутгарт и Гамбург',
-          ua: '3D-зум: Штутгарт і Гамбург'
+          en: '3D Zoom: Stuttgart, Hamburg & Berlin',
+          de: '3D-Zoom: Stuttgart, Hamburg & Berlin',
+          ru: '3D-зум: Штутгарт, Гамбург и Берлин',
+          ua: '3D-зум: Штутгарт, Гамбург і Берлін'
         }[state.lang];
       }
     } else {
-      const legendLabels = isStuttgart
-        ? {
-            ru: ['Точки Штутгарта (01–08)', 'Резиденция 1738–1848 и маршрут', 'ПКМ / Ctrl + мышь — вращение 3D'],
-            ua: ['Точки Штутгарта (01–08)', 'Резиденція 1738–1848 і маршрут', 'ПКМ / Ctrl + миша — обертання 3D'],
-            de: ['Stationen Stuttgart (01–08)', 'Residenzstadt 1738–1848 & Route', 'Rechtsklick / Strg — 3D drehen'],
-            en: ['Stuttgart Stops (01–08)', 'Residenzstadt 1738–1848 & Route', 'Right-drag / Ctrl — Orbit 3D']
-          }[state.lang]
-        : {
-            ru: ['Точки Гамбурга (01–07)', 'Зона пожара 1842 и маршрут', 'ПКМ / Ctrl + мышь — вращение 3D'],
-            ua: ['Точки Гамбурга (01–07)', 'Зона пожежі 1842 і маршрут', 'ПКМ / Ctrl + миша — обертання 3D'],
-            de: ['Stationen Hamburg (01–07)', 'Brandgebiet 1842 & Route', 'Rechtsklick / Strg — 3D drehen'],
-            en: ['Hamburg Stops (01–07)', '1842 Fire Zone & Route', 'Right-drag / Ctrl — Orbit 3D']
-          }[state.lang];
+      const legendLabels =
+        cid === 'stuttgart'
+          ? {
+              ru: ['Точки Штутгарта (01–08)', 'Резиденция 1738–1848 и маршрут', 'ПКМ / Ctrl + мышь — вращение 3D'],
+              ua: ['Точки Штутгарта (01–08)', 'Резиденція 1738–1848 і маршрут', 'ПКМ / Ctrl + миша — обертання 3D'],
+              de: ['Stationen Stuttgart (01–08)', 'Residenzstadt 1738–1848 & Route', 'Rechtsklick / Strg — 3D drehen'],
+              en: ['Stuttgart Stops (01–08)', 'Residenzstadt 1738–1848 & Route', 'Right-drag / Ctrl — Orbit 3D']
+            }[state.lang]
+          : cid === 'berlin'
+          ? {
+              ru: ['Точки Берлина (01–07)', 'Музейный остров и Ось Шинкеля', 'ПКМ / Ctrl + мышь — вращение 3D'],
+              ua: ['Точки Берліна (01–07)', 'Музейний острів і Вісь Шинкеля', 'ПКМ / Ctrl + миша — обертання 3D'],
+              de: ['Stationen Berlin (01–07)', 'Museumsinsel & Schinkel-Achse', 'Rechtsklick / Strg — 3D drehen'],
+              en: ['Berlin Stops (01–07)', 'Museum Island & Schinkel Axis', 'Right-drag / Ctrl — Orbit 3D']
+            }[state.lang]
+          : {
+              ru: ['Точки Гамбурга (01–07)', 'Зона пожара 1842 и маршрут', 'ПКМ / Ctrl + мышь — вращение 3D'],
+              ua: ['Точки Гамбурга (01–07)', 'Зона пожежі 1842 і маршрут', 'ПКМ / Ctrl + миша — обертання 3D'],
+              de: ['Stationen Hamburg (01–07)', 'Brandgebiet 1842 & Route', 'Rechtsklick / Strg — 3D drehen'],
+              en: ['Hamburg Stops (01–07)', '1842 Fire Zone & Route', 'Right-drag / Ctrl — Orbit 3D']
+            }[state.lang];
       if (la) la.textContent = legendLabels[0];
       if (lf) lf.textContent = legendLabels[1];
       if (lw) lw.textContent = legendLabels[2];
@@ -654,6 +669,7 @@
           <div class="days-grid">
             ${city.days
               .map((day, idx) => {
+                const isFinalDay4 = day.dayNum === 4 && city.days.length === 4;
                 const slotLabels =
                   day.dayNum === 1
                     ? {
@@ -662,7 +678,14 @@
                         de: ['MORGEN · ANREISE', 'TAG · AUFTAKT & PROGRAMM', 'ABEND · EINFÜHRUNG & GESPRÄCH'],
                         en: ['MORNING · ARRIVAL', 'AFTERNOON · OPENING WALK', 'EVENING · INTRODUCTION & TALK']
                       }[state.lang]
-                    : day.dayNum === 4
+                    : day.dayNum === 5
+                    ? {
+                        ru: ['УТРО · ЗАКРЫТОЕ СОБРАНИЕ', 'АКТ · МОМЕНТ УЗНАВАНИЯ', 'ФИНАЛ · ПАМЯТНЫЙ ЗНАК И ОТЪЕЗД'],
+                        ua: ['РАНОК · ЗАКРИТІ ЗБОРИ', 'АКТ · МОМЕНТ УПІЗНАННЯ', 'ФІНАЛ · ПАМ’ЯТНИЙ ЗНАК І ВІД’ЇЗД'],
+                        de: ['MORGEN · GESCHLOSSENE RUNDE', 'AKT · MOMENT DES ERKENNENS', 'ABSCHLUSS · ERINNERUNG & ABREISE'],
+                        en: ['MORNING · CLOSED ROOM', 'ACT · MOMENT OF RECOGNITION', 'CLOSING · KEEPSAKE & DEPARTURE']
+                      }[state.lang]
+                    : isFinalDay4
                     ? {
                         ru: ['УТРО · ФИНАЛЬНАЯ ЛЕКЦИЯ В ЗАЛЕ', 'ДЕНЬ · ПРОЩАЛЬНЫЙ МАРШРУТ И ОТЪЕЗД', 'ПОСЛЕ · АРХИВ И ИСТОЧНИКИ'],
                         ua: ['РАНОК · ФІНАЛЬНА ЛЕКЦІЯ В ЗАЛІ', 'ДЕНЬ · ПРОЩАЛЬНА ПРОГУЛЯНКА І ВІД’ЇЗД', 'ПІСЛЯ · АРХІВ І ДЖЕРЕЛА'],
@@ -738,12 +761,12 @@
   }
 
   /* ------------------------------------------------------------------------
-     City Hero Mobile Reel (Hamburg 3-frame OR Stuttgart 4-frame)
+     City Hero Mobile Reel (Hamburg 3-frame OR Stuttgart/Berlin 4-frame)
      ------------------------------------------------------------------------ */
   function renderHeroReelSlide(index) {
     const reel = document.getElementById('hero-mobile-reel');
     if (!reel) return;
-    const isStuttgart = reel.dataset.reelMode === 'stuttgart';
+    const mode = reel.dataset.reelMode || 'hamburg';
     const slides = reel.querySelectorAll('.hero-reel__slide');
     const bars = reel.querySelectorAll('.hero-reel__bar');
     if (!slides.length) return;
@@ -751,15 +774,28 @@
     const idx = ((index % slides.length) + slides.length) % slides.length;
     state.reelIndex = idx;
 
-    const years = isStuttgart ? ['1738', '1782', '1839', '1855'] : ['1840', '1842', '1843'];
-    const caps = isStuttgart
-      ? {
-          en: ['Enlightenment · Tyranny', 'Schiller · Romanticism', 'Bronze Duel · 1848', 'Hegel · Autumn Loop'],
-          de: ['Aufklärung · Willkür', 'Schiller · Romantik', 'Denkmalstreit · 1848', 'Hegel · Herbstbogen'],
-          ru: ['Просвещение · Тирания', 'Шиллер · Романтизм', 'Спор 1839 · Баррикады', 'Гегель · Петля времени'],
-          ua: ['Просвітництво · Тиранія', 'Шиллер · Романтизм', 'Спір 1839 · Барикади', 'Гегель · Петля часу']
-        }[state.lang]
-      : DATA.i18n[state.lang].hero.triptych;
+    const years =
+      mode === 'stuttgart'
+        ? ['1738', '1782', '1839', '1855']
+        : mode === 'berlin'
+        ? ['1813', '1831', '1834', '1846']
+        : ['1840', '1842', '1843'];
+    const caps =
+      mode === 'stuttgart'
+        ? {
+            en: ['Enlightenment · Tyranny', 'Schiller · Romanticism', 'Bronze Duel · 1848', 'Hegel · Autumn Loop'],
+            de: ['Aufklärung · Willkür', 'Schiller · Romantik', 'Denkmalstreit · 1848', 'Hegel · Herbstbogen'],
+            ru: ['Просвещение · Тирания', 'Шиллер · Романтизм', 'Спор 1839 · Баррикады', 'Гегель · Петля времени'],
+            ua: ['Просвітництво · Тиранія', 'Шиллер · Романтизм', 'Спір 1839 · Барикади', 'Гегель · Петля часу']
+          }[state.lang]
+        : mode === 'berlin'
+        ? {
+            en: ['Schinkel · Acropolis', 'Hummel · Granite Bowl', 'Gaertner · Panorama', 'Camera Survey'],
+            de: ['Schinkel · Akropolis', 'Hummel · Granitschale', 'Gaertner · Panorama', 'Foto-Inventur'],
+            ru: ['Шинкель · Собор', 'Хуммель · Гранитная чаша', 'Гертнер · Панорама', 'Срыв покрова'],
+            ua: ['Шинкель · Собор', 'Хуммель · Гранітна чаша', 'Гертнер · Панорама', 'Десакралізація']
+          }[state.lang]
+        : DATA.i18n[state.lang].hero.triptych;
 
     slides.forEach((s, i) => s.classList.toggle('is-active', i === idx));
     bars.forEach((b, i) => {
@@ -881,6 +917,97 @@
         renderStuttgartTimeNode(nxt.id);
       }, 4200);
     }
+  }
+
+  /* ------------------------------------------------------------------------
+     Berlin Signature Interactive: Tearing the Sacred Veil (1831 <-> 1913)
+     ------------------------------------------------------------------------ */
+  function setBerlinVeilPos(rawVal) {
+    const stage = document.getElementById('veil-stage');
+    if (!stage) return;
+    const clamped = Math.max(0, Math.min(100, Math.round(Number(rawVal) || 0)));
+    state.berlinVeilPos = clamped;
+    stage.style.setProperty('--veil-pos', `${clamped}%`);
+
+    const rangeEl = document.getElementById('veil-range');
+    if (rangeEl && Number(rangeEl.value) !== clamped) {
+      rangeEl.value = String(clamped);
+    }
+
+    const leftBadge = document.getElementById('veil-left-badge');
+    const rightBadge = document.getElementById('veil-right-badge');
+    if (leftBadge) leftBadge.classList.toggle('is-faded', clamped < 18);
+    if (rightBadge) rightBadge.classList.toggle('is-faded', clamped > 82);
+
+    const readoutEl = document.getElementById('veil-readout');
+    if (readoutEl) {
+      const lbl = {
+        en: 'Painting Veil',
+        de: 'Gemälde-Schleier',
+        ru: 'Покров живописи',
+        ua: 'Покров живопису'
+      }[state.lang];
+      readoutEl.textContent = `${lbl}: ${clamped}%`;
+    }
+
+    document.querySelectorAll('[data-veil-preset]').forEach((btn) => {
+      const pVal = Number(btn.getAttribute('data-veil-preset'));
+      btn.classList.toggle('is-active', Math.abs(clamped - pVal) <= 4);
+    });
+  }
+
+  function renderBerlinVeilLayer(layerId) {
+    const bi = DATA.berlinInteractive;
+    if (!bi || !document.getElementById('berlin-veil')) return;
+    const isMenzel = layerId === 'menzel';
+    state.berlinVeilLayer = isMenzel
+      ? 'menzel'
+      : bi.layers.some((l) => l.id === layerId)
+      ? layerId
+      : bi.layers[0].id;
+
+    document.querySelectorAll('[data-veil-layer]').forEach((btn) => {
+      const isMatch = btn.getAttribute('data-veil-layer') === state.berlinVeilLayer;
+      btn.classList.toggle('is-active', isMatch);
+      btn.setAttribute('aria-selected', isMatch ? 'true' : 'false');
+    });
+
+    const menzelPresetBtn = document.getElementById('btn-veil-menzel');
+    if (menzelPresetBtn) menzelPresetBtn.classList.toggle('is-active', isMenzel);
+
+    const curtainPanel = document.getElementById('berlin-curtain-panel');
+    const menzelPanel = document.getElementById('berlin-menzel-panel');
+    if (curtainPanel) curtainPanel.hidden = isMenzel;
+    if (menzelPanel) menzelPanel.hidden = !isMenzel;
+    if (isMenzel) return;
+
+    const layer = bi.layers.find((l) => l.id === state.berlinVeilLayer) || bi.layers[0];
+    const leftImg = document.getElementById('veil-left-img');
+    const rightImg = document.getElementById('veil-right-img');
+    const leftBadge = document.getElementById('veil-left-badge');
+    const rightBadge = document.getElementById('veil-right-badge');
+    const tagEl = document.getElementById('veil-tag');
+    const titleEl = document.getElementById('veil-title');
+    const lossEl = document.getElementById('veil-loss');
+    const thesisEl = document.getElementById('veil-thesis');
+    const jumpBtn = document.getElementById('veil-jump-map');
+
+    if (leftImg) {
+      leftImg.src = asset(layer.leftImg);
+      leftImg.alt = loc(layer, 'leftBadge');
+    }
+    if (rightImg) {
+      rightImg.src = asset(layer.rightImg);
+      rightImg.alt = loc(layer, 'rightBadge');
+      rightImg.className = `veil-img veil-img--right is-filter-${layer.rightFilter || 'daguerre'}`;
+    }
+    if (leftBadge) leftBadge.textContent = loc(layer, 'leftBadge');
+    if (rightBadge) rightBadge.textContent = loc(layer, 'rightBadge');
+    if (tagEl) tagEl.textContent = loc(layer, 'tag');
+    if (titleEl) titleEl.textContent = loc(layer, 'title');
+    if (lossEl) lossEl.textContent = loc(layer, 'loss');
+    if (thesisEl) thesisEl.textContent = loc(layer, 'thesis');
+    if (jumpBtn) jumpBtn.setAttribute('data-veil-landmark', layer.landmarkId);
   }
 
   /* ------------------------------------------------------------------------
@@ -1459,6 +1586,39 @@
         return;
       }
 
+      const veilLayerBtn = e.target.closest('[data-veil-layer]');
+      if (veilLayerBtn) {
+        renderBerlinVeilLayer(veilLayerBtn.getAttribute('data-veil-layer'));
+        return;
+      }
+
+      const veilPresetBtn = e.target.closest('[data-veil-preset]');
+      if (veilPresetBtn) {
+        if (state.berlinVeilLayer === 'menzel') renderBerlinVeilLayer('l1');
+        setBerlinVeilPos(veilPresetBtn.getAttribute('data-veil-preset'));
+        return;
+      }
+
+      if (e.target.closest('#btn-veil-menzel') || e.target.closest('#veil-next-menzel')) {
+        renderBerlinVeilLayer('menzel');
+        return;
+      }
+
+      if (e.target.closest('#btn-veil-back')) {
+        renderBerlinVeilLayer('l1');
+        setBerlinVeilPos(state.berlinVeilPos || 52);
+        return;
+      }
+
+      const veilMapBtn = e.target.closest('[data-veil-landmark]');
+      if (veilMapBtn) {
+        const lmId = veilMapBtn.getAttribute('data-veil-landmark');
+        const mapSec = document.getElementById('city-map');
+        if (mapSec) mapSec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        setTimeout(() => focusLandmark3D(lmId, true), 350);
+        return;
+      }
+
       const lbById = e.target.closest('[data-lightbox-id]');
       if (lbById) {
         openLightboxById(lbById.getAttribute('data-lightbox-id'));
@@ -1547,6 +1707,14 @@
       }
     });
 
+    const veilRange = document.getElementById('veil-range');
+    if (veilRange) {
+      veilRange.addEventListener('input', (e) => {
+        if (state.berlinVeilLayer === 'menzel') renderBerlinVeilLayer('l1');
+        setBerlinVeilPos(e.target.value);
+      });
+    }
+
     // Form bindings
     ['f-city', 'f-seats', 'f-lang', 'f-name', 'f-contact', 'f-comment'].forEach((id) => {
       const el = document.getElementById(id);
@@ -1612,6 +1780,10 @@
       renderCityCards();
     } else {
       renderStuttgartTimeNode('n1');
+      if (document.getElementById('berlin-veil')) {
+        renderBerlinVeilLayer('l1');
+        setBerlinVeilPos(52);
+      }
       renderCompareModule();
       updateAutoPlayButtonLabel();
       initCompareObserver();

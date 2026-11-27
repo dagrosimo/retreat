@@ -32,12 +32,12 @@
 - URLs: [EN](https://dagrosimo.github.io/retreat/en/dresden/) · [DE](https://dagrosimo.github.io/retreat/de/dresden/) · [RU](https://dagrosimo.github.io/retreat/ru/dresden/) · [UK](https://dagrosimo.github.io/retreat/uk/dresden/)
 - Key Landmarks & Museums: Conference Hall & Albertinum; Frauenkirche; Trinitatisfriedhof (Friedrich’s Grave)
 
-### №04 Berlin (Берлин / Berlin) — Apr 23–26, 2027 (Fri–Mon)
+### №04 Berlin (Берлин / Berlin) — Apr 23–27, 2027 (Fri–Tue · 4 Days + Day 5 AM)
 - Track: Artists & Photographers
-- Theme: Prussian Blue, Hegel & the Architecture of Memory / Прусская лазурь, Гегель и архитектура памяти
-- Summary: Museum Island, Walter Benjamin, and urban phenomenology
+- Theme: The Granite Bowl in Sacred and Profane Reality / Гранитная чаша в сакральной и профанной реальности
+- Summary: From Schinkel’s sacred geometry and Hummel’s Granite Bowl through Krüger, Gaertner, and the 1840–1888 photographic desacralization to Menzel’s industrial physics and the Day 5 Closed Room.
 - URLs: [EN](https://dagrosimo.github.io/retreat/en/berlin/) · [DE](https://dagrosimo.github.io/retreat/de/berlin/) · [RU](https://dagrosimo.github.io/retreat/ru/berlin/) · [UK](https://dagrosimo.github.io/retreat/uk/berlin/)
-- Key Landmarks & Museums: Mitte Conference Hall & Alte Nationalgalerie; Dorotheenstadt Cemetery (Hegel’s Grave); Neue Nationalgalerie
+- Key Landmarks & Museums: The Granite Bowl in the Lustgarten; Alte Nationalgalerie; Friedrichswerder Church (Gaertner’s Viewpoint); Opernplatz — Franz Krüger’s Parade Stage; Schinkelplatz & Site of the Bauakademie; Schloßplatz & Breite Straße (Schwartz & 1848); Parochialstraße Quarter & Central Seminar Hall
 
 ### №05 Frankfurt (Франкфурт / Frankfurt am Main) — May 28–31, 2027 (Fri–Mon)
 - Track: Artists & Photographers
@@ -52,3 +52,9 @@
 - Summary: Alte Pinakothek, Altdorfer, and Kandinsky’s leap into abstraction
 - URLs: [EN](https://dagrosimo.github.io/retreat/en/munich/) · [DE](https://dagrosimo.github.io/retreat/de/munich/) · [RU](https://dagrosimo.github.io/retreat/ru/munich/) · [UK](https://dagrosimo.github.io/retreat/uk/munich/)
 - Key Landmarks & Museums: Alte Pinakothek; Lenbachhaus (Der Blaue Reiter); Conference Hall & Schwabing
+
+### №07 Vienna (Вена / Wien) — Jul 23–27, 2027 (Fri–Tue)
+- Track: Artists & Photographers
+- Theme: Hypnosis and Order: Secrets of Viennese Biedermeier / Гипноз и порядок: тайны венского бидермайера
+- Summary: Portraiture as purchasing eternity, hidden revolt inside genre painting, the biopolitics of early artist deaths, and Waldmüller’s rupture from imperial hypnosis.
+- URLs: [EN](https://dagrosimo.github.io/retreat/en/vienna/) · [DE](https://dagrosimo.github.io/retreat/de/vienna/) · [RU](https://dagrosimo.github.io/retreat/ru/vienna/) · [UK](https://dagrosimo.github.io/retreat/uk/vienna/)

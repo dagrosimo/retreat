@@ -4355,3 +4355,413 @@ main {
     gap: 3px;
   }
 }
+
+/* ==========================================================================
+   BERLIN SIGNATURE INTERACTIVE: TEARING THE SACRED VEIL (1831 <-> 1913)
+   ========================================================================== */
+
+.veil-rail {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 20px;
+  min-width: 0;
+  max-width: 100%;
+}
+
+.veil-node--menzel {
+  border-style: dashed;
+  border-color: rgba(217, 107, 39, 0.55);
+}
+
+.veil-node--menzel .timeloop-node__year {
+  color: #B44818;
+}
+
+.veil-node--menzel.is-active {
+  background: #1C1917;
+  border-color: #D96B27;
+  border-style: solid;
+}
+
+.veil-node--menzel.is-active .timeloop-node__year {
+  color: #FF9E64;
+}
+
+.veil-vortex-btn {
+  border-color: #B44818;
+  color: #9A3B12;
+}
+
+.veil-vortex-btn.is-active {
+  background: #1C1917;
+  border-color: #D96B27;
+  color: #FAF6EC;
+}
+
+.veil-layout {
+  display: grid;
+  grid-template-columns: 1.24fr 0.76fr;
+  gap: 22px;
+  padding: 20px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-card);
+  align-items: stretch;
+}
+
+.veil-layout[hidden],
+.veil-menzel[hidden] {
+  display: none !important;
+}
+
+.veil-stage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #141311;
+  border: 1px solid var(--line-strong);
+  user-select: none;
+  touch-action: pan-y;
+}
+
+.veil-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+}
+
+.veil-img--left {
+  z-index: 2;
+  clip-path: inset(0 calc(100% - var(--veil-pos, 52%)) 0 0);
+  will-change: clip-path;
+}
+
+.veil-img--right {
+  z-index: 1;
+  transition: filter 0.3s ease;
+}
+
+.veil-img--right.is-filter-daguerre {
+  filter: grayscale(100%) contrast(1.16) sepia(16%) brightness(0.95);
+}
+
+.veil-img--right.is-filter-blueprint {
+  filter: grayscale(100%) contrast(1.25) brightness(0.96);
+}
+
+.veil-img--right.is-filter-sepia {
+  filter: sepia(34%) saturate(0.68) contrast(1.1);
+}
+
+.veil-img--right.is-filter-matte {
+  filter: saturate(0.84) contrast(1.04);
+}
+
+.veil-badge {
+  font-family: var(--font-mono);
+  transition: opacity 0.2s ease;
+}
+
+.veil-badge--left {
+  left: 10px;
+  right: auto;
+}
+
+.veil-badge--right {
+  left: auto;
+  right: 10px;
+}
+
+.veil-badge.is-faded {
+  opacity: 0.16;
+}
+
+.veil-readout {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 5;
+  padding: 4px 10px;
+  background: rgba(20, 19, 17, 0.88);
+  color: #FAF6EC;
+  border: 1px solid rgba(250, 246, 236, 0.28);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.veil-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--veil-pos, 52%);
+  width: 2px;
+  background: #FAF6EC;
+  z-index: 4;
+  pointer-events: none;
+  box-shadow: 0 0 14px rgba(20, 19, 17, 0.72);
+  transform: translateX(-1px);
+}
+
+.veil-handle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(20, 19, 17, 0.92);
+  color: #FAF6EC;
+  border: 2px solid #FAF6EC;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 13px;
+  box-shadow: 0 6px 18px rgba(20, 19, 17, 0.45);
+  transition: transform 0.16s ease, background-color 0.16s ease;
+}
+
+.veil-range {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  opacity: 0;
+  cursor: ew-resize;
+  z-index: 6;
+}
+
+.veil-stage:hover .veil-handle,
+.veil-range:focus-visible + .veil-divider .veil-handle,
+.veil-stage:has(.veil-range:focus-visible) .veil-handle {
+  background: var(--city-accent, #2C4A52);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.veil-stage:has(.veil-range:focus-visible) .veil-handle {
+  outline: 3px solid #FF9E64;
+  outline-offset: 2px;
+}
+
+.veil-dossier {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}
+
+.veil-dossier h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.65rem;
+  line-height: 1.12;
+}
+
+.veil-loss-box {
+  padding: 10px 12px;
+  border: 1px solid var(--line-strong);
+  border-left: 3px solid var(--city-accent, #2C4A52);
+  background: var(--bg-paper);
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.veil-loss-box .mono-label {
+  font-size: 9px;
+  color: var(--ink-muted);
+}
+
+.veil-loss-box strong {
+  font-size: 0.95rem;
+  color: var(--city-accent, #2C4A52);
+}
+
+.veil-thesis {
+  margin: 0;
+  font-size: 0.98rem;
+  line-height: 1.58;
+  color: var(--ink-muted);
+  flex: 1;
+}
+
+.veil-dossier__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+/* Menzel Vortex Finale Panel */
+.veil-menzel {
+  padding: 26px;
+  border: 1px solid var(--line-strong);
+  background: var(--bg-card);
+  display: grid;
+  gap: 20px;
+}
+
+.veil-menzel__head {
+  display: grid;
+  gap: 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line);
+}
+
+.veil-menzel__tag {
+  color: #B44818;
+  font-weight: 600;
+}
+
+.veil-menzel__head h3 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.85rem;
+  line-height: 1.12;
+}
+
+.veil-menzel__head p {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.58;
+  color: var(--ink-muted);
+  max-width: 78ch;
+}
+
+.veil-menzel-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.veil-menzel-card {
+  padding: 18px;
+  border: 1px solid var(--line-strong);
+  border-top: 3px solid var(--city-accent, #2C4A52);
+  background: var(--bg-paper);
+  display: grid;
+  gap: 12px;
+  align-content: start;
+}
+
+.veil-menzel-card__media {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background: #141311;
+}
+
+.veil-menzel-card__media img {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  display: block;
+}
+
+.veil-menzel-card h4 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.32rem;
+  line-height: 1.15;
+}
+
+.veil-menzel-card ul {
+  margin: 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 7px;
+  font-size: 0.92rem;
+  line-height: 1.48;
+  color: var(--ink-muted);
+}
+
+.veil-menzel-card--ember {
+  background: #1C1917;
+  color: #FAF6EC;
+  border-color: #3A302B;
+  border-top-color: #D96B27;
+}
+
+.veil-menzel-card--ember .veil-menzel-card__media img {
+  filter: contrast(1.14) saturate(0.88) brightness(0.92);
+}
+
+.veil-menzel-card--ember h4 {
+  color: #FAF6EC;
+}
+
+.veil-menzel-card--ember ul {
+  color: #D9D1C5;
+}
+
+.plate-year-badge--fire {
+  border-color: rgba(217, 107, 39, 0.72);
+  color: #FFB07C;
+}
+
+.veil-menzel__foot {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+@media (max-width: 960px) {
+  .veil-layout,
+  .veil-menzel-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .veil-rail {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: 6px;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .veil-rail .timeloop-node {
+    flex: 0 0 148px;
+    scroll-snap-align: start;
+  }
+}
+
+@media (max-width: 640px) {
+  .veil-layout {
+    padding: 12px;
+    gap: 14px;
+  }
+
+  .veil-menzel {
+    padding: 16px 14px;
+  }
+
+  .veil-badge--left {
+    left: 6px;
+    right: auto;
+  }
+
+  .veil-badge--right {
+    left: auto;
+    right: 6px;
+  }
+
+  .veil-handle {
+    width: 36px;
+    height: 36px;
+    font-size: 12px;
+  }
+
+  .veil-readout {
+    bottom: 6px;
+    font-size: 8.5px;
+    padding: 3px 7px;
+  }
+}
