@@ -87,9 +87,9 @@
   }
 
   const GERMANY_VIEW = {
-    center: [12.35, 50.45],
-    zoom: 4.38,
-    mobileZoom: 4.04,
+    center: [11.52, 50.90],
+    zoom: 4.64,
+    mobileZoom: 4.22,
     pitch: 0,
     bearing: 0
   };
@@ -854,6 +854,29 @@
       return preset.view.zoom;
     }
 
+    getCountryView() {
+      const w = Math.max(280, (this.container && this.container.clientWidth) || 540);
+      const h = Math.max(300, (this.container && this.container.clientHeight) || 490);
+      const mercY = (lat) => Math.log(Math.tan(Math.PI / 4 + (lat * Math.PI) / 360));
+      const yN = mercY(55.06);
+      const yS = mercY(46.37);
+      const degSpanX = 17.16 - 5.87;
+      const degSpanY = ((yN - yS) * 180) / Math.PI;
+      const padX = w < 480 ? 12 : 14;
+      const padY = 10;
+      const availW = Math.max(180, w - padX * 2);
+      const availH = Math.max(180, h - padY * 2);
+      const zoomX = Math.log2((availW / degSpanX) / (512 / 360));
+      const zoomY = Math.log2((availH / degSpanY) / (512 / 360));
+      const zoom = Math.max(3.95, Math.min(5.15, Math.min(zoomX, zoomY)));
+      return {
+        center: [11.52, 50.90],
+        zoom,
+        pitch: 0,
+        bearing: 0
+      };
+    }
+
     getShortLandmarkName(lm) {
       const lang = this.getLang();
       const dict = SHORT_LANDMARK_NAMES[lm.id];
@@ -868,20 +891,17 @@
       this.container.innerHTML = '';
 
       const preset = this.getPreset(this.active3DCityId);
-      const w = this.container.clientWidth || 640;
-      const isNarrow = w < 520;
       const startCountry = this.mode === 'country';
+      const countryView = this.getCountryView();
 
       this.map = new window.maplibregl.Map({
         container: this.container,
         style: buildArchivalStyle(),
-        center: startCountry ? GERMANY_VIEW.center : preset.view.center,
-        zoom: startCountry
-          ? (isNarrow ? (GERMANY_VIEW.mobileZoom || 4.18) : GERMANY_VIEW.zoom)
-          : this.getTargetCityZoom(preset),
+        center: startCountry ? countryView.center : preset.view.center,
+        zoom: startCountry ? countryView.zoom : this.getTargetCityZoom(preset),
         pitch: startCountry ? 0 : preset.view.pitch,
         bearing: startCountry ? 0 : preset.view.bearing,
-        minZoom: startCountry ? 4.0 : 12.0,
+        minZoom: startCountry ? 3.8 : 12.0,
         maxZoom: startCountry ? 6.5 : 17.8,
         maxPitch: 64,
         maxBounds: startCountry ? GERMANY_BOUNDS : preset.bounds,
@@ -1477,10 +1497,11 @@
 
         root.appendChild(btn);
 
-        const marker = new window.maplibregl.Marker({
-          element: root,
-          anchor: 'bottom'
-        })
+        const markerOpts =
+          city.id === 'vienna'
+            ? { element: root, anchor: 'bottom-right', offset: [18, 0] }
+            : { element: root, anchor: 'bottom' };
+        const marker = new window.maplibregl.Marker(markerOpts)
           .setLngLat(coords)
           .addTo(this.map);
 
@@ -1528,19 +1549,19 @@
       this.trackFilter = trackId || 'all';
       this.applyTrackFilterToMap();
       if (this.map && this.mapReady && this.mode === 'country' && !this.lockedCityId) {
-        const isNarrow = (this.container.clientWidth || 0) < 520;
+        const countryView = this.getCountryView();
         const dur = this.animDuration(560);
         if (this.trackFilter === 'writers') {
           this.map.easeTo({
             center: [10.1, 49.4],
-            zoom: isNarrow ? 4.45 : 4.88,
+            zoom: Math.min(5.35, countryView.zoom + 0.32),
             duration: dur,
             essential: true
           });
         } else {
           this.map.easeTo({
-            center: GERMANY_VIEW.center,
-            zoom: isNarrow ? (GERMANY_VIEW.mobileZoom || 4.18) : GERMANY_VIEW.zoom,
+            center: countryView.center,
+            zoom: countryView.zoom,
             duration: dur,
             essential: true
           });
@@ -1603,20 +1624,20 @@
       this.activeCityId = cityId;
       this.updateCountryPinSelection();
 
-      const isNarrow = (this.container.clientWidth || 0) < 520;
-      const coords = CITY_COORDS[cityId] || GERMANY_VIEW.center;
+      const countryView = this.getCountryView();
+      const coords = CITY_COORDS[cityId] || countryView.center;
       const targetCenter = [
-        GERMANY_VIEW.center[0] * 0.80 + coords[0] * 0.20,
-        GERMANY_VIEW.center[1] * 0.80 + coords[1] * 0.20
+        countryView.center[0] * 0.85 + coords[0] * 0.15,
+        countryView.center[1] * 0.85 + coords[1] * 0.15
       ];
-      const targetZoom = isNarrow ? (GERMANY_VIEW.mobileZoom || 4.18) : GERMANY_VIEW.zoom;
+      const targetZoom = countryView.zoom;
 
       if (this.mode !== 'country') {
         this.mode = 'country';
         this.setActiveLandmarkPin(null);
         this.onModeChange('country');
         this.map.setMaxBounds(null);
-        this.map.setMinZoom(4.0);
+        this.map.setMinZoom(3.8);
         this.map.setMaxZoom(6.5);
         this.map.dragRotate.disable();
         this.map.touchPitch.disable();
@@ -1749,18 +1770,18 @@
       this.setActiveLandmarkPin(null);
       this.onModeChange('country');
 
-      const isNarrow = (this.container.clientWidth || 0) < 520;
+      const countryView = this.getCountryView();
       this.map.setMaxBounds(null);
-      this.map.setMinZoom(4.0);
+      this.map.setMinZoom(3.8);
       this.map.setMaxZoom(6.5);
       this.map.dragRotate.disable();
       this.map.touchPitch.disable();
 
       this.map.flyTo({
-        center: GERMANY_VIEW.center,
-        zoom: isNarrow ? (GERMANY_VIEW.mobileZoom || 4.18) : GERMANY_VIEW.zoom,
-        pitch: GERMANY_VIEW.pitch,
-        bearing: GERMANY_VIEW.bearing,
+        center: countryView.center,
+        zoom: countryView.zoom,
+        pitch: countryView.pitch,
+        bearing: countryView.bearing,
         padding: { top: 0, bottom: 0, left: 0, right: 0 },
         duration: this.animDuration(950),
         curve: 1.3,

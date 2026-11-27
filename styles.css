@@ -267,20 +267,24 @@ section[id],
   border: 1px solid var(--ink);
   font-family: var(--font-display);
   font-size: 1.25rem;
-  font-weight: 700;
+  font-weight: 600;
+  letter-spacing: 0.04em;
   background: var(--bg-card);
 }
 
 .brand__text {
   display: flex;
   flex-direction: column;
+  gap: 2px;
   line-height: 1.15;
 }
 
 .brand__text strong {
   font-family: var(--font-display);
-  font-size: 1.22rem;
-  font-weight: 700;
+  font-size: 1.24rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-kerning: none;
 }
 
 .brand__text small {
@@ -3373,6 +3377,7 @@ section[id],
   .brand__text strong {
     font-size: 0.88rem;
     line-height: 1.08;
+    letter-spacing: 0.025em;
   }
 
   .brand__text small {
@@ -5052,7 +5057,7 @@ section[id],
   }
 
   .hub-grid .map3d-stage {
-    height: clamp(380px, calc(100vh - 250px), 500px);
+    height: clamp(380px, calc(100vh - 250px), 520px);
   }
 }
 
